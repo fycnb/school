@@ -20,7 +20,7 @@ public class WelcomeActivity extends Activity {
 	private TextView tv_time;
 	private LinearLayout ll_jump;
 	private boolean isFirstIn;
-	private int i=4;
+	private int i = 4;
 
 	Handler mhandler = new Handler() {
 		@Override
@@ -51,7 +51,7 @@ public class WelcomeActivity extends Activity {
 		tv_time = (TextView) findViewById(R.id.welcome_time_textview);
 		ll_jump = (LinearLayout) findViewById(R.id.welcome_jump_layout);
 		ll_jump.setOnClickListener(new welcomeOnClick());
-		
+
 		SharedPreferences sf = getSharedPreferences("data", MODE_PRIVATE);// 判断是否是第一次进入
 		isFirstIn = sf.getBoolean("isFirstIn", true);
 		SharedPreferences.Editor editor = sf.edit();
@@ -73,9 +73,9 @@ public class WelcomeActivity extends Activity {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.welcome_jump_layout:
-				SharedPreferences sf = getSharedPreferences("data", MODE_PRIVATE);// 判断是否是第一次进入
+				SharedPreferences sf = getSharedPreferences("data", MODE_PRIVATE);
 				SharedPreferences.Editor editor = sf.edit();
-				if (isFirstIn) { // 若为true，则是第一次进入
+				if (isFirstIn) { 
 					editor.putBoolean("isFirstIn", false);
 					mhandler.removeCallbacksAndMessages(null);
 					goGuide();
@@ -103,9 +103,9 @@ public class WelcomeActivity extends Activity {
 	}
 
 	private void timeDown() {
-		
-		tv_time.setText(i--+"");
-		
+
+		tv_time.setText(i-- + "");
+
 		mhandler.sendEmptyMessageDelayed(TIMEDOWN, 1000);
 	}
 }
