@@ -22,6 +22,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home" >
+        </activity>
+        <activity
+            android:name=".MyActivity"
+            android:label="@string/title_activity_my" >
+        </activity>
+        <activity
+            android:name=".LessonActivity"
+            android:label="@string/title_activity_lesson" >
+        </activity>
+        <activity
+            android:name=".DatingActivity"
+            android:label="@string/title_activity_dating" >
+        </activity>
     </application>
 
 </manifest>

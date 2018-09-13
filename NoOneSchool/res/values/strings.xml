@@ -3,5 +3,9 @@
 
     <string name="app_name">NoOneSchool</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_my">MyActivity</string>
+    <string name="title_activity_lesson">LessonActivity</string>
+    <string name="title_activity_dating">DatingActivity</string>
 
 </resources>
