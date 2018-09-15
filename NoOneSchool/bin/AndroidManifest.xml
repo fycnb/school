@@ -46,6 +46,34 @@
             android:name=".GuideActivity"
             android:label="@string/title_activity_guide" >
         </activity>
+        <activity
+            android:name=".my.SettingActivity"
+            android:label="@string/title_activity_setting" >
+        </activity>
+        <activity
+            android:name=".my.CollectionActivity"
+            android:label="@string/title_activity_collection" >
+        </activity>
+        <activity
+            android:name=".my.RecentlyBrowseActivity"
+            android:label="@string/title_activity_recently_browse" >
+        </activity>
+        <activity
+            android:name=".my.CustomerServiceActivity"
+            android:label="@string/title_activity_customer_service" >
+        </activity>
+        <activity
+            android:name=".my.MemberCenterActivity"
+            android:label="@string/title_activity_member_center" >
+        </activity>
+        <activity
+            android:name="com.example.nooneschool.my.MemberRechargeActivity"
+            android:label="@string/title_activity_member_recharge" >
+        </activity>
+        <activity
+            android:name=".my.SignInActivity"
+            android:label="@string/title_activity_signin" >
+        </activity>
     </application>
 
 </manifest>
