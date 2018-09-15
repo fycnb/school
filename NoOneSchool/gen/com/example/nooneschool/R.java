@@ -17,28 +17,50 @@ public final class R {
         public static final int my=0x7f060003;
     }
     public static final class drawable {
-        public static final int comment=0x7f020000;
-        public static final int comment_fill=0x7f020001;
-        public static final int corner_shape=0x7f020002;
-        public static final int home=0x7f020003;
-        public static final int home_fill=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
-        public static final int img_01=0x7f020006;
-        public static final int img_02=0x7f020007;
-        public static final int img_03=0x7f020008;
-        public static final int img_04=0x7f020009;
-        public static final int lesson=0x7f02000a;
-        public static final int lesson_fill=0x7f02000b;
-        public static final int my=0x7f02000c;
-        public static final int my_fill=0x7f02000d;
+        public static final int cloud=0x7f020000;
+        public static final int comment=0x7f020001;
+        public static final int comment_fill=0x7f020002;
+        public static final int corner_shape=0x7f020003;
+        public static final int corner_shape2=0x7f020004;
+        public static final int home=0x7f020005;
+        public static final int home_fill=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int img_01=0x7f020008;
+        public static final int img_02=0x7f020009;
+        public static final int img_03=0x7f02000a;
+        public static final int img_04=0x7f02000b;
+        public static final int lesson=0x7f02000c;
+        public static final int lesson_fill=0x7f02000d;
+        public static final int my=0x7f02000e;
+        public static final int my_fill=0x7f02000f;
+        public static final int search=0x7f020010;
+        public static final int smoothlistview_arrow=0x7f020011;
+        public static final int xml_round_grey_icon=0x7f020012;
+        public static final int xml_round_orange_grey_sel=0x7f020013;
+        public static final int xml_round_orange_icon=0x7f020014;
     }
     public static final class id {
+        public static final int ad_img_viewpage=0x7f070007;
+        public static final int ad_index_ll=0x7f070009;
+        public static final int ad_search_edittext=0x7f070008;
         public static final int guide_jump_button=0x7f070001;
         public static final int guide_viewpager=0x7f070000;
-        public static final int iv=0x7f070004;
-        public static final int tv=0x7f070005;
-        public static final int welcome_jump_layout=0x7f070002;
-        public static final int welcome_time_textview=0x7f070003;
+        public static final int home_title_rl=0x7f070002;
+        public static final int home_weather_image=0x7f070003;
+        public static final int home_weather_textview=0x7f070004;
+        public static final int iv=0x7f070013;
+        public static final int smoothlistview_footer_content=0x7f07000a;
+        public static final int smoothlistview_footer_hint_textview=0x7f07000c;
+        public static final int smoothlistview_footer_progressbar=0x7f07000b;
+        public static final int smoothlistview_header_arrow=0x7f070011;
+        public static final int smoothlistview_header_content=0x7f07000d;
+        public static final int smoothlistview_header_hint_textview=0x7f07000f;
+        public static final int smoothlistview_header_progressbar=0x7f070012;
+        public static final int smoothlistview_header_text=0x7f07000e;
+        public static final int smoothlistview_header_time=0x7f070010;
+        public static final int tv=0x7f070014;
+        public static final int welcome_jump_layout=0x7f070005;
+        public static final int welcome_time_textview=0x7f070006;
     }
     public static final class layout {
         public static final int activity_dating=0x7f030000;
@@ -51,7 +73,10 @@ public final class R {
         public static final int activity_main=0x7f030007;
         public static final int activity_my=0x7f030008;
         public static final int activity_welcome=0x7f030009;
-        public static final int tab=0x7f03000a;
+        public static final int header_ad_layout=0x7f03000a;
+        public static final int smoothlistview_footer=0x7f03000b;
+        public static final int smoothlistview_header=0x7f03000c;
+        public static final int tab=0x7f03000d;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
