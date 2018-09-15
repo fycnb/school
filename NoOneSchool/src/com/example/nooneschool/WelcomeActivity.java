@@ -3,11 +3,14 @@ package com.example.nooneschool;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,6 +51,8 @@ public class WelcomeActivity extends Activity {
 	}
 
 	private void init() {
+		
+		setStatusBar();
 		tv_time = (TextView) findViewById(R.id.welcome_time_textview);
 		ll_jump = (LinearLayout) findViewById(R.id.welcome_jump_layout);
 		ll_jump.setOnClickListener(new welcomeOnClick());
@@ -75,7 +80,7 @@ public class WelcomeActivity extends Activity {
 			case R.id.welcome_jump_layout:
 				SharedPreferences sf = getSharedPreferences("data", MODE_PRIVATE);
 				SharedPreferences.Editor editor = sf.edit();
-				if (isFirstIn) { 
+				if (isFirstIn) {
 					editor.putBoolean("isFirstIn", false);
 					mhandler.removeCallbacksAndMessages(null);
 					goGuide();
@@ -107,5 +112,13 @@ public class WelcomeActivity extends Activity {
 		tv_time.setText(i-- + "");
 
 		mhandler.sendEmptyMessageDelayed(TIMEDOWN, 1000);
+	}
+
+	protected void setStatusBar() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {// 4.4到5.0
+			WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+			localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+		}
+
 	}
 }
