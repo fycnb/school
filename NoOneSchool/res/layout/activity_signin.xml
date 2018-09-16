@@ -18,7 +18,7 @@
             android:layout_height="32dp"
             android:layout_margin="4dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/fanhui" />
+            android:src="@drawable/back" />
 
         <TextView
             android:layout_width="match_parent"
@@ -36,10 +36,10 @@
         android:layout_height="5dp"
         android:background="#0044BB" />
 
-    <com.example.nooneschool.my.SignDate
-        android:id="@+id/signDate"
+    <com.example.nooneschool.my.utils.SignDate
+        android:id="@+id/signdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-    </com.example.nooneschool.my.SignDate>
+    </com.example.nooneschool.my.utils.SignDate>
 
 </LinearLayout>

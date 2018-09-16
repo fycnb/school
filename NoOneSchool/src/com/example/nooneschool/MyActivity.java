@@ -1,9 +1,20 @@
 package com.example.nooneschool;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.security.auth.PrivateCredentialPermission;
 
 import com.example.nooneschool.my.CollectionActivity;
 import com.example.nooneschool.my.CustomerServiceActivity;
@@ -14,11 +25,19 @@ import com.example.nooneschool.my.SettingActivity;
 import com.example.nooneschool.my.SignInActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +64,10 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	private SimpleAdapter adapter;
 
 	private String vip;
+
+	private static final int CAMERA_CODE = 1;
+	private static final int GALLERY_CODE = 2;
+	private static final int CROP_CODE = 3;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +107,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		} else {
 			Log.i("cjq", "vip color error");
 		}
-		
+
 		if (signin.equals("未签到")) {
 			btn_signin.setTextColor(Color.parseColor("#AAAAAA"));
 		} else if (signin.equals("已签到")) {
@@ -93,11 +116,13 @@ public class MyActivity extends Activity implements View.OnClickListener {
 			Log.i("cjq", "signin color error");
 		}
 
-		iv_headportrait.setBackgroundResource(R.drawable.ic_launcher);
+		Bitmap headportrait = getLoacalBitmap(Environment.getExternalStorageDirectory() + "/temp/img.png");
+		iv_headportrait.setImageBitmap(headportrait);
 
 		// 点击事件
 		tv_vip.setOnClickListener(this);
 		btn_signin.setOnClickListener(this);
+		iv_headportrait.setOnClickListener(this);
 	}
 
 	@Override
@@ -118,15 +143,172 @@ public class MyActivity extends Activity implements View.OnClickListener {
 			Intent intent = new Intent(MyActivity.this, SignInActivity.class);
 			startActivity(intent);
 			break;
+
+		case R.id.my_headportrait_imageview:
+			// 通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+			AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
+			builder.setIcon(R.drawable.ic_launcher);
+			builder.setTitle("选择头像");
+			final String[] ways = { "拍照", "本地" };
+			builder.setItems(ways, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					switch (ways[which]) {
+					case "拍照":
+						chooseFromCamera();
+						break;
+					case "本地":
+						chooseFromGallery();
+						break;
+					default:
+						break;
+					}
+				}
+			});
+			builder.show();
+			break;
 		default:
 			break;
+		}
+
+	}
+
+	private void chooseFromCamera() {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		startActivityForResult(intent, CAMERA_CODE);
+	}
+
+	private void chooseFromGallery() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("image/*");
+		startActivityForResult(intent, GALLERY_CODE);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case CAMERA_CODE:
+			if (data == null) {
+				return;
+			} else {
+				Bundle extras = data.getExtras();
+				if (extras != null) {
+					Bitmap bm = extras.getParcelable("data");
+					Uri uri = saveBitmap(bm, "temp");
+					startImageZoom(uri);
+				}
+			}
+			break;
+		case GALLERY_CODE:
+			if (data == null) {
+				return;
+			} else {
+				Uri uri;
+				uri = data.getData();
+				uri = convertUri(uri);
+				startImageZoom(uri);
+			}
+			break;
+		case CROP_CODE:
+			if (data == null) {
+				return;
+			} else {
+				Bundle extras = data.getExtras();
+				if (extras != null) {
+					Bitmap bm = extras.getParcelable("data");
+					iv_headportrait.setImageBitmap(bm);
+				}
+			}
+			break;
+		default:
+			break;
+
+		}
+	}
+
+	private Uri convertUri(Uri uri) {
+		InputStream is;
+		try {
+			is = getContentResolver().openInputStream(uri);
+			Bitmap bm = BitmapFactory.decodeStream(is);
+			is.close();
+			return saveBitmap(bm, "temp");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private Uri saveBitmap(Bitmap bm, String dirPath) {
+		File tmpDir = new File(Environment.getExternalStorageDirectory() + "/" + dirPath);
+		if (!tmpDir.exists()) {
+			tmpDir.mkdir();
+		}
+		// String name = new SimpleDateFormat("yyyyMMddhhmmss").format(new
+		// Date());
+		String name = "img";
+		String filename = name + ".png";
+		File img = new File(tmpDir.getAbsolutePath() + "/" + filename);
+		try {
+			FileOutputStream fos = new FileOutputStream(img);
+			bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
+			fos.flush();
+			fos.close();
+			return Uri.fromFile(img);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	private void startImageZoom(Uri uri) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		intent.putExtra("crop", true);
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		intent.putExtra("outputX", 150);
+		intent.putExtra("outputY", 150);
+		intent.putExtra("return-data", true);
+		startActivityForResult(intent, CROP_CODE);
+	}
+
+	public static Bitmap getLoacalBitmap(String url) {
+		if (url != null) {
+			FileInputStream fis = null;
+			try {
+				fis = new FileInputStream(url);
+				return BitmapFactory.decodeStream(fis); // /把流转化为Bitmap图片
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				return null;
+			} finally {
+				if (fis != null) {
+					try {
+						fis.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					fis = null;
+				}
+			}
+		} else {
+			return null;
 		}
 	}
 
 	private void functiondata() {
 		int icno[] = { R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
-				R.drawable.ic_launcher };
-		String name[] = { "设置", "收藏", "最近浏览", "客服", "会员中心" };
+				R.drawable.ic_launcher, R.drawable.ic_launcher };
+		String name[] = { "设置", "收藏", "最近浏览", "客服", "会员中心", "个人资料" };
 
 		functionList = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < icno.length; i++) {
@@ -149,23 +331,34 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			String name = functionList.get(position).get("name").toString();
-			if (name.equals("设置")) {
-				Intent intent = new Intent(MyActivity.this, SettingActivity.class);
-				startActivity(intent);
-			} else if (name.equals("收藏")) {
-				Intent intent = new Intent(MyActivity.this, CollectionActivity.class);
-				startActivity(intent);
-			} else if (name.equals("最近浏览")) {
-				Intent intent = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
-				startActivity(intent);
-			} else if (name.equals("客服")) {
-				Intent intent = new Intent(MyActivity.this, CustomerServiceActivity.class);
-				startActivity(intent);
-			} else if (name.equals("会员中心")) {
-				Intent intent = new Intent(MyActivity.this, MemberCenterActivity.class);
-				startActivity(intent);
-			} else {
+			switch (name) {
+			case "设置":
+				Intent intent1 = new Intent(MyActivity.this, SettingActivity.class);
+				startActivity(intent1);
+				break;
+			case "收藏":
+				Intent intent2 = new Intent(MyActivity.this, CollectionActivity.class);
+				startActivity(intent2);
+				break;
+			case "最近浏览":
+				Intent intent3 = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
+				startActivity(intent3);
+				break;
+			case "客服":
+				Intent intent4 = new Intent(MyActivity.this, CustomerServiceActivity.class);
+				startActivity(intent4);
+				break;
+			case "会员中心":
+				Intent intent5 = new Intent(MyActivity.this, MemberCenterActivity.class);
+				startActivity(intent5);
+				break;
+			case "个人资料":
+				Intent intent6 = new Intent(MyActivity.this, PersonalDataActivity.class);
+				startActivity(intent6);
+				break;
+			default:
 				Log.i("cjq", "function gridview error");
+				break;
 			}
 
 		}

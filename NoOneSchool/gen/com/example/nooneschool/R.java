@@ -9,15 +9,33 @@ package com.example.nooneschool;
 
 public final class R {
     public static final class attr {
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int radius=0x7f010001;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>circle</code></td><td>1</td><td></td></tr>
+<tr><td><code>round</code></td><td>2</td><td></td></tr>
+</table>
+         */
+        public static final int type=0x7f010000;
     }
     public static final class color {
-        public static final int colorAccent=0x7f040000;
-        public static final int colorPrimary=0x7f040001;
-        public static final int colorPrimaryDark=0x7f040002;
-        public static final int dating=0x7f040003;
-        public static final int home=0x7f040004;
-        public static final int lesson=0x7f040005;
-        public static final int my=0x7f040006;
+        public static final int dating=0x7f070000;
+        public static final int home=0x7f070001;
+        public static final int lesson=0x7f070002;
+        public static final int my=0x7f070003;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -27,55 +45,63 @@ public final class R {
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
     
          */
-        public static final int activity_horizontal_margin=0x7f050000;
-        public static final int activity_vertical_margin=0x7f050001;
+        public static final int activity_horizontal_margin=0x7f040000;
+        public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int comment=0x7f020000;
-        public static final int comment_fill=0x7f020001;
-        public static final int corner_gray=0x7f020002;
-        public static final int corner_shape=0x7f020003;
-        public static final int fanhui=0x7f020004;
-        public static final int home=0x7f020005;
-        public static final int home_fill=0x7f020006;
-        public static final int ic_launcher=0x7f020007;
-        public static final int icon_select=0x7f020008;
-        public static final int img_01=0x7f020009;
-        public static final int img_02=0x7f02000a;
-        public static final int img_03=0x7f02000b;
-        public static final int img_04=0x7f02000c;
-        public static final int lesson=0x7f02000d;
-        public static final int lesson_fill=0x7f02000e;
-        public static final int my=0x7f02000f;
-        public static final int my_fill=0x7f020010;
+        public static final int back=0x7f020000;
+        public static final int comment=0x7f020001;
+        public static final int comment_fill=0x7f020002;
+        public static final int corner_gray=0x7f020003;
+        public static final int corner_shape=0x7f020004;
+        public static final int enter=0x7f020005;
+        public static final int home=0x7f020006;
+        public static final int home_fill=0x7f020007;
+        public static final int ic_launcher=0x7f020008;
+        public static final int icon_select=0x7f020009;
+        public static final int img_01=0x7f02000a;
+        public static final int img_02=0x7f02000b;
+        public static final int img_03=0x7f02000c;
+        public static final int img_04=0x7f02000d;
+        public static final int lesson=0x7f02000e;
+        public static final int lesson_fill=0x7f02000f;
+        public static final int my=0x7f020010;
+        public static final int my_fill=0x7f020011;
     }
     public static final class id {
-        public static final int action_settings=0x7f090019;
-        public static final int function_icon_imageview=0x7f090012;
-        public static final int function_name_textview=0x7f090013;
-        public static final int guide_jump_button=0x7f090001;
-        public static final int guide_viewpager=0x7f090000;
-        public static final int gvDate=0x7f090016;
-        public static final int gvWeek=0x7f090015;
-        public static final int iv=0x7f090017;
-        public static final int ivStatus=0x7f090011;
-        public static final int my_account_textview=0x7f090006;
-        public static final int my_function_gridview=0x7f090009;
-        public static final int my_headportrait_imageview=0x7f090002;
-        public static final int my_id_textview=0x7f090005;
-        public static final int my_signin_button=0x7f090007;
-        public static final int my_sobo_linearlayout=0x7f090008;
-        public static final int my_username_textview=0x7f090003;
-        public static final int my_vip_textview=0x7f090004;
-        public static final int rlItem=0x7f09000f;
-        public static final int setting_return_imageview=0x7f09000a;
-        public static final int signDate=0x7f09000c;
-        public static final int signin_return_imageview=0x7f09000b;
-        public static final int tv=0x7f090018;
-        public static final int tvWeek=0x7f090010;
-        public static final int tvYear=0x7f090014;
-        public static final int welcome_jump_layout=0x7f09000d;
-        public static final int welcome_time_textview=0x7f09000e;
+        public static final int action_settings=0x7f090020;
+        public static final int circle=0x7f090000;
+        public static final int function_icon_imageview=0x7f090019;
+        public static final int function_name_textview=0x7f09001a;
+        public static final int guide_jump_button=0x7f090003;
+        public static final int guide_viewpager=0x7f090002;
+        public static final int item_Status_imageview=0x7f090018;
+        public static final int item_date_layout=0x7f090016;
+        public static final int item_week_textview=0x7f090017;
+        public static final int iv=0x7f09001e;
+        public static final int my_account_textview=0x7f090008;
+        public static final int my_function_gridview=0x7f09000b;
+        public static final int my_headportrait_imageview=0x7f090004;
+        public static final int my_id_textview=0x7f090007;
+        public static final int my_signin_button=0x7f090009;
+        public static final int my_sobo_linearlayout=0x7f09000a;
+        public static final int my_username_textview=0x7f090005;
+        public static final int my_vip_textview=0x7f090006;
+        public static final int person_exitaccount_button=0x7f090010;
+        public static final int person_iphone_textview=0x7f09000f;
+        public static final int person_password_textview=0x7f09000e;
+        public static final int person_return_imageview=0x7f09000c;
+        public static final int person_username_textview=0x7f09000d;
+        public static final int round=0x7f090001;
+        public static final int setting_return_imageview=0x7f090011;
+        public static final int signdate=0x7f090013;
+        public static final int signdate_date_gridview=0x7f09001d;
+        public static final int signdate_week_gridview=0x7f09001c;
+        public static final int signdate_year_textview=0x7f09001b;
+        public static final int signin_return_imageview=0x7f090012;
+        public static final int tv=0x7f09001f;
+        public static final int welcome_jump_layout=0x7f090014;
+        public static final int welcome_time_textview=0x7f090015;
     }
     public static final class layout {
         public static final int activity_collection=0x7f030000;
@@ -91,14 +117,15 @@ public final class R {
         public static final int activity_member_center=0x7f03000a;
         public static final int activity_member_recharge=0x7f03000b;
         public static final int activity_my=0x7f03000c;
-        public static final int activity_recently_browse=0x7f03000d;
-        public static final int activity_setting=0x7f03000e;
-        public static final int activity_signin=0x7f03000f;
-        public static final int activity_welcome=0x7f030010;
-        public static final int item_gv=0x7f030011;
-        public static final int item_my_function_girdview=0x7f030012;
-        public static final int layout_signdate=0x7f030013;
-        public static final int tab=0x7f030014;
+        public static final int activity_personal_data=0x7f03000d;
+        public static final int activity_recently_browse=0x7f03000e;
+        public static final int activity_setting=0x7f03000f;
+        public static final int activity_signin=0x7f030010;
+        public static final int activity_welcome=0x7f030011;
+        public static final int item_date_gridview=0x7f030012;
+        public static final int item_my_function_girdview=0x7f030013;
+        public static final int layout_signdate=0x7f030014;
+        public static final int tab=0x7f030015;
     }
     public static final class menu {
         public static final int as_main=0x7f080000;
@@ -106,30 +133,32 @@ public final class R {
         public static final int customer=0x7f080002;
         public static final int member_center=0x7f080003;
         public static final int member_recharge=0x7f080004;
-        public static final int recently_browse=0x7f080005;
-        public static final int setting=0x7f080006;
-        public static final int signin=0x7f080007;
-        public static final int sjj=0x7f080008;
+        public static final int personal_data=0x7f080005;
+        public static final int recently_browse=0x7f080006;
+        public static final int setting=0x7f080007;
+        public static final int signin=0x7f080008;
+        public static final int sjj=0x7f080009;
     }
     public static final class string {
-        public static final int action_settings=0x7f060009;
-        public static final int app_name=0x7f060000;
-        public static final int hello_world=0x7f060001;
-        public static final int title_activity_as_main=0x7f060011;
-        public static final int title_activity_collection=0x7f06000b;
-        public static final int title_activity_customer_service=0x7f06000d;
-        public static final int title_activity_dating=0x7f060005;
-        public static final int title_activity_guide=0x7f060007;
-        public static final int title_activity_home=0x7f060002;
-        public static final int title_activity_lesson=0x7f060004;
-        public static final int title_activity_member_center=0x7f06000e;
-        public static final int title_activity_member_recharge=0x7f06000f;
-        public static final int title_activity_my=0x7f060003;
-        public static final int title_activity_recently_browse=0x7f06000c;
-        public static final int title_activity_setting=0x7f06000a;
-        public static final int title_activity_signin=0x7f060010;
-        public static final int title_activity_sjj=0x7f060008;
-        public static final int title_activity_welcome=0x7f060006;
+        public static final int action_settings=0x7f050009;
+        public static final int app_name=0x7f050000;
+        public static final int hello_world=0x7f050001;
+        public static final int title_activity_as_main=0x7f050011;
+        public static final int title_activity_collection=0x7f05000b;
+        public static final int title_activity_customer_service=0x7f05000d;
+        public static final int title_activity_dating=0x7f050005;
+        public static final int title_activity_guide=0x7f050007;
+        public static final int title_activity_home=0x7f050002;
+        public static final int title_activity_lesson=0x7f050004;
+        public static final int title_activity_member_center=0x7f05000e;
+        public static final int title_activity_member_recharge=0x7f05000f;
+        public static final int title_activity_my=0x7f050003;
+        public static final int title_activity_personal_data=0x7f050012;
+        public static final int title_activity_recently_browse=0x7f05000c;
+        public static final int title_activity_setting=0x7f05000a;
+        public static final int title_activity_signin=0x7f050010;
+        public static final int title_activity_sjj=0x7f050008;
+        public static final int title_activity_welcome=0x7f050006;
     }
     public static final class style {
         /** 
@@ -153,9 +182,59 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f070000;
+        public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
          */
-        public static final int AppTheme=0x7f070001;
+        public static final int AppTheme=0x7f060001;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a RoundImageView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #RoundImageView_radius com.example.nooneschool:radius}</code></td><td></td></tr>
+           <tr><td><code>{@link #RoundImageView_type com.example.nooneschool:type}</code></td><td></td></tr>
+           </table>
+           @see #RoundImageView_radius
+           @see #RoundImageView_type
+         */
+        public static final int[] RoundImageView = {
+            0x7f010000, 0x7f010001
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.example.nooneschool.R.attr#radius}
+          attribute's value can be found in the {@link #RoundImageView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.nooneschool:radius
+        */
+        public static final int RoundImageView_radius = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.example.nooneschool.R.attr#type}
+          attribute's value can be found in the {@link #RoundImageView} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>circle</code></td><td>1</td><td></td></tr>
+<tr><td><code>round</code></td><td>2</td><td></td></tr>
+</table>
+          @attr name com.example.nooneschool:type
+        */
+        public static final int RoundImageView_type = 0;
+    };
 }

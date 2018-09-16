@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,17 +15,20 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
 
-            <ImageView
+            <com.example.nooneschool.my.utils.RoundImageView
                 android:id="@+id/my_headportrait_imageview"
-                android:layout_width="80dp"
-                android:layout_height="90dp" />
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:type="circle" />
 
             <TextView
                 android:id="@+id/my_username_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_toEndOf="@+id/my_headportrait_imageview"
                 android:textColor="#000000"
@@ -34,6 +38,7 @@
                 android:id="@+id/my_vip_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/my_username_textview"
                 android:text="vip"
@@ -44,6 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/my_username_textview"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/my_headportrait_imageview"
                 android:text="ID:"

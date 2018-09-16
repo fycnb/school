@@ -19,5 +19,6 @@
     <string name="title_activity_member_recharge">MemberRechargeActivity</string>
     <string name="title_activity_signin">SignInActivity</string>
     <string name="title_activity_as_main">AsMainActivity</string>
+    <string name="title_activity_personal_data">PersonalDataActivity</string>
 
 </resources>

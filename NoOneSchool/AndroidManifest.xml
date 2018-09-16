@@ -4,6 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-sdk
         android:minSdkVersion="19"
         android:targetSdkVersion="21" />
@@ -67,12 +70,16 @@
             android:label="@string/title_activity_member_center" >
         </activity>
         <activity
-            android:name="com.example.nooneschool.my.MemberRechargeActivity"
+            android:name=".my.MemberRechargeActivity"
             android:label="@string/title_activity_member_recharge" >
         </activity>
         <activity
             android:name=".my.SignInActivity"
             android:label="@string/title_activity_signin" >
+        </activity>
+        <activity
+            android:name=".PersonalDataActivity"
+            android:label="@string/title_activity_personal_data" >
         </activity>
     </application>
 
