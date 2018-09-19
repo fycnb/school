@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#DDDDDD"
     android:orientation="vertical"
-    tools:context="com.example.nooneschool.PersonalDataActivity" >
+    tools:context="com.example.nooneschool.my.PersonalDataActivity" >
 
     <LinearLayout
         android:layout_width="match_parent"

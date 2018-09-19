@@ -58,27 +58,27 @@ containing a value of this type.
         public static final int home=0x7f020006;
         public static final int home_fill=0x7f020007;
         public static final int ic_launcher=0x7f020008;
-        public static final int icon_select=0x7f020009;
-        public static final int img_01=0x7f02000a;
-        public static final int img_02=0x7f02000b;
-        public static final int img_03=0x7f02000c;
-        public static final int img_04=0x7f02000d;
-        public static final int lesson=0x7f02000e;
-        public static final int lesson_fill=0x7f02000f;
-        public static final int my=0x7f020010;
-        public static final int my_fill=0x7f020011;
+        public static final int img_01=0x7f020009;
+        public static final int img_02=0x7f02000a;
+        public static final int img_03=0x7f02000b;
+        public static final int img_04=0x7f02000c;
+        public static final int lesson=0x7f02000d;
+        public static final int lesson_fill=0x7f02000e;
+        public static final int my=0x7f02000f;
+        public static final int my_fill=0x7f020010;
+        public static final int sign_success=0x7f020011;
     }
     public static final class id {
-        public static final int action_settings=0x7f090020;
+        public static final int action_settings=0x7f090022;
         public static final int circle=0x7f090000;
-        public static final int function_icon_imageview=0x7f090019;
-        public static final int function_name_textview=0x7f09001a;
+        public static final int function_icon_imageview=0x7f09001b;
+        public static final int function_name_textview=0x7f09001c;
         public static final int guide_jump_button=0x7f090003;
         public static final int guide_viewpager=0x7f090002;
-        public static final int item_Status_imageview=0x7f090018;
-        public static final int item_date_layout=0x7f090016;
-        public static final int item_week_textview=0x7f090017;
-        public static final int iv=0x7f09001e;
+        public static final int item_Status_imageview=0x7f09001a;
+        public static final int item_date_layout=0x7f090018;
+        public static final int item_week_textview=0x7f090019;
+        public static final int iv=0x7f090020;
         public static final int my_account_textview=0x7f090008;
         public static final int my_function_gridview=0x7f09000b;
         public static final int my_headportrait_imageview=0x7f090004;
@@ -95,11 +95,13 @@ containing a value of this type.
         public static final int round=0x7f090001;
         public static final int setting_return_imageview=0x7f090011;
         public static final int signdate=0x7f090013;
-        public static final int signdate_date_gridview=0x7f09001d;
-        public static final int signdate_week_gridview=0x7f09001c;
-        public static final int signdate_year_textview=0x7f09001b;
+        public static final int signdate_date_gridview=0x7f09001f;
+        public static final int signdate_week_gridview=0x7f09001e;
+        public static final int signdate_year_textview=0x7f09001d;
         public static final int signin_return_imageview=0x7f090012;
-        public static final int tv=0x7f09001f;
+        public static final int tv=0x7f090021;
+        public static final int tv_select_camera=0x7f090017;
+        public static final int tv_select_gallery=0x7f090016;
         public static final int welcome_jump_layout=0x7f090014;
         public static final int welcome_time_textview=0x7f090015;
     }
@@ -122,10 +124,11 @@ containing a value of this type.
         public static final int activity_setting=0x7f03000f;
         public static final int activity_signin=0x7f030010;
         public static final int activity_welcome=0x7f030011;
-        public static final int item_date_gridview=0x7f030012;
-        public static final int item_my_function_girdview=0x7f030013;
-        public static final int layout_signdate=0x7f030014;
-        public static final int tab=0x7f030015;
+        public static final int dialog_select_photo=0x7f030012;
+        public static final int item_date_gridview=0x7f030013;
+        public static final int item_my_function_girdview=0x7f030014;
+        public static final int layout_signdate=0x7f030015;
+        public static final int tab=0x7f030016;
     }
     public static final class menu {
         public static final int as_main=0x7f080000;

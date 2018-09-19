@@ -3,7 +3,7 @@
     package="com.example.nooneschool"
     android:versionCode="1"
     android:versionName="1.0" >
-
+   <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -78,7 +78,7 @@
             android:label="@string/title_activity_signin" >
         </activity>
         <activity
-            android:name=".PersonalDataActivity"
+            android:name="com.example.nooneschool.my.PersonalDataActivity"
             android:label="@string/title_activity_personal_data" >
         </activity>
     </application>

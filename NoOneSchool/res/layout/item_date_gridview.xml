@@ -17,7 +17,7 @@
         android:id="@+id/item_Status_imageview"
         android:layout_width="12dp"
         android:layout_height="12dp"
-        android:src="@drawable/icon_select"
+        android:src="@drawable/sign_success"
         android:layout_marginRight="10dp"
         android:visibility="gone"
         android:layout_alignParentRight="true"/>

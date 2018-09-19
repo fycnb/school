@@ -1,35 +1,29 @@
 package com.example.nooneschool;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.security.auth.PrivateCredentialPermission;
 
 import com.example.nooneschool.my.CollectionActivity;
 import com.example.nooneschool.my.CustomerServiceActivity;
 import com.example.nooneschool.my.MemberCenterActivity;
 import com.example.nooneschool.my.MemberRechargeActivity;
+import com.example.nooneschool.my.PersonalDataActivity;
 import com.example.nooneschool.my.RecentlyBrowseActivity;
 import com.example.nooneschool.my.SettingActivity;
 import com.example.nooneschool.my.SignInActivity;
 
+import com.example.nooneschool.my.utils.ImageUtil;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -37,10 +31,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -49,8 +40,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
-import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MyActivity extends Activity implements View.OnClickListener {
 	private TextView tv_username;
@@ -64,6 +55,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	private SimpleAdapter adapter;
 
 	private String vip;
+	private Uri imageUri = Uri.parse("file:///sdcard/temp/img.jpg");
 
 	private static final int CAMERA_CODE = 1;
 	private static final int GALLERY_CODE = 2;
@@ -78,6 +70,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void init() {
+
 		tv_username = (TextView) findViewById(R.id.my_username_textview);
 		tv_account = (TextView) findViewById(R.id.my_account_textview);
 		tv_vip = (TextView) findViewById(R.id.my_vip_textview);
@@ -93,8 +86,6 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		String account = "15822899062";
 		vip = "有";
 		String signin = "未签到";
-		// Bitmap headportrait =
-		// BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
 
 		// 显示数据
 		tv_username.setText(username);
@@ -116,8 +107,14 @@ public class MyActivity extends Activity implements View.OnClickListener {
 			Log.i("cjq", "signin color error");
 		}
 
-		Bitmap headportrait = getLoacalBitmap(Environment.getExternalStorageDirectory() + "/temp/img.png");
-		iv_headportrait.setImageBitmap(headportrait);
+		String path = Environment.getExternalStorageDirectory() + "/temp/img.jpg";
+		Bitmap bm = ImageUtil.getLoacalBitmap(path);
+		if (bm != null) {
+			iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
+		} else {
+			bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+			iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
+		}
 
 		// 点击事件
 		tv_vip.setOnClickListener(this);
@@ -145,32 +142,36 @@ public class MyActivity extends Activity implements View.OnClickListener {
 			break;
 
 		case R.id.my_headportrait_imageview:
-			// 通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
-			AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
-			builder.setIcon(R.drawable.ic_launcher);
-			builder.setTitle("选择头像");
-			final String[] ways = { "拍照", "本地" };
-			builder.setItems(ways, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					switch (ways[which]) {
-					case "拍照":
-						chooseFromCamera();
-						break;
-					case "本地":
-						chooseFromGallery();
-						break;
-					default:
-						break;
-					}
-				}
-			});
-			builder.show();
+			showTypeDialog();
 			break;
 		default:
 			break;
 		}
 
+	}
+
+	private void showTypeDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		final AlertDialog dialog = builder.create();
+		View view = View.inflate(this, R.layout.dialog_select_photo, null);
+		TextView tv_select_gallery = (TextView) view.findViewById(R.id.tv_select_gallery);
+		TextView tv_select_camera = (TextView) view.findViewById(R.id.tv_select_camera);
+		tv_select_gallery.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				chooseFromGallery();
+				dialog.dismiss();
+			}
+		});
+		tv_select_camera.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				chooseFromCamera();
+				dialog.dismiss();
+			}
+		});
+		dialog.setView(view);
+		dialog.show();
 	}
 
 	private void chooseFromCamera() {
@@ -179,9 +180,14 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void chooseFromGallery() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("image/*");
-		startActivityForResult(intent, GALLERY_CODE);
+		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+			intent.setType("image/*");
+			startActivityForResult(intent, GALLERY_CODE);
+		} else {
+			Toast.makeText(MyActivity.this, "SD不存在", 0).show();
+		}
+
 	}
 
 	@Override
@@ -196,29 +202,29 @@ public class MyActivity extends Activity implements View.OnClickListener {
 				if (extras != null) {
 					Bitmap bm = extras.getParcelable("data");
 					Uri uri = saveBitmap(bm, "temp");
-					startImageZoom(uri);
+					imageUri = startImageZoom(uri);
 				}
 			}
 			break;
 		case GALLERY_CODE:
 			if (data == null) {
+
 				return;
 			} else {
 				Uri uri;
 				uri = data.getData();
 				uri = convertUri(uri);
-				startImageZoom(uri);
+				imageUri = startImageZoom(uri);
 			}
 			break;
 		case CROP_CODE:
-			if (data == null) {
-				return;
-			} else {
-				Bundle extras = data.getExtras();
-				if (extras != null) {
-					Bitmap bm = extras.getParcelable("data");
+
+			if (imageUri != null) {
+				Bitmap bm = decodeUriAsBitmap(imageUri);
+				if (bm != null) {
 					iv_headportrait.setImageBitmap(bm);
 				}
+
 			}
 			break;
 		default:
@@ -248,14 +254,13 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		if (!tmpDir.exists()) {
 			tmpDir.mkdir();
 		}
-		// String name = new SimpleDateFormat("yyyyMMddhhmmss").format(new
-		// Date());
-		String name = "img";
-		String filename = name + ".png";
-		File img = new File(tmpDir.getAbsolutePath() + "/" + filename);
+		String filename = "img.jpeg";
+		String imgpath = tmpDir.getAbsolutePath() + "/" + filename;
+		File img = new File(imgpath);
+
 		try {
 			FileOutputStream fos = new FileOutputStream(img);
-			bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
+			bm.compress(Bitmap.CompressFormat.JPEG, 85, fos);
 			fos.flush();
 			fos.close();
 			return Uri.fromFile(img);
@@ -269,41 +274,36 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 	}
 
-	private void startImageZoom(Uri uri) {
+	private Uri startImageZoom(Uri uri) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
-		intent.putExtra("crop", true);
+		intent.putExtra("crop", "true");
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
 		intent.putExtra("outputX", 150);
 		intent.putExtra("outputY", 150);
-		intent.putExtra("return-data", true);
+		intent.putExtra("scale", true);
+		intent.putExtra("return-data", false);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		intent.putExtra("noFaceDetection", false);
 		startActivityForResult(intent, CROP_CODE);
-	}
 
-	public static Bitmap getLoacalBitmap(String url) {
-		if (url != null) {
-			FileInputStream fis = null;
-			try {
-				fis = new FileInputStream(url);
-				return BitmapFactory.decodeStream(fis); // /把流转化为Bitmap图片
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				return null;
-			} finally {
-				if (fis != null) {
-					try {
-						fis.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					fis = null;
-				}
-			}
-		} else {
+		return imageUri;
+	}
+	//
+
+	public Bitmap decodeUriAsBitmap(Uri uri) {
+		Bitmap bitmap = null;
+		try {
+			bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 			return null;
 		}
+		return bitmap;
 	}
+
 
 	private void functiondata() {
 		int icno[] = { R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
