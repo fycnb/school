@@ -14,9 +14,9 @@ import com.example.nooneschool.my.CollectionActivity;
 import com.example.nooneschool.my.CustomerServiceActivity;
 import com.example.nooneschool.my.MemberCenterActivity;
 import com.example.nooneschool.my.MemberRechargeActivity;
+import com.example.nooneschool.my.MyOrderActivity;
 import com.example.nooneschool.my.PersonalDataActivity;
 import com.example.nooneschool.my.RecentlyBrowseActivity;
-import com.example.nooneschool.my.SettingActivity;
 import com.example.nooneschool.my.SignInActivity;
 
 import com.example.nooneschool.my.utils.ImageUtil;
@@ -49,6 +49,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	private TextView tv_vip;
 	private ImageView iv_headportrait;
 	private Button btn_signin;
+	private Button btn_myorder;
 
 	private GridView gv_function;
 	private List<Map<String, Object>> functionList;
@@ -76,6 +77,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		tv_vip = (TextView) findViewById(R.id.my_vip_textview);
 		iv_headportrait = (ImageView) findViewById(R.id.my_headportrait_imageview);
 		btn_signin = (Button) findViewById(R.id.my_signin_button);
+		btn_myorder = (Button) findViewById(R.id.my_myorder_button);
 		gv_function = (GridView) findViewById(R.id.my_function_gridview);
 
 		// 向function_gridview中插入数据
@@ -119,6 +121,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		// 点击事件
 		tv_vip.setOnClickListener(this);
 		btn_signin.setOnClickListener(this);
+		btn_myorder.setOnClickListener(this);
 		iv_headportrait.setOnClickListener(this);
 	}
 
@@ -139,6 +142,10 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		case R.id.my_signin_button:
 			Intent intent = new Intent(MyActivity.this, SignInActivity.class);
 			startActivity(intent);
+			break;
+		case R.id.my_myorder_button:
+			Intent intent1 = new Intent(MyActivity.this, MyOrderActivity.class);
+			startActivity(intent1);
 			break;
 
 		case R.id.my_headportrait_imageview:
@@ -306,9 +313,9 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 
 	private void functiondata() {
-		int icno[] = { R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+		int icno[] = {  R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
 				R.drawable.ic_launcher, R.drawable.ic_launcher };
-		String name[] = { "设置", "收藏", "最近浏览", "客服", "会员中心", "个人资料" };
+		String name[] = { "收藏", "最近浏览", "客服", "会员中心", "个人资料" };
 
 		functionList = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < icno.length; i++) {
@@ -332,29 +339,25 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			String name = functionList.get(position).get("name").toString();
 			switch (name) {
-			case "设置":
-				Intent intent1 = new Intent(MyActivity.this, SettingActivity.class);
+			case "收藏":
+				Intent intent1 = new Intent(MyActivity.this, CollectionActivity.class);
 				startActivity(intent1);
 				break;
-			case "收藏":
-				Intent intent2 = new Intent(MyActivity.this, CollectionActivity.class);
+			case "最近浏览":
+				Intent intent2 = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
 				startActivity(intent2);
 				break;
-			case "最近浏览":
-				Intent intent3 = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
+			case "客服":
+				Intent intent3 = new Intent(MyActivity.this, CustomerServiceActivity.class);
 				startActivity(intent3);
 				break;
-			case "客服":
-				Intent intent4 = new Intent(MyActivity.this, CustomerServiceActivity.class);
+			case "会员中心":
+				Intent intent4 = new Intent(MyActivity.this, MemberCenterActivity.class);
 				startActivity(intent4);
 				break;
-			case "会员中心":
-				Intent intent5 = new Intent(MyActivity.this, MemberCenterActivity.class);
-				startActivity(intent5);
-				break;
 			case "个人资料":
-				Intent intent6 = new Intent(MyActivity.this, PersonalDataActivity.class);
-				startActivity(intent6);
+				Intent intent5 = new Intent(MyActivity.this, PersonalDataActivity.class);
+				startActivity(intent5);
 				break;
 			default:
 				Log.i("cjq", "function gridview error");

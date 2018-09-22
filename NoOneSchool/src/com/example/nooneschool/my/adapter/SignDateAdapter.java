@@ -25,21 +25,24 @@ import com.example.nooneschool.my.utils.DateUtil;
 public class SignDateAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Integer> days = new ArrayList<Integer>();
-    private List<Boolean> status = new ArrayList<Boolean>();
+    private List<Integer> days;
+    private List<Boolean> status;
     private OnSignedSuccess onSignedSuccess;
 
-    public SignDateAdapter(Context context) {
+    public SignDateAdapter(Context context,List<Integer> days,List<Boolean> status) {
         this.context = context;
-        int maxDay = DateUtil.getCurrentMonthLastDay();
-        for (int i = 0; i < DateUtil.getFirstDayOfMonth() - 1; i++) {
-            days.add(0);
-            status.add(false);
-        }
-        for (int i = 0; i < maxDay; i++) {
-            days.add(i+1);
-            status.add(false);
-        }
+        this.days = days;
+        this.status = status;
+       
+//        for (int i = 0; i < DateUtil.getFirstDayOfMonth() - 1; i++) {
+//            days.add(0);
+//            status.add(false);
+//        }
+//        int maxDay = DateUtil.getCurrentMonthLastDay();
+//        for (int i = 0; i < maxDay; i++) {
+//            days.add(i+1);
+//            status.add(false);
+//        }
         
      
     }

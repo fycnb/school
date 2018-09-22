@@ -69,41 +69,43 @@ containing a value of this type.
         public static final int sign_success=0x7f020011;
     }
     public static final class id {
-        public static final int action_settings=0x7f090022;
+        public static final int action_settings=0x7f090024;
         public static final int circle=0x7f090000;
-        public static final int function_icon_imageview=0x7f09001b;
-        public static final int function_name_textview=0x7f09001c;
+        public static final int function_icon_imageview=0x7f09001d;
+        public static final int function_name_textview=0x7f09001e;
         public static final int guide_jump_button=0x7f090003;
         public static final int guide_viewpager=0x7f090002;
-        public static final int item_Status_imageview=0x7f09001a;
-        public static final int item_date_layout=0x7f090018;
-        public static final int item_week_textview=0x7f090019;
-        public static final int iv=0x7f090020;
+        public static final int item_Status_imageview=0x7f09001c;
+        public static final int item_date_layout=0x7f09001a;
+        public static final int item_week_textview=0x7f09001b;
+        public static final int iv=0x7f090022;
         public static final int my_account_textview=0x7f090008;
-        public static final int my_function_gridview=0x7f09000b;
+        public static final int my_function_gridview=0x7f09000c;
         public static final int my_headportrait_imageview=0x7f090004;
         public static final int my_id_textview=0x7f090007;
+        public static final int my_myorder_button=0x7f09000a;
         public static final int my_signin_button=0x7f090009;
-        public static final int my_sobo_linearlayout=0x7f09000a;
+        public static final int my_sobo_linearlayout=0x7f09000b;
         public static final int my_username_textview=0x7f090005;
         public static final int my_vip_textview=0x7f090006;
-        public static final int person_exitaccount_button=0x7f090010;
-        public static final int person_iphone_textview=0x7f09000f;
-        public static final int person_password_textview=0x7f09000e;
-        public static final int person_return_imageview=0x7f09000c;
-        public static final int person_username_textview=0x7f09000d;
+        public static final int myorder_listview=0x7f09000e;
+        public static final int person_exitaccount_button=0x7f090012;
+        public static final int person_iphone_textview=0x7f090011;
+        public static final int person_password_textview=0x7f090010;
+        public static final int person_return_imageview=0x7f09000d;
+        public static final int person_username_textview=0x7f09000f;
         public static final int round=0x7f090001;
-        public static final int setting_return_imageview=0x7f090011;
-        public static final int signdate=0x7f090013;
-        public static final int signdate_date_gridview=0x7f09001f;
-        public static final int signdate_week_gridview=0x7f09001e;
-        public static final int signdate_year_textview=0x7f09001d;
-        public static final int signin_return_imageview=0x7f090012;
-        public static final int tv=0x7f090021;
-        public static final int tv_select_camera=0x7f090017;
-        public static final int tv_select_gallery=0x7f090016;
-        public static final int welcome_jump_layout=0x7f090014;
-        public static final int welcome_time_textview=0x7f090015;
+        public static final int setting_return_imageview=0x7f090013;
+        public static final int signdate=0x7f090015;
+        public static final int signdate_date_gridview=0x7f090021;
+        public static final int signdate_week_gridview=0x7f090020;
+        public static final int signdate_year_textview=0x7f09001f;
+        public static final int signin_return_imageview=0x7f090014;
+        public static final int tv=0x7f090023;
+        public static final int tv_select_camera=0x7f090019;
+        public static final int tv_select_gallery=0x7f090018;
+        public static final int welcome_jump_layout=0x7f090016;
+        public static final int welcome_time_textview=0x7f090017;
     }
     public static final class layout {
         public static final int activity_collection=0x7f030000;
@@ -119,16 +121,17 @@ containing a value of this type.
         public static final int activity_member_center=0x7f03000a;
         public static final int activity_member_recharge=0x7f03000b;
         public static final int activity_my=0x7f03000c;
-        public static final int activity_personal_data=0x7f03000d;
-        public static final int activity_recently_browse=0x7f03000e;
-        public static final int activity_setting=0x7f03000f;
-        public static final int activity_signin=0x7f030010;
-        public static final int activity_welcome=0x7f030011;
-        public static final int dialog_select_photo=0x7f030012;
-        public static final int item_date_gridview=0x7f030013;
-        public static final int item_my_function_girdview=0x7f030014;
-        public static final int layout_signdate=0x7f030015;
-        public static final int tab=0x7f030016;
+        public static final int activity_my_order=0x7f03000d;
+        public static final int activity_personal_data=0x7f03000e;
+        public static final int activity_recently_browse=0x7f03000f;
+        public static final int activity_setting=0x7f030010;
+        public static final int activity_signin=0x7f030011;
+        public static final int activity_welcome=0x7f030012;
+        public static final int dialog_select_photo=0x7f030013;
+        public static final int item_date_gridview=0x7f030014;
+        public static final int item_my_function_girdview=0x7f030015;
+        public static final int layout_signdate=0x7f030016;
+        public static final int tab=0x7f030017;
     }
     public static final class menu {
         public static final int as_main=0x7f080000;
@@ -136,11 +139,12 @@ containing a value of this type.
         public static final int customer=0x7f080002;
         public static final int member_center=0x7f080003;
         public static final int member_recharge=0x7f080004;
-        public static final int personal_data=0x7f080005;
-        public static final int recently_browse=0x7f080006;
-        public static final int setting=0x7f080007;
-        public static final int signin=0x7f080008;
-        public static final int sjj=0x7f080009;
+        public static final int my_order=0x7f080005;
+        public static final int personal_data=0x7f080006;
+        public static final int recently_browse=0x7f080007;
+        public static final int setting=0x7f080008;
+        public static final int signin=0x7f080009;
+        public static final int sjj=0x7f08000a;
     }
     public static final class string {
         public static final int action_settings=0x7f050009;
@@ -156,6 +160,7 @@ containing a value of this type.
         public static final int title_activity_member_center=0x7f05000e;
         public static final int title_activity_member_recharge=0x7f05000f;
         public static final int title_activity_my=0x7f050003;
+        public static final int title_activity_my_order=0x7f050013;
         public static final int title_activity_personal_data=0x7f050012;
         public static final int title_activity_recently_browse=0x7f05000c;
         public static final int title_activity_setting=0x7f05000a;

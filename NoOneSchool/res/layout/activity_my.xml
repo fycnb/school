@@ -112,31 +112,30 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="待付款"
-            android:textSize="10sp" />
+            android:text="待接单"
+            android:textSize="12sp" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="待收货 "
-            android:textSize="10sp" />
+            android:text="已接单"
+            android:textSize="12sp" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="待评价"
-            android:textSize="10sp" />
-
-
+            android:textSize="12sp" />
 
         <Button
+            android:id="@+id/my_myorder_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="我的订单"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <View
