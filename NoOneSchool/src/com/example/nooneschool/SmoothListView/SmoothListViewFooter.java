@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 public class SmoothListViewFooter extends LinearLayout {
 	public final static int STATE_NORMAL = 0;
 	public final static int STATE_READY = 1;
@@ -38,12 +37,12 @@ public class SmoothListViewFooter extends LinearLayout {
 		mHintView.setVisibility(View.INVISIBLE);
 		if (state == STATE_READY) {
 			mHintView.setVisibility(View.VISIBLE);
-			mHintView.setText("333333333333");
+			mHintView.setText("松开载入更多");
 		} else if (state == STATE_LOADING) {
 			mProgressBar.setVisibility(View.VISIBLE);
 		} else {
 			mHintView.setVisibility(View.VISIBLE);
-			mHintView.setText("22222222222222");
+			mHintView.setText("查看更多");
 		}
 	}
 	
@@ -58,37 +57,23 @@ public class SmoothListViewFooter extends LinearLayout {
 		LayoutParams lp = (LayoutParams)mContentView.getLayoutParams();
 		return lp.bottomMargin;
 	}
-	
-	
-	/**
-	 * normal status
-	 */
+
 	public void normal() {
 		mHintView.setVisibility(View.VISIBLE);
 		mProgressBar.setVisibility(View.GONE);
 	}
-	
-	
-	/**
-	 * loading status 
-	 */
+
 	public void loading() {
 		mHintView.setVisibility(View.GONE);
 		mProgressBar.setVisibility(View.VISIBLE);
 	}
-	
-	/**
-	 * hide footer when disable pull load more
-	 */
+
 	public void hide() {
 		LayoutParams lp = (LayoutParams)mContentView.getLayoutParams();
 		lp.height = 0;
 		mContentView.setLayoutParams(lp);
 	}
-	
-	/**
-	 * show footer
-	 */
+
 	public void show() {
 		LayoutParams lp = (LayoutParams)mContentView.getLayoutParams();
 		lp.height = LayoutParams.WRAP_CONTENT;

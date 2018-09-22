@@ -9,5 +9,9 @@
     <string name="title_activity_dating">DatingActivity</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="title_activity_guide">GuideActivity</string>
+    <string name="title_activity_ad">AdActivity</string>
+    <string name="title_activity_other_food">OtherFoodActivity</string>
+    <string name="title_activity_meal">MealActivity</string>
+    <string name="title_activity_weather">WeatherActivity</string>
 
 </resources>

@@ -11,10 +11,12 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int dating=0x7f060000;
-        public static final int home=0x7f060001;
-        public static final int lesson=0x7f060002;
-        public static final int my=0x7f060003;
+        public static final int blue=0x7f040000;
+        public static final int dating=0x7f040002;
+        public static final int home=0x7f040003;
+        public static final int lesson=0x7f040004;
+        public static final int my=0x7f040005;
+        public static final int title=0x7f040001;
     }
     public static final class drawable {
         public static final int cloud=0x7f020000;
@@ -22,71 +24,100 @@ public final class R {
         public static final int comment_fill=0x7f020002;
         public static final int corner_shape=0x7f020003;
         public static final int corner_shape2=0x7f020004;
-        public static final int home=0x7f020005;
-        public static final int home_fill=0x7f020006;
-        public static final int ic_launcher=0x7f020007;
-        public static final int img_01=0x7f020008;
-        public static final int img_02=0x7f020009;
-        public static final int img_03=0x7f02000a;
-        public static final int img_04=0x7f02000b;
-        public static final int lesson=0x7f02000c;
-        public static final int lesson_fill=0x7f02000d;
-        public static final int my=0x7f02000e;
-        public static final int my_fill=0x7f02000f;
-        public static final int search=0x7f020010;
-        public static final int smoothlistview_arrow=0x7f020011;
-        public static final int xml_round_grey_icon=0x7f020012;
-        public static final int xml_round_orange_grey_sel=0x7f020013;
-        public static final int xml_round_orange_icon=0x7f020014;
+        public static final int corner_shape3=0x7f020005;
+        public static final int home=0x7f020006;
+        public static final int home_banner_index_mask=0x7f020007;
+        public static final int home_fill=0x7f020008;
+        public static final int ic_launcher=0x7f020009;
+        public static final int ic_no_data=0x7f02000a;
+        public static final int img_01=0x7f02000b;
+        public static final int img_02=0x7f02000c;
+        public static final int img_03=0x7f02000d;
+        public static final int img_04=0x7f02000e;
+        public static final int lesson=0x7f02000f;
+        public static final int lesson_fill=0x7f020010;
+        public static final int meal_01=0x7f020011;
+        public static final int my=0x7f020012;
+        public static final int my_fill=0x7f020013;
+        public static final int search=0x7f020014;
+        public static final int smoothlistview_arrow=0x7f020015;
+        public static final int xml_round_grey_icon=0x7f020016;
+        public static final int xml_round_orange_grey_sel=0x7f020017;
+        public static final int xml_round_orange_icon=0x7f020018;
     }
     public static final class id {
-        public static final int ad_img_viewpage=0x7f070007;
-        public static final int ad_index_ll=0x7f070009;
-        public static final int ad_search_edittext=0x7f070008;
+        public static final int food_type_gridview=0x7f07000f;
+        public static final int food_type_textview=0x7f07000b;
         public static final int guide_jump_button=0x7f070001;
         public static final int guide_viewpager=0x7f070000;
-        public static final int home_title_rl=0x7f070002;
-        public static final int home_weather_image=0x7f070003;
-        public static final int home_weather_textview=0x7f070004;
-        public static final int iv=0x7f070013;
-        public static final int smoothlistview_footer_content=0x7f07000a;
-        public static final int smoothlistview_footer_hint_textview=0x7f07000c;
-        public static final int smoothlistview_footer_progressbar=0x7f07000b;
-        public static final int smoothlistview_header_arrow=0x7f070011;
-        public static final int smoothlistview_header_content=0x7f07000d;
-        public static final int smoothlistview_header_hint_textview=0x7f07000f;
-        public static final int smoothlistview_header_progressbar=0x7f070012;
-        public static final int smoothlistview_header_text=0x7f07000e;
-        public static final int smoothlistview_header_time=0x7f070010;
-        public static final int tv=0x7f070014;
-        public static final int welcome_jump_layout=0x7f070005;
-        public static final int welcome_time_textview=0x7f070006;
+        public static final int home_ad_edittext=0x7f070004;
+        public static final int home_function_sv=0x7f070002;
+        public static final int home_title_rl=0x7f070003;
+        public static final int home_weather_imageview=0x7f070005;
+        public static final int iv=0x7f07001f;
+        public static final int iv_placeholder_image=0x7f070009;
+        public static final int ll_banner=0x7f07000e;
+        public static final int meal_address_textview=0x7f070013;
+        public static final int meal_degree_textview=0x7f070015;
+        public static final int meal_img_imageview=0x7f070011;
+        public static final int meal_layout_ll=0x7f070010;
+        public static final int meal_money_textview=0x7f070014;
+        public static final int meal_name_textview=0x7f070012;
+        public static final int rl_banner=0x7f07000c;
+        public static final int rl_root_view=0x7f070008;
+        public static final int smoothlistview_footer_content=0x7f070016;
+        public static final int smoothlistview_footer_hint_textview=0x7f070018;
+        public static final int smoothlistview_footer_progressbar=0x7f070017;
+        public static final int smoothlistview_header_arrow=0x7f07001d;
+        public static final int smoothlistview_header_content=0x7f070019;
+        public static final int smoothlistview_header_hint_textview=0x7f07001b;
+        public static final int smoothlistview_header_progressbar=0x7f07001e;
+        public static final int smoothlistview_header_text=0x7f07001a;
+        public static final int smoothlistview_header_time=0x7f07001c;
+        public static final int tv=0x7f070020;
+        public static final int tv_placeholder_tip=0x7f07000a;
+        public static final int vp_banner=0x7f07000d;
+        public static final int welcome_jump_layout=0x7f070006;
+        public static final int welcome_time_textview=0x7f070007;
     }
     public static final class layout {
-        public static final int activity_dating=0x7f030000;
-        public static final int activity_guide=0x7f030001;
-        public static final int activity_guide_1=0x7f030002;
-        public static final int activity_guide_2=0x7f030003;
-        public static final int activity_guide_3=0x7f030004;
-        public static final int activity_home=0x7f030005;
-        public static final int activity_lesson=0x7f030006;
-        public static final int activity_main=0x7f030007;
-        public static final int activity_my=0x7f030008;
-        public static final int activity_welcome=0x7f030009;
-        public static final int header_ad_layout=0x7f03000a;
-        public static final int smoothlistview_footer=0x7f03000b;
-        public static final int smoothlistview_header=0x7f03000c;
-        public static final int tab=0x7f03000d;
+        public static final int activity_ad=0x7f030000;
+        public static final int activity_dating=0x7f030001;
+        public static final int activity_guide=0x7f030002;
+        public static final int activity_guide_1=0x7f030003;
+        public static final int activity_guide_2=0x7f030004;
+        public static final int activity_guide_3=0x7f030005;
+        public static final int activity_home=0x7f030006;
+        public static final int activity_lesson=0x7f030007;
+        public static final int activity_main=0x7f030008;
+        public static final int activity_meal=0x7f030009;
+        public static final int activity_my=0x7f03000a;
+        public static final int activity_other_food=0x7f03000b;
+        public static final int activity_weather=0x7f03000c;
+        public static final int activity_welcome=0x7f03000d;
+        public static final int empty_meal_layout=0x7f03000e;
+        public static final int gridview_food=0x7f03000f;
+        public static final int header_annunciate_layout=0x7f030010;
+        public static final int header_banner_layout=0x7f030011;
+        public static final int header_food_layout=0x7f030012;
+        public static final int listview_meal=0x7f030013;
+        public static final int smoothlistview_footer=0x7f030014;
+        public static final int smoothlistview_header=0x7f030015;
+        public static final int tab=0x7f030016;
     }
     public static final class string {
-        public static final int app_name=0x7f040000;
-        public static final int hello_world=0x7f040001;
-        public static final int title_activity_dating=0x7f040005;
-        public static final int title_activity_guide=0x7f040007;
-        public static final int title_activity_home=0x7f040002;
-        public static final int title_activity_lesson=0x7f040004;
-        public static final int title_activity_my=0x7f040003;
-        public static final int title_activity_welcome=0x7f040006;
+        public static final int app_name=0x7f050000;
+        public static final int hello_world=0x7f050001;
+        public static final int title_activity_ad=0x7f050008;
+        public static final int title_activity_dating=0x7f050005;
+        public static final int title_activity_guide=0x7f050007;
+        public static final int title_activity_home=0x7f050002;
+        public static final int title_activity_lesson=0x7f050004;
+        public static final int title_activity_meal=0x7f05000a;
+        public static final int title_activity_my=0x7f050003;
+        public static final int title_activity_other_food=0x7f050009;
+        public static final int title_activity_weather=0x7f05000b;
+        public static final int title_activity_welcome=0x7f050006;
     }
     public static final class style {
         /** 
@@ -110,9 +141,9 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f050000;
+        public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
          */
-        public static final int AppTheme=0x7f050001;
+        public static final int AppTheme=0x7f060001;
     }
 }

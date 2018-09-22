@@ -41,7 +41,7 @@ public class SmoothListViewHeader extends LinearLayout {
 	}
 
 	private void initView(Context context) {
-		// 初始情况，设置下拉刷新view高度为0
+		
 		LayoutParams lp = new LayoutParams(
 				LayoutParams.FILL_PARENT, 0);
 		mContainer = (LinearLayout) LayoutInflater.from(context).inflate(
@@ -68,11 +68,11 @@ public class SmoothListViewHeader extends LinearLayout {
 	public void setState(int state) {
 		if (state == mState) return ;
 		
-		if (state == STATE_REFRESHING) {	// 显示进度
+		if (state == STATE_REFRESHING) {
 			mArrowImageView.clearAnimation();
 			mArrowImageView.setVisibility(View.INVISIBLE);
 			mProgressBar.setVisibility(View.VISIBLE);
-		} else {	// 显示箭头图片
+		} else {
 			mArrowImageView.setVisibility(View.VISIBLE);
 			mProgressBar.setVisibility(View.INVISIBLE);
 		}
@@ -85,17 +85,17 @@ public class SmoothListViewHeader extends LinearLayout {
 			if (mState == STATE_REFRESHING) {
 				mArrowImageView.clearAnimation();
 			}
-			mHintTextView.setText("222222222");
+			mHintTextView.setText("下拉刷新");
 			break;
 		case STATE_READY:
 			if (mState != STATE_READY) {
 				mArrowImageView.clearAnimation();
 				mArrowImageView.startAnimation(mRotateUpAnim);
-				mHintTextView.setText("3333333333");
+				mHintTextView.setText("松开刷新数据");
 			}
 			break;
 		case STATE_REFRESHING:
-			mHintTextView.setText("4444444444444");
+			mHintTextView.setText("正在刷新数据...");
 			break;
 			default:
 		}
