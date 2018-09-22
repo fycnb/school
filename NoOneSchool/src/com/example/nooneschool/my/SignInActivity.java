@@ -1,21 +1,16 @@
 package com.example.nooneschool.my;
 
-
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.example.nooneschool.R;
-import com.example.nooneschool.my.inter.OnSignedSuccess;
-import com.example.nooneschool.my.service.SignInService;
-import com.example.nooneschool.my.utils.DateUtil;
+import com.example.nooneschool.my.service.SignInSuccessService;
 import com.example.nooneschool.my.utils.SignDate;
+import com.example.nooneschool.my.inter.OnSignedSuccess;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class SignInActivity extends Activity implements View.OnClickListener {
 	private SignDate signdate;
@@ -55,32 +50,42 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 			@Override
 			public void OnSignedSuccess() {
 				Log.i("cjq", "sign in success");
-				
-				
+				thread();
+
 			}
 
 		});
 	}
-	
-	
-	
-//	private void thread(){
-//		new Thread() {
-//			public void run() {
-//				final String result = SignInSuccessService.SignInSuccessByPost(userid);
-//				if (result != null) {
-//					try {
-//						
-//
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//				} else {
-//					
-//				}
-//			}
-//		}.start();
-//	
-//	}
+
+	private void thread() {
+		new Thread() {
+			public void run() {
+				final String result = SignInSuccessService.SignInSuccessByPost(userid);
+				if (result != null) {
+					try {
+						if (result.equals("签到成功")) {
+							runOnUiThread(new Runnable() {
+								public void run() {
+									Toast.makeText(SignInActivity.this, "Sign in success!", 0).show();
+								}
+							});
+
+						} else if (result.equals("签到失败")) {
+							runOnUiThread(new Runnable() {
+								public void run() {
+									Toast.makeText(SignInActivity.this, "Sign in fail!", 0).show();
+								}
+							});
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+
+				}
+			}
+		}.start();
+	}
 
 }

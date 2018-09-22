@@ -13,8 +13,6 @@
         android:minSdkVersion="19"
         android:targetSdkVersion="21" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -81,14 +79,6 @@
         <activity
             android:name=".my.CustomerServiceActivity"
             android:label="@string/title_activity_customer_service" >
-        </activity>
-        <activity
-            android:name=".my.MemberCenterActivity"
-            android:label="@string/title_activity_member_center" >
-        </activity>
-        <activity
-            android:name=".my.MemberRechargeActivity"
-            android:label="@string/title_activity_member_recharge" >
         </activity>
         <activity
             android:name=".my.SignInActivity"

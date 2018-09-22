@@ -10,15 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import com.example.nooneschool.my.CollectionActivity;
 import com.example.nooneschool.my.CustomerServiceActivity;
-import com.example.nooneschool.my.MemberCenterActivity;
-import com.example.nooneschool.my.MemberRechargeActivity;
 import com.example.nooneschool.my.MyOrderActivity;
 import com.example.nooneschool.my.PersonalDataActivity;
 import com.example.nooneschool.my.RecentlyBrowseActivity;
 import com.example.nooneschool.my.SignInActivity;
-
+import com.example.nooneschool.my.service.SignInSuccessService;
+import com.example.nooneschool.my.service.UserDataService;
 import com.example.nooneschool.my.utils.ImageUtil;
 
 import android.app.Activity;
@@ -44,9 +45,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyActivity extends Activity implements View.OnClickListener {
-	private TextView tv_username;
+	private TextView tv_nickname;
 	private TextView tv_account;
-	private TextView tv_vip;
+	private TextView tv_sobo;
 	private ImageView iv_headportrait;
 	private Button btn_signin;
 	private Button btn_myorder;
@@ -55,12 +56,16 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	private List<Map<String, Object>> functionList;
 	private SimpleAdapter adapter;
 
-	private String vip;
 	private Uri imageUri = Uri.parse("file:///sdcard/temp/img.jpg");
 
 	private static final int CAMERA_CODE = 1;
 	private static final int GALLERY_CODE = 2;
 	private static final int CROP_CODE = 3;
+
+	private String userid = "1";
+	private String account;
+	private String nickname;
+	private String sobo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +75,17 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		init();
+	}
+
 	private void init() {
 
-		tv_username = (TextView) findViewById(R.id.my_username_textview);
+		tv_nickname = (TextView) findViewById(R.id.my_nickname_textview);
 		tv_account = (TextView) findViewById(R.id.my_account_textview);
-		tv_vip = (TextView) findViewById(R.id.my_vip_textview);
+		tv_sobo = (TextView) findViewById(R.id.my_sobo_textview);
 		iv_headportrait = (ImageView) findViewById(R.id.my_headportrait_imageview);
 		btn_signin = (Button) findViewById(R.id.my_signin_button);
 		btn_myorder = (Button) findViewById(R.id.my_myorder_button);
@@ -84,30 +95,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		functiondata();
 
 		// 获取数据
-		String username = "cjq";
-		String account = "15822899062";
-		vip = "有";
-		String signin = "未签到";
-
-		// 显示数据
-		tv_username.setText(username);
-		tv_account.setText(account);
-
-		if (vip.equals("无")) {
-			tv_vip.setTextColor(Color.parseColor("#AAAAAA"));
-		} else if (vip.equals("有")) {
-			tv_vip.setTextColor(Color.parseColor("#FF0000"));
-		} else {
-			Log.i("cjq", "vip color error");
-		}
-
-		if (signin.equals("未签到")) {
-			btn_signin.setTextColor(Color.parseColor("#AAAAAA"));
-		} else if (signin.equals("已签到")) {
-			btn_signin.setTextColor(Color.parseColor("#FF0000"));
-		} else {
-			Log.i("cjq", "signin color error");
-		}
+		thread();
 
 		String path = Environment.getExternalStorageDirectory() + "/temp/img.jpg";
 		Bitmap bm = ImageUtil.getLoacalBitmap(path);
@@ -119,7 +107,6 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		}
 
 		// 点击事件
-		tv_vip.setOnClickListener(this);
 		btn_signin.setOnClickListener(this);
 		btn_myorder.setOnClickListener(this);
 		iv_headportrait.setOnClickListener(this);
@@ -128,17 +115,6 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.my_vip_textview:
-			if (vip.equals("无")) {
-				Intent intent = new Intent(MyActivity.this, MemberRechargeActivity.class);
-				startActivity(intent);
-			} else if (vip.equals("有")) {
-				Intent intent = new Intent(MyActivity.this, MemberCenterActivity.class);
-				startActivity(intent);
-			} else {
-				Log.i("cjq", "vip click error");
-			}
-			break;
 		case R.id.my_signin_button:
 			Intent intent = new Intent(MyActivity.this, SignInActivity.class);
 			startActivity(intent);
@@ -155,6 +131,37 @@ public class MyActivity extends Activity implements View.OnClickListener {
 			break;
 		}
 
+	}
+
+	private void thread() {
+		new Thread() {
+			public void run() {
+				final String result = UserDataService.UserDataByPost(userid);
+				if (result != null) {
+					try {
+						JSONObject js = new JSONObject(result);
+						account = js.getString("account");
+						nickname = js.getString("nickname");
+						sobo = js.getString("sobo");
+						Log.i("cjq", account);
+						Log.i("cjq", nickname);
+						Log.i("cjq", sobo);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					runOnUiThread(new Runnable() {
+						public void run() {
+							tv_nickname.setText(nickname);
+							tv_account.setText(account);
+							tv_sobo.setText(sobo);
+						}
+					});
+				} else {
+
+				}
+			}
+		}.start();
 	}
 
 	private void showTypeDialog() {
@@ -311,11 +318,10 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		return bitmap;
 	}
 
-
 	private void functiondata() {
-		int icno[] = {  R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
-				R.drawable.ic_launcher, R.drawable.ic_launcher };
-		String name[] = { "收藏", "最近浏览", "客服", "会员中心", "个人资料" };
+		int icno[] = { R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+				R.drawable.ic_launcher, };
+		String name[] = { "收藏", "最近浏览", "客服", "个人资料" };
 
 		functionList = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < icno.length; i++) {
@@ -351,13 +357,9 @@ public class MyActivity extends Activity implements View.OnClickListener {
 				Intent intent3 = new Intent(MyActivity.this, CustomerServiceActivity.class);
 				startActivity(intent3);
 				break;
-			case "会员中心":
-				Intent intent4 = new Intent(MyActivity.this, MemberCenterActivity.class);
-				startActivity(intent4);
-				break;
 			case "个人资料":
-				Intent intent5 = new Intent(MyActivity.this, PersonalDataActivity.class);
-				startActivity(intent5);
+				Intent intent4 = new Intent(MyActivity.this, PersonalDataActivity.class);
+				startActivity(intent4);
 				break;
 			default:
 				Log.i("cjq", "function gridview error");

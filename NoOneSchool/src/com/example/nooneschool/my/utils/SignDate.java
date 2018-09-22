@@ -20,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SignDate extends LinearLayout {
-
+	// private Context context;
 	private TextView tv_year;
 	private InnerGridView gv_week;
 	private InnerGridView gv_date;
@@ -42,86 +42,77 @@ public class SignDate extends LinearLayout {
 		super(context, attrs, defStyleAttr);
 		init();
 	}
-	
-	
+
 	private void init() {
+		status = new ArrayList<>();
+		days = new ArrayList<>();
 		View view = View.inflate(getContext(), R.layout.layout_signdate, this);
 		tv_year = (TextView) view.findViewById(R.id.signdate_year_textview);
 		gv_week = (InnerGridView) view.findViewById(R.id.signdate_week_gridview);
 		gv_date = (InnerGridView) view.findViewById(R.id.signdate_date_gridview);
 		tv_year.setText(DateUtil.getCurrentYearAndMonth());
 		gv_week.setAdapter(new SignWeekAdapter(getContext()));
-		status = new ArrayList<>();
-		days = new ArrayList<>();
-		
+
 	}
-	
-	public void thread(final String userid){
+
+	public void thread(final String userid) {
 		new Thread() {
 			public void run() {
 				final String result = SignInService.SignInByPost(userid);
+
 				if (result != null) {
 					try {
 						int i = 1;
 						JSONArray ja = new JSONArray(result);
-					
+
 						for (int a = 0; a < DateUtil.getFirstDayOfMonth() - 1; a++) {
 							days.add(0);
 							status.add(false);
 						}
 						int maxDay = DateUtil.getCurrentMonthLastDay();
-						if (ja.length() != 0) {
-							for (int b = 0; b < ja.length(); b++) {
-								JSONObject j = (JSONObject) ja.get(b);
-								int day = j.getInt("day");
-								
-								while (i <= maxDay) {
-									if (i == day) {
-										days.add(i);
-										status.add(true);
-										i++;
-										break;
-									} else {
-										days.add(i);
-										status.add(false);
-									}
+
+						for (int b = 0; b < ja.length(); b++) {
+							JSONObject j = (JSONObject) ja.get(b);
+							int day = j.getInt("day");
+							while (i <= maxDay) {
+								if (i == day) {
+									days.add(i);
+									status.add(true);
 									i++;
-								}
-								while(i <= maxDay){
+									break;
+								} else {
 									days.add(i);
 									status.add(false);
-									i++;
 								}
+								i++;
+							}
 
-							}
-						} else {
-							for (int j = 0; j < maxDay; j++) {
-								days.add(j+1);
-								status.add(false);
-							}
 						}
-				
-					
+						while (i <= maxDay) {
+							days.add(i);
+							status.add(false);
+							i++;
+						}
 
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				} else {
-					 for (int i = 0; i < DateUtil.getFirstDayOfMonth() - 1; i++) {
-			            days.add(0);
-			            status.add(false);
-			        }
-			        int maxDay = DateUtil.getCurrentMonthLastDay();
-			        for (int i = 0; i < maxDay; i++) {
-			            days.add(i+1);
-			            status.add(false);
-			        }
+					for (int i = 0; i < DateUtil.getFirstDayOfMonth() - 1; i++) {
+						days.add(0);
+						status.add(false);
+					}
+					int maxDay = DateUtil.getCurrentMonthLastDay();
+					for (int i = 0; i < maxDay; i++) {
+						days.add(i + 1);
+						status.add(false);
+					}
 				}
 			}
 		}.start();
 		adapterDate = new SignDateAdapter(getContext(), days, status);
 		gv_date.setAdapter(adapterDate);
-	
+
 	}
 
 	public void setOnSignedSuccess(OnSignedSuccess onSignedSuccess) {
