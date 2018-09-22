@@ -4,6 +4,11 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-sdk
         android:minSdkVersion="19"
         android:targetSdkVersion="21" />
@@ -64,6 +69,38 @@
         <activity
             android:name="com.example.nooneschool.home.WeatherActivity"
             android:label="@string/title_activity_weather" >
+        </activity>
+        <activity
+            android:name=".my.CollectionActivity"
+            android:label="@string/title_activity_collection" >
+        </activity>
+        <activity
+            android:name=".my.RecentlyBrowseActivity"
+            android:label="@string/title_activity_recently_browse" >
+        </activity>
+        <activity
+            android:name=".my.CustomerServiceActivity"
+            android:label="@string/title_activity_customer_service" >
+        </activity>
+        <activity
+            android:name=".my.MemberCenterActivity"
+            android:label="@string/title_activity_member_center" >
+        </activity>
+        <activity
+            android:name=".my.MemberRechargeActivity"
+            android:label="@string/title_activity_member_recharge" >
+        </activity>
+        <activity
+            android:name=".my.SignInActivity"
+            android:label="@string/title_activity_signin" >
+        </activity>
+        <activity
+            android:name=".my.PersonalDataActivity"
+            android:label="@string/title_activity_personal_data" >
+        </activity>
+        <activity
+            android:name="com.example.nooneschool.my.MyOrderActivity"
+            android:label="@string/title_activity_my_order" >
         </activity>
     </application>
 

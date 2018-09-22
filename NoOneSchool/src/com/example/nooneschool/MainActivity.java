@@ -34,7 +34,7 @@ public class MainActivity extends TabActivity {
 		tabhost.addTab(tabhost.newTabSpec("three").setIndicator(createTabIcon(R.color.lesson, "课表"))
 				.setContent(three.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
-		Intent four = new Intent(MainActivity.this, LessonActivity.class);
+		Intent four = new Intent(MainActivity.this, MyActivity.class);
 		tabhost.addTab(tabhost.newTabSpec("four").setIndicator(createTabIcon(R.color.my, "我的"))
 				.setContent(four.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
