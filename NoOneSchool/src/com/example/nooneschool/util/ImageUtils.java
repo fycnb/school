@@ -15,7 +15,6 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
-
 public class ImageUtils {
 
     public static final String PATH = "/noone/img/";
@@ -26,19 +25,18 @@ public class ImageUtils {
         int index = url.lastIndexOf("/") + 1;
         return url.substring(index);
     }
-    
 
-    public static void setImageBitmap(byte[] bit, ImageView iv) {
+    public static void setImageBitmap(String url, ImageView iv) {
         showImageView = iv;
-        Bitmap bmpout = null;
-        if(bit!=null){
-        	bmpout = BitmapFactory.decodeByteArray(bit, 0, bit.length);
+        mUrl = url;
+        if(url==null){
+        	return;
         }
-              
-        if (bmpout != null) {
-            showImageView.setImageBitmap(bmpout);
+        Bitmap loacalBitmap = ImageUtils.getLoacalBitmap(Environment.getExternalStorageDirectory() + ImageUtils.PATH + ImageUtils.getFileName(url));
+        if (loacalBitmap != null) {
+            showImageView.setImageBitmap(loacalBitmap);
         } else {
-        	showImageView.setBackgroundColor(0xccc);;
+            new DownImgAsyncTask().execute(url);
         }
     }
 
@@ -81,7 +79,9 @@ public class ImageUtils {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.flush();
             fos.close();
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return file;
@@ -130,6 +130,7 @@ public class ImageUtils {
             super.onPostExecute(result);
             if(result!=null){
                 File file = saveImage(result, Environment.getExternalStorageDirectory() + PATH, getFileName(mUrl));
+                
                 showImageView.setImageBitmap(result);
             }
         }

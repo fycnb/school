@@ -14,53 +14,60 @@ import com.example.nooneschool.util.ListItemClickHelp;
 
 public class AdapterBanner extends PagerAdapter {
 
-    private List<ImageView> ivList;
-    private int count;
-    private Context content;
-    private List<ListAd> list;
+	private List<ImageView> ivList;
+	private int count;
+	private Context content;
+	private List<ListAd> list;
+	private Boolean flag = true;
 
-    public AdapterBanner(List<ImageView> ivList,List<ListAd> list,Context content) {
-        super();
-        this.ivList = ivList;
-        this.list = list;
-        this.content = content;
-        if(ivList != null){
-            count = ivList.size();
-        }
-    }
+	public AdapterBanner(List<ImageView> ivList, List<ListAd> list, Context content) {
+		super();
+		this.ivList = ivList;
+		this.list = list;
+		this.content = content;
+		if (ivList != null) {
+			count = ivList.size();
+		}
+	}
 
-    @Override
-    public int getCount() {
-        return Integer.MAX_VALUE;
-    }
+	public void setFlag(Boolean flag) {
+		this.flag=flag;
+	}
 
-    @Override
-    public boolean isViewFromObject(View arg0, Object arg1) {
-        return arg0 == arg1;
-    }
+	@Override
+	public int getCount() {
+		return Integer.MAX_VALUE;
+	}
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-    }
+	@Override
+	public boolean isViewFromObject(View arg0, Object arg1) {
+		return arg0 == arg1;
+	}
 
-    @Override
-    public Object instantiateItem(final ViewGroup container, final int position) {
-        final int newPosition = position % count;
-        
-        final ImageView iv = ivList.get(newPosition);
-        iv.setOnClickListener(new OnClickListener() {
+	@Override
+	public void destroyItem(ViewGroup container, int position, Object object) {
+	}
 
-        	@Override
-        	public void onClick(View v) {
+	@Override
+	public Object instantiateItem(final ViewGroup container, final int position) {
+		final int newPosition = position % count;
 
-        	 Intent intent = new Intent(content, AdActivity.class);
-        	 intent.putExtra("url", list.get(newPosition).getImgurl());
-        	 content.startActivity(intent);
-        	}
-        	});
-        
-        container.removeView(iv);
-        container.addView(iv);
-        return iv;
-    }
+		final ImageView iv = ivList.get(newPosition);
+		iv.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (flag) {
+
+					Intent intent = new Intent(content, AdActivity.class);
+					intent.putExtra("url", list.get(newPosition).getImgurl());
+					content.startActivity(intent);
+				}
+			}
+		});
+
+		container.removeView(iv);
+		container.addView(iv);
+		return iv;
+	}
 }

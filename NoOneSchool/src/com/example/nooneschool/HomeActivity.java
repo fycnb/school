@@ -1,5 +1,6 @@
 package com.example.nooneschool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -32,6 +33,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,19 +43,18 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class HomeActivity extends Activity implements SmoothListView.ISmoothListViewListener {
 
 	private static SQLite helper;
-	
+
 	private RelativeLayout rl_title;
 	private SmoothListView smoothListView;
 	private BannerView headerBannerView;
 	private GridView gvFood;
 	private ImageView weather;
-	
+
 	private AdapterMeal mealadapter;
 
 	private List<ListAd> bannerList;
@@ -65,7 +66,6 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	private int bannerViewTopMargin;
 	private View itemHeaderBannerView;
 	private int bannerViewHeight = 180;
-	private String type = "0";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +75,9 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 		smoothListView = (SmoothListView) findViewById(R.id.home_function_sv);
 		rl_title = (RelativeLayout) findViewById(R.id.home_title_rl);
 		weather = (ImageView) findViewById(R.id.home_weather_imageview);
-		
+
 		helper = new SQLite(this);
-		
+
 		// new Thread() {
 		// public void run() {
 		// BitmapDrawable img1 = (BitmapDrawable)
@@ -111,65 +111,50 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 		// }.start();
 
 		weather.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(HomeActivity.this,WeatherActivity.class);
+				Intent intent = new Intent(HomeActivity.this, WeatherActivity.class);
 				startActivityForResult(intent, 1);
 			}
 		});
-		
-		//广告初始化
+
+		// 广告初始化
 		bannerList = DataUtil.getBannerData(this);
 		headerBannerView = new BannerView(HomeActivity.this);
 		headerBannerView.fillView(bannerList, smoothListView);
 
-		
-		
-		//食品标签初始化
+		// 食品标签初始化
 		foodList = DataUtil.getFoodData();
 		View view = LayoutInflater.from(HomeActivity.this).inflate(R.layout.header_food_layout, smoothListView, false);
-        gvFood =(GridView) view.findViewById(R.id.food_type_gridview);
+		gvFood = (GridView) view.findViewById(R.id.food_type_gridview);
 
-        int itemWidth = DensityUtil.dip2px(this, 40);
-        int size = foodList.size();
-        int itemPaddingH = DensityUtil.dip2px(this, 8);
-        int gridviewWidth = size * (itemWidth + itemPaddingH*2);
+		AdapterFood adapter = new AdapterFood(this, foodList);
+		gvFood.setAdapter(adapter);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                gridviewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
-        gvFood.setLayoutParams(params);
-        gvFood.setColumnWidth(itemWidth);
-        gvFood.setHorizontalSpacing(itemPaddingH);
-        gvFood.setStretchMode(GridView.STRETCH_SPACING_UNIFORM);
-        gvFood.setNumColumns(size);
-        AdapterFood adapter = new AdapterFood(this,foodList);
-        gvFood.setAdapter(adapter);
-        
-        gvFood.setOnItemClickListener(new OnItemClickListener() {
+		gvFood.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// TODO Auto-generated method stub
 				switch (position) {
-				case 7:
-					Intent intent = new Intent(HomeActivity.this,OtherFoodActivity.class);
-					startActivity(intent);
+				case 3:
+					Intent intent1 = new Intent(HomeActivity.this, OtherFoodActivity.class);
+					startActivity(intent1);
 					break;
 
 				default:
-					type = position+"";
-					refreshMealData();
-					Toast.makeText(HomeActivity.this, type, 0).show();
+					Intent intent2 = new Intent(HomeActivity.this, OtherFoodActivity.class);
+					startActivity(intent2);
 					break;
 				}
 			}
 		});
-        
-        smoothListView.addHeaderView(view);
 
-        //餐厅初始化
+		smoothListView.addHeaderView(view);
+
+		// 餐厅初始化
 		mealList = DataUtil.getNoDataMeal(DensityUtil.getWindowHeight(this) - DensityUtil.dip2px(this, 400));
 		mealadapter = new AdapterMeal(this, mealList);
 		smoothListView.setAdapter(mealadapter);
@@ -179,18 +164,18 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// TODO Auto-generated method stub
-				if(!((ListMeal)parent.getAdapter().getItem(position)).getIsNoData()){
+				if (!((ListMeal) parent.getAdapter().getItem(position)).getIsNoData()) {
 
-					String mealid = ((ListMeal)parent.getAdapter().getItem(position)).getId();
+					String mealid = ((ListMeal) parent.getAdapter().getItem(position)).getId();
 					Intent intent = new Intent(HomeActivity.this, MealActivity.class);
-					intent.putExtra("di", mealid);
-					startActivity(intent);	
+					intent.putExtra("id", mealid);
+					startActivity(intent);
 				}
-				
+
 			}
 		});
 		smoothListView.setRefreshEnable(true);
-		smoothListView.setLoadMoreEnable(true);
+		smoothListView.setLoadMoreEnable(false);
 		smoothListView.setSmoothListViewListener(this);
 
 		smoothListView.setOnScrollListener(new SmoothListView.OnSmoothScrollListener() {
@@ -252,115 +237,110 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	@Override
 	public void onRefresh() {
 		// TODO Auto-generated method stub
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				smoothListView.stopRefresh();
-				smoothListView.setRefreshTime("刚刚");
-			}
-		}, 2000);
+
+		headerBannerView.getAdapt().setFlag(false);
 		refreshMealData();
-		getAdData("all");
+		getAdData();
 
 	}
 
 	@Override
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				smoothListView.stopLoadMore();
-			}
-		}, 2000);
 
 		getMealData();
 	}
 
-	
-	public void getAdData(final String type) {
+	public void getAdData() {
 		new Thread() {
 			public void run() {
-				String result = HomeService.HomeServiceByPost(type, "");
-				if (result != null) {
-					try {
-						List<ListAd> temp = bannerList;
-						bannerList.clear();
-						JSONArray ja = new JSONArray(result);
-						for (int i = 0; i < ja.length(); i++) {
-							JSONObject j = (JSONObject) ja.get(i);
+				final String result = HomeService.HomeServiceByPost(0, "all", "asdsadas");
 
-							String id = j.getString("id");
-							String imgname = j.getString("imgname");
-							String imgurl = j.getString("imgurl");
-							byte[] imgbit = j.getString("imgbit").getBytes();
-							bannerList.add(new ListAd(id, imgname, imgbit, imgurl));
-						}
-						SQLiteDatabase db = helper.getWritableDatabase();
-						for(int i = 0;i<bannerList.size();i--){
-							if(temp.get(i).getId()==null){
-								ContentValues values = new ContentValues();
-								values.put("imgid", bannerList.get(i).getId());
-								values.put("imgblob", bannerList.get(i).getImgbit());
-								values.put("imgurl", bannerList.get(i).getImgurl());
-								values.put("imgname", bannerList.get(i).getName());
-								db.insert("image", null, values);
-							}
-							
-							if(!temp.get(i).getName().equals(bannerList.get(i).getName())){
-								ContentValues values = new ContentValues();
-								values.put("imgblob", bannerList.get(i).getImgbit());
-								values.put("imgurl", bannerList.get(i).getImgurl());
-								values.put("imgname", bannerList.get(i).getName());
-								db.update("image", values, "imgid=?", new String[]{bannerList.get(i).getId()});
-							}
-							if(!temp.get(i).getImgbit().equals(bannerList.get(i).getImgbit())){
-								ContentValues values = new ContentValues();
-								values.put("imgblob", bannerList.get(i).getImgbit());
-								db.update("image", values, "imgid=?", new String[]{bannerList.get(i).getId()});
-							}
-						}
-						db.close();
-						headerBannerView.notifyChange(bannerList);
+				runOnUiThread(new Runnable() {
+					public void run() {
+						if (result != null && !result.equals("[]")) {
+							try {
+								List<ListAd> temp = bannerList;
+								bannerList.clear();
+								JSONArray ja = new JSONArray(result);
+								for (int i = 0; i < ja.length(); i++) {
+									JSONObject j = (JSONObject) ja.get(i);
 
-					} catch (Exception e) {
-						e.printStackTrace();
+									String id = j.getString("id");
+									String imgurl = j.getString("imgurl");
+									bannerList.add(new ListAd(id, imgurl));
+								}
+								SQLiteDatabase db = helper.getWritableDatabase();
+								for (int i = 0; i < bannerList.size(); i--) {
+									if (temp.get(i).getId() == null) {
+										ContentValues values = new ContentValues();
+										values.put("imgid", bannerList.get(i).getId());
+										values.put("imgurl", bannerList.get(i).getImgurl());
+										db.insert("image", null, values);
+									}
+									if (!temp.get(i).getImgurl().equals(bannerList.get(i).getImgurl())) {
+										ContentValues values = new ContentValues();
+										values.put("imgblob", bannerList.get(i).getImgurl());
+										db.update("image", values, "imgid=?",
+												new String[] { bannerList.get(i).getId() });
+									}
+								}
+								db.close();
+								headerBannerView.notifyChange(bannerList);
+
+								headerBannerView.getAdapt().setFlag(true);
+
+							} catch (Exception e) {
+								headerBannerView.getAdapt().setFlag(true);
+								e.printStackTrace();
+							}
+						} else {
+							headerBannerView.getAdapt().setFlag(true);
+						}
 					}
-				}
+				});
 			}
 
 		}.start();
 	}
-	
-	
-	
+
 	public void refreshMealData() {
 		new Thread() {
 			public void run() {
-				String result = HomeService.HomeServiceByPost(type, "");
-				if (result != null) {
-					try {
+				final String result = HomeService.HomeServiceByPost(0, "all", "NoOneService/GetRestaurantServlet?");
 
-						mealList.clear();
-						JSONArray ja = new JSONArray(result);
-						for (int i = 0; i < ja.length(); i++) {
-							JSONObject j = (JSONObject) ja.get(i);
+				runOnUiThread(new Runnable() {
+					public void run() {
+						if (result != null && !result.equals("[]")) {
+							try {
+								mealList.clear();
+								JSONArray ja = new JSONArray(result);
+								for (int i = 0; i < ja.length(); i++) {
+									JSONObject j = (JSONObject) ja.get(i);
 
-							String id = j.getString("id");
-							String name = j.getString("name");
-							String money = j.getString("money");
-							String address = j.getString("address");
-							String sale = j.getString("sale");
-							String imgname = j.getString("imgname");
-							String imgurl = j.getString("imgurl");
+									String id = j.getString("id");
+									String name = j.getString("name");
+									String address = j.getString("address");
+									String send = j.getString("send");
+									String delivery = j.getString("delivery");
+									String sale = j.getString("sale");
+									String imgurl = j.getString("imgurl");
 
-							mealList.add(new ListMeal(id, name, money, address, sale, imgname, imgurl));
-						}
-						mealadapter.setData(mealList);
-					} catch (Exception e) {
-						e.printStackTrace();
+									mealList.add(new ListMeal(id, name, address, send, delivery, sale, imgurl));
+								}
+								mealadapter.setData(mealList);
+								smoothListView.setLoadMoreEnable(true);
+
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}else
+							smoothListView.setLoadMoreEnable(false);
+
+						smoothListView.stopRefresh();
+						smoothListView.setRefreshTime("刚刚");
 					}
-				}
+				});
 			}
 
 		}.start();
@@ -369,36 +349,54 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	public void getMealData() {
 		new Thread() {
 			public void run() {
-				String result = HomeService.HomeServiceByPost(type, "");
-				if (result != null) {
-					try {
+				final String result = HomeService.HomeServiceByPost(mealList.size(), "all",
+						"NoOneService/GetRestaurantServlet?");
 
-						JSONArray ja = new JSONArray(result);
-						for (int i = 0; i < ja.length(); i++) {
-							JSONObject j = (JSONObject) ja.get(i);
+				runOnUiThread(new Runnable() {
+					public void run() {
 
-							String id = j.getString("id");
-							String name = j.getString("name");
-							String money = j.getString("money");
-							String address = j.getString("address");
-							String sale = j.getString("sale");
-							String imgname = j.getString("imgname");
-							String imgurl = j.getString("imgurl");
+						if (result != null && !result.equals("[]")) {
+							try {
+								if (mealList.get(0).getIsNoData()) {
+									mealList = new ArrayList<ListMeal>();
+								} else {
+									for (int i = mealList.size(); mealList.get(i - 1).getName() == null; i--) {
+										mealList.remove(i - 1);
+									}
+								}
+								JSONArray ja = new JSONArray(result);
+								for (int i = 0; i < ja.length(); i++) {
+									JSONObject j = (JSONObject) ja.get(i);
 
-							mealList.add(new ListMeal(id, name, money, address, sale, imgname, imgurl));
+
+									String id = j.getString("id");
+									String name = j.getString("name");
+									String address = j.getString("address");
+									String send = j.getString("send");
+									String delivery = j.getString("delivery");
+									String sale = j.getString("sale");
+									String imgurl = j.getString("imgurl");
+
+									mealList.add(new ListMeal(id, name, address, send, delivery, sale, imgurl));
+									mealList.get(0).setIsNoData(false);
+								}
+								mealadapter.setData(mealList);
+
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						} else {
+							Log.i("fyc", "1");
+							smoothListView.setLoadMoreEnable(false);
 						}
-						mealadapter.notifyDataSetChanged();
-
-					} catch (Exception e) {
-						e.printStackTrace();
+						smoothListView.stopLoadMore();
 					}
-				}
+				});
 			}
 
 		}.start();
 	}
 
-	
 	@Override
 	protected void onResume() {
 		super.onResume();
