@@ -3,10 +3,10 @@ package com.example.nooneschool.home;
 public class ListMeal {
 	private String id;
 	private String name;
-	private String money;
 	private String address;
+	private String send;
+	private String delivery;
 	private String sale;
-	private String imgname;
 	private String imgurl;
 
 	private Boolean isNoData = false;
@@ -25,6 +25,7 @@ public class ListMeal {
 	public void setmHeight(int mHeight) {
 		this.mHeight = mHeight;
 	}
+	
 	public String getId() {
 		return id;
 	}
@@ -37,17 +38,26 @@ public class ListMeal {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getMoney() {
-		return money;
-	}
-	public void setMoney(String money) {
-		this.money = money;
-	}
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	
+	
+	public String getSend() {
+		return send;
+	}
+	public void setSend(String send) {
+		this.send = send;
+	}
+	public String getDelivery() {
+		return delivery;
+	}
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
 	}
 	public String getSale() {
 		return sale;
@@ -55,34 +65,25 @@ public class ListMeal {
 	public void setSale(String sale) {
 		this.sale = sale;
 	}
-	
-	public String getImgname() {
-		return imgname;
-	}
-	public void setImgname(String imgname) {
-		this.imgname = imgname;
-	}
 	public String getImgurl() {
 		return imgurl;
 	}
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
 	}
-	
-	
-	public ListMeal(String id, String name, String money, String address, String sale, String imgname, String imgurl) {
+	public ListMeal(String id, String name, String address, String send, String delivery, String sale, String imgurl) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.money = money;
 		this.address = address;
+		this.send = send;
+		this.delivery = delivery;
 		this.sale = sale;
-		this.imgname = imgname;
 		this.imgurl = imgurl;
 	}
-	public ListMeal() {
-		// TODO Auto-generated constructor stub
-	}
+	
+	
+	
 	
 	
 }

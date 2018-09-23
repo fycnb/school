@@ -51,6 +51,10 @@ public class BannerView extends AbsHeaderView<List<ListAd>> {
         }
     };
 
+    public AdapterBanner getAdapt(){
+    	return adapter;
+    }
+    
     public BannerView(Activity context) {
         super(context);
         this.context= context;
@@ -105,7 +109,7 @@ public class BannerView extends AbsHeaderView<List<ListAd>> {
             AbsListView.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             imageView.setLayoutParams(params);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            ImageUtils.setImageBitmap(list.get(i).getImgbit(), imageView);
+            ImageUtils.setImageBitmap(list.get(i).getImgurl(), imageView);
             ivList.add(imageView);
         }
     }

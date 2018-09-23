@@ -10,10 +10,15 @@ import org.json.JSONObject;
 import com.example.nooneschool.util.StreamTools;
 
 public class HomeService {
-	public static String HomeServiceByPost(String type, String homepath) {
+	public static String HomeServiceByPost(int number, String type, String homepath) {
 		try {
+			
+			JSONObject json = new JSONObject();
+            json.put("type",type);
+            json.put("number",number);
+            String content = String.valueOf(json);
 
-			String path = "http://192.168.0.107:8080/"+homepath;
+			String path = "http://169.254.164.100:8080/"+homepath;
 
 			URL url = new URL(path);
 
@@ -26,6 +31,11 @@ public class HomeService {
 			conn.setRequestProperty("accept", "application/json");
 			conn.setRequestProperty("ser-Agent", "Fiddler");
 
+
+            OutputStream os = conn.getOutputStream();
+            os.write(content.getBytes());
+            os.close();
+            
 			int code = conn.getResponseCode();
 
 			if (code == 200) {

@@ -9,6 +9,11 @@
     <servlet-name>SignInSuccessServlet</servlet-name>
     <servlet-class>com.noone.my.servlet.SignInSuccessServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>GetRestaurantServlet</servlet-name>
+    <servlet-class>com.noone.my.servlet.GetRestaurantServlet</servlet-class>
+  </servlet>
+
 
   <servlet-mapping>
     <servlet-name>SignInServlet</servlet-name>
@@ -17,6 +22,10 @@
   <servlet-mapping>
     <servlet-name>SignInSuccessServlet</servlet-name>
     <url-pattern>/SignInSuccessServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetRestaurantServlet</servlet-name>
+    <url-pattern>/GetRestaurantServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

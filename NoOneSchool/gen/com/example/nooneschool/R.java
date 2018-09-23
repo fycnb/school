@@ -83,23 +83,25 @@ containing a value of this type.
         public static final int xml_round_orange_icon=0x7f02001d;
     }
     public static final class id {
-        public static final int action_settings=0x7f09003f;
+        public static final int action_settings=0x7f090041;
         public static final int circle=0x7f090000;
-        public static final int food_type_gridview=0x7f090025;
-        public static final int food_type_textview=0x7f090021;
-        public static final int function_icon_imageview=0x7f090029;
-        public static final int function_name_textview=0x7f09002a;
+        public static final int food_type_gridview=0x7f090026;
+        public static final int food_type_imageview=0x7f090021;
+        public static final int food_type_textview=0x7f090022;
+        public static final int function_icon_imageview=0x7f09002a;
+        public static final int function_name_textview=0x7f09002b;
         public static final int guide_jump_button=0x7f090003;
         public static final int guide_viewpager=0x7f090002;
         public static final int home_ad_edittext=0x7f090006;
         public static final int home_function_sv=0x7f090004;
         public static final int home_title_rl=0x7f090005;
         public static final int home_weather_imageview=0x7f090007;
-        public static final int item_Status_imageview=0x7f090028;
-        public static final int item_date_layout=0x7f090026;
-        public static final int item_week_textview=0x7f090027;
-        public static final int iv=0x7f09003d;
+        public static final int item_Status_imageview=0x7f090029;
+        public static final int item_date_layout=0x7f090027;
+        public static final int item_week_textview=0x7f090028;
+        public static final int iv=0x7f09003f;
         public static final int iv_placeholder_image=0x7f09001f;
+<<<<<<< HEAD
         public static final int ll_banner=0x7f090024;
         public static final int meal_address_textview=0x7f090031;
         public static final int meal_degree_textview=0x7f090033;
@@ -108,6 +110,17 @@ containing a value of this type.
         public static final int meal_money_textview=0x7f090032;
         public static final int meal_name_textview=0x7f090030;
         public static final int my_account_textview=0x7f09000b;
+=======
+        public static final int ll_banner=0x7f090025;
+        public static final int meal_address_textview=0x7f090032;
+        public static final int meal_delivery_textview=0x7f090034;
+        public static final int meal_img_imageview=0x7f090030;
+        public static final int meal_layout_ll=0x7f09002f;
+        public static final int meal_name_textview=0x7f090031;
+        public static final int meal_sale_textview=0x7f090035;
+        public static final int meal_send_textview=0x7f090033;
+        public static final int my_account_textview=0x7f09000c;
+>>>>>>> master
         public static final int my_function_gridview=0x7f090010;
         public static final int my_headportrait_imageview=0x7f090008;
         public static final int my_id_textview=0x7f09000a;
@@ -122,29 +135,29 @@ containing a value of this type.
         public static final int person_password_textview=0x7f090014;
         public static final int person_return_imageview=0x7f090011;
         public static final int person_username_textview=0x7f090013;
-        public static final int rl_banner=0x7f090022;
+        public static final int rl_banner=0x7f090023;
         public static final int rl_root_view=0x7f09001e;
         public static final int round=0x7f090001;
         public static final int setting_return_imageview=0x7f090017;
         public static final int signdate=0x7f090019;
-        public static final int signdate_date_gridview=0x7f09002d;
-        public static final int signdate_week_gridview=0x7f09002c;
-        public static final int signdate_year_textview=0x7f09002b;
+        public static final int signdate_date_gridview=0x7f09002e;
+        public static final int signdate_week_gridview=0x7f09002d;
+        public static final int signdate_year_textview=0x7f09002c;
         public static final int signin_return_imageview=0x7f090018;
-        public static final int smoothlistview_footer_content=0x7f090034;
-        public static final int smoothlistview_footer_hint_textview=0x7f090036;
-        public static final int smoothlistview_footer_progressbar=0x7f090035;
-        public static final int smoothlistview_header_arrow=0x7f09003b;
-        public static final int smoothlistview_header_content=0x7f090037;
-        public static final int smoothlistview_header_hint_textview=0x7f090039;
-        public static final int smoothlistview_header_progressbar=0x7f09003c;
-        public static final int smoothlistview_header_text=0x7f090038;
-        public static final int smoothlistview_header_time=0x7f09003a;
-        public static final int tv=0x7f09003e;
+        public static final int smoothlistview_footer_content=0x7f090036;
+        public static final int smoothlistview_footer_hint_textview=0x7f090038;
+        public static final int smoothlistview_footer_progressbar=0x7f090037;
+        public static final int smoothlistview_header_arrow=0x7f09003d;
+        public static final int smoothlistview_header_content=0x7f090039;
+        public static final int smoothlistview_header_hint_textview=0x7f09003b;
+        public static final int smoothlistview_header_progressbar=0x7f09003e;
+        public static final int smoothlistview_header_text=0x7f09003a;
+        public static final int smoothlistview_header_time=0x7f09003c;
+        public static final int tv=0x7f090040;
         public static final int tv_placeholder_tip=0x7f090020;
         public static final int tv_select_camera=0x7f09001d;
         public static final int tv_select_gallery=0x7f09001c;
-        public static final int vp_banner=0x7f090023;
+        public static final int vp_banner=0x7f090024;
         public static final int welcome_jump_layout=0x7f09001a;
         public static final int welcome_time_textview=0x7f09001b;
     }

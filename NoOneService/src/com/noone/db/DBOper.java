@@ -12,7 +12,7 @@ public class DBOper {
 			String DRIVER = "com.mysql.jdbc.Driver";
 			String URL = "jdbc:mysql://localhost:3306/noone";
 			String usename = "root";
-			String password = "mysql";
+			String password = "123456";
 			Class.forName(DRIVER).newInstance();
 			conn = DriverManager.getConnection(URL,usename,password);
 			return conn;
