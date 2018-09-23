@@ -21,7 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MyOrderActivity extends Activity {
 //	 private MyPublishAdapter mMyPublishAdapter;
-//	 private ListView mMyFinish;
+	 private ListView lv_myorder;
 //	 private List<MyNeed> mMyNeeds;
 
 	@Override
@@ -33,7 +33,7 @@ public class MyOrderActivity extends Activity {
 	}
 	
 	private void init(){
-		
+		lv_myorder = (ListView) findViewById(R.id.myorder_listview);
 	}
 	
 	private void getdata(){

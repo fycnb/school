@@ -18,7 +18,6 @@ import com.example.nooneschool.my.MyOrderActivity;
 import com.example.nooneschool.my.PersonalDataActivity;
 import com.example.nooneschool.my.RecentlyBrowseActivity;
 import com.example.nooneschool.my.SignInActivity;
-import com.example.nooneschool.my.service.SignInSuccessService;
 import com.example.nooneschool.my.service.UserDataService;
 import com.example.nooneschool.my.utils.ImageUtil;
 
@@ -95,7 +94,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		functiondata();
 
 		// 获取数据
-		thread();
+		getuserdata();
 
 		String path = Environment.getExternalStorageDirectory() + "/temp/img.jpg";
 		Bitmap bm = ImageUtil.getLoacalBitmap(path);
@@ -133,7 +132,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 	}
 
-	private void thread() {
+	private void getuserdata() {
 		new Thread() {
 			public void run() {
 				final String result = UserDataService.UserDataByPost(userid);
@@ -143,10 +142,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 						account = js.getString("account");
 						nickname = js.getString("nickname");
 						sobo = js.getString("sobo");
-						Log.i("cjq", account);
-						Log.i("cjq", nickname);
-						Log.i("cjq", sobo);
-
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -217,6 +213,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 					Bitmap bm = extras.getParcelable("data");
 					Uri uri = saveBitmap(bm, "temp");
 					imageUri = startImageZoom(uri);
+
 				}
 			}
 			break;
@@ -246,6 +243,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 		}
 	}
+
 
 	private Uri convertUri(Uri uri) {
 		InputStream is;

@@ -180,11 +180,12 @@ containing a value of this type.
         public static final int header_food_layout=0x7f03001c;
         public static final int item_date_gridview=0x7f03001d;
         public static final int item_my_function_girdview=0x7f03001e;
-        public static final int layout_signdate=0x7f03001f;
-        public static final int listview_meal=0x7f030020;
-        public static final int smoothlistview_footer=0x7f030021;
-        public static final int smoothlistview_header=0x7f030022;
-        public static final int tab=0x7f030023;
+        public static final int item_myorder=0x7f03001f;
+        public static final int layout_signdate=0x7f030020;
+        public static final int listview_meal=0x7f030021;
+        public static final int smoothlistview_footer=0x7f030022;
+        public static final int smoothlistview_header=0x7f030023;
+        public static final int tab=0x7f030024;
     }
     public static final class menu {
         public static final int as_main=0x7f080000;
