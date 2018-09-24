@@ -22,7 +22,8 @@
                 android:id="@+id/my_headportrait_imageview"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                app:type="circle" />
+                app:type="circle"
+                android:src="@drawable/ic_launcher" />
 
             <TextView
                 android:id="@+id/my_nickname_textview"

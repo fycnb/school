@@ -6,19 +6,21 @@ public class MyOrder {
 	private String total;
 	private String time;
 	private String state;
+	private String image;
+	private String orderid;
 	
-	public MyOrder() {
-		super();
-	}
+	
 
-	public MyOrder(String name, String total, String time, String state) {
+	
+	public MyOrder(String name, String total, String time, String state, String image, String orderid) {
 		super();
 		this.name = name;
 		this.total = total;
 		this.time = time;
 		this.state = state;
+		this.image = image;
+		this.orderid = orderid;
 	}
-	
 	public String getName() {
 		return name;
 	}
@@ -44,6 +46,20 @@ public class MyOrder {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getOrderid() {
+		return orderid;
+	}
+
+	public void setOrderid(String orderid) {
+		this.orderid = orderid;
 	}
 	
 	

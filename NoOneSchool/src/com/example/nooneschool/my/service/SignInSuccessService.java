@@ -20,7 +20,7 @@ public class SignInSuccessService {
             String content = String.valueOf(json);
 
             //访问的资源路径
-            String path = "http://169.254.164.100:8080/NoOneService/SignInSuccessServlet?";
+            String path = "http://169.254.96.11:8080/NoOneService/SignInSuccessServlet?";
 
             //创建url实例
             URL url = new URL(path);

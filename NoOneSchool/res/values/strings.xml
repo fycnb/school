@@ -22,5 +22,6 @@
     <string name="title_activity_as_main">AsMainActivity</string>
     <string name="title_activity_personal_data">PersonalDataActivity</string>
     <string name="title_activity_my_order">MyOrderActivity</string>
+    <string name="title_activity_my_order_deatil">MyOrderDeatilActivity</string>
 
 </resources>

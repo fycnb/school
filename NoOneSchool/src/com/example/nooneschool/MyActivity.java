@@ -1,23 +1,29 @@
 package com.example.nooneschool;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.example.nooneschool.my.CollectionActivity;
 import com.example.nooneschool.my.CustomerServiceActivity;
+import com.example.nooneschool.my.MyOrder;
 import com.example.nooneschool.my.MyOrderActivity;
 import com.example.nooneschool.my.PersonalDataActivity;
 import com.example.nooneschool.my.RecentlyBrowseActivity;
 import com.example.nooneschool.my.SignInActivity;
+import com.example.nooneschool.my.adapter.MyOrderAdapter;
+import com.example.nooneschool.my.service.MyOrderService;
 import com.example.nooneschool.my.service.UserDataService;
 import com.example.nooneschool.my.utils.ImageUtil;
 
@@ -27,6 +33,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Paint.Join;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -101,6 +108,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		if (bm != null) {
 			iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
 		} else {
+			
 			bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 			iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
 		}
@@ -244,7 +252,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
-
+	
 	private Uri convertUri(Uri uri) {
 		InputStream is;
 		try {

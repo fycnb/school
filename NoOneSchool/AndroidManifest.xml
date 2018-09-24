@@ -13,7 +13,6 @@
         android:minSdkVersion="19"
         android:targetSdkVersion="21" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -65,7 +64,7 @@
             android:label="@string/title_activity_meal" >
         </activity>
         <activity
-            android:name="com.example.nooneschool.home.WeatherActivity"
+            android:name=".home.WeatherActivity"
             android:label="@string/title_activity_weather" >
         </activity>
         <activity
@@ -89,8 +88,12 @@
             android:label="@string/title_activity_personal_data" >
         </activity>
         <activity
-            android:name="com.example.nooneschool.my.MyOrderActivity"
+            android:name=".my.MyOrderActivity"
             android:label="@string/title_activity_my_order" >
+        </activity>
+        <activity
+            android:name=".MyOrderDeatilActivity"
+            android:label="@string/title_activity_my_order_deatil" >
         </activity>
     </application>
 

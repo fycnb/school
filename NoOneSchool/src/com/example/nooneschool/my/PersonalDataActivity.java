@@ -50,7 +50,7 @@ public class PersonalDataActivity extends Activity implements View.OnClickListen
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.person_return_imageview:
-			finish();
+			PersonalDataActivity.this.finish();
 			break;
 	
 
