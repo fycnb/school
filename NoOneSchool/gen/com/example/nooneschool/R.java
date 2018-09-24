@@ -55,11 +55,19 @@ containing a value of this type.
         public static final int cloud=0x7f020001;
         public static final int comment=0x7f020002;
         public static final int comment_fill=0x7f020003;
+<<<<<<< HEAD
         public static final int corner_blue=0x7f020004;
         public static final int corner_gray=0x7f020005;
         public static final int corner_shape=0x7f020006;
         public static final int corner_shape2=0x7f020007;
         public static final int corner_shape3=0x7f020008;
+=======
+        public static final int corner_gray=0x7f020004;
+        public static final int corner_shape=0x7f020005;
+        public static final int corner_shape2=0x7f020006;
+        public static final int corner_shape3=0x7f020007;
+        public static final int empty=0x7f020008;
+>>>>>>> master
         public static final int enter=0x7f020009;
         public static final int home=0x7f02000a;
         public static final int home_banner_index_mask=0x7f02000b;

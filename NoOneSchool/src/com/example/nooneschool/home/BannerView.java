@@ -1,13 +1,10 @@
 package com.example.nooneschool.home;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -23,8 +20,9 @@ import java.util.List;
 
 import com.example.nooneschool.R;
 import com.example.nooneschool.util.DensityUtil;
+import com.example.nooneschool.util.DownImage;
+import com.example.nooneschool.util.DownImage.ImageCallBack;
 import com.example.nooneschool.util.FixedSpeedScroller;
-import com.example.nooneschool.util.ImageUtils;
 
 public class BannerView extends AbsHeaderView<List<ListAd>> {
 
@@ -75,7 +73,6 @@ public class BannerView extends AbsHeaderView<List<ListAd>> {
 
     private void dealWithTheView(List<ListAd> list) {
         ivList.clear();
-
         bannerCount = list.size();
         if (bannerCount == 2) {
             list.addAll(list);
@@ -98,18 +95,24 @@ public class BannerView extends AbsHeaderView<List<ListAd>> {
     
     public void notifyChange(List<ListAd> list) {
     	this.list = list;
-    	ivList.clear();
-		adapter.notifyDataSetChanged();
+    	dealWithTheView(list);
 	}
 
     // 创建要显示的ImageView
     private void createImageViews(List<ListAd> list) {
         for (int i = 0; i < list.size(); i++) {
-            ImageView imageView = new ImageView(mActivity);
+            final ImageView imageView = new ImageView(mActivity);
             AbsListView.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             imageView.setLayoutParams(params);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            ImageUtils.setImageBitmap(list.get(i).getImgurl(), imageView);
+            DownImage downImage = new DownImage(list.get(i).getImgurl());
+    		downImage.loadImage(new ImageCallBack() {
+    			
+    			@Override
+    			public void getDrawable(Drawable drawable) {
+    				imageView.setImageDrawable(drawable);
+    			}
+    		});
             ivList.add(imageView);
         }
     }

@@ -9,6 +9,7 @@ import com.example.nooneschool.home.ListMeal;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class DataUtil {
 
@@ -28,9 +29,9 @@ public class DataUtil {
 		}
 		cursor.close();
 		db.close();
-		
+
 		while(list.size()<4){
-			list.add(new ListAd("","http://169.254.164.100:8080/NoOneService/img_01.png"));
+			list.add(new ListAd(null,""));
 		}
 		return list;
 	}
