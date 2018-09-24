@@ -8,18 +8,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.ImageView;
 public class ImageUtils {
 
     public static final String PATH = "/noone/img/";
     private static ImageView showImageView;
     private static String mUrl;
+    private static ExecutorService SINGLE_TASK_EXECUTOR;
+    private static ExecutorService LIMITED_TASK_EXECUTOR;
+    private static ExecutorService FULL_TASK_EXECUTOR;
+    
+    static {
+        SINGLE_TASK_EXECUTOR = (ExecutorService) Executors.newSingleThreadExecutor();
+        LIMITED_TASK_EXECUTOR = (ExecutorService) Executors.newFixedThreadPool(7);
+        FULL_TASK_EXECUTOR = (ExecutorService) Executors.newCachedThreadPool();
+    };
 
     public static String getFileName(String url) {
         int index = url.lastIndexOf("/") + 1;
@@ -27,6 +37,7 @@ public class ImageUtils {
     }
 
     public static void setImageBitmap(String url, ImageView iv) {
+    	
         showImageView = iv;
         mUrl = url;
         if(url==null){
@@ -36,7 +47,7 @@ public class ImageUtils {
         if (loacalBitmap != null) {
             showImageView.setImageBitmap(loacalBitmap);
         } else {
-            new DownImgAsyncTask().execute(url);
+        	new DownImgAsyncTask().executeOnExecutor(FULL_TASK_EXECUTOR, url);
         }
     }
 
@@ -117,6 +128,7 @@ public class ImageUtils {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            
         }
 
         @Override
@@ -130,7 +142,8 @@ public class ImageUtils {
             super.onPostExecute(result);
             if(result!=null){
                 File file = saveImage(result, Environment.getExternalStorageDirectory() + PATH, getFileName(mUrl));
-                
+                if(showImageView==null)
+                	return;
                 showImageView.setImageBitmap(result);
             }
         }

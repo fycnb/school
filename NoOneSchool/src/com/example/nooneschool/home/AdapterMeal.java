@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.nooneschool.R;
-import com.example.nooneschool.util.ImageUtils;
+import com.example.nooneschool.util.DownImage;
+import com.example.nooneschool.util.DownImage.ImageCallBack;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +85,7 @@ public class AdapterMeal extends BaseAdapter{
             return view;
         }
 		
-		ViewHolder holder = null;
+		final ViewHolder holder;
 
 		if(view == null || view instanceof RelativeLayout){
             view = inflater.inflate(R.layout.listview_meal,null);
@@ -104,7 +106,7 @@ public class AdapterMeal extends BaseAdapter{
         
         holder.ll.setVisibility(View.VISIBLE);
         if (list.get(i).getId()==null) {
-        	holder.ll.setEnabled(false);
+            holder.ll.setEnabled(false);
             holder.ll.setVisibility(View.INVISIBLE);
             return view;
         }
@@ -114,10 +116,16 @@ public class AdapterMeal extends BaseAdapter{
         holder.send.setText(list.get(i).getSend());
         holder.delivery.setText(list.get(i).getDelivery());
         holder.sale.setText(list.get(i).getSale());
-        ImageUtils.setImageBitmap(list.get(i).getImgurl(), holder.img);
-        
-               
-        
+        holder.img.setImageResource(R.drawable.empty);
+
+        DownImage downImage = new DownImage(list.get(i).getImgurl());
+		downImage.loadImage(new ImageCallBack() {
+			
+			@Override
+			public void getDrawable(Drawable drawable) {
+	            holder.img.setImageDrawable(drawable);
+			}
+		});
 		return view;
 	}
 	public class ViewHolder{

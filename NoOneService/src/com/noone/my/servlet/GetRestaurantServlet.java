@@ -20,21 +20,21 @@ public class GetRestaurantServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 	}
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
 
 		StringBuffer sb = JsonUtil.getjson(request);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
 		String type = obj.getString("type");
 		int number = obj.getInteger("number");
-		
-		if(type.equals("all")){
-			type="";
-		}else {
-			type="where "+type+"='1'";
+
+		if (type.equals("all")) {
+			type = "";
+		} else {
+			type = "where " + type + "='1'";
 		}
-		
+
 		response.setContentType("text/html");
 		JSONArray js = new JSONArray();
 		String content = "";
@@ -43,20 +43,24 @@ public class GetRestaurantServlet extends HttpServlet {
 		try {
 			db.getConn();
 			System.out.println(type);
-			
-			String sql = "select restaurantid,name,address,send,delivery,image from restaurant "+type+" ORDER BY restaurantid ASC limit "+number+",5";
-			ResultSet rs = db.executeQuery(sql,null);
+
+			String sql = "select restaurantid,name,address,send,delivery,image from restaurant "
+					+ type
+					+ " ORDER BY restaurantid ASC limit "
+					+ number
+					+ ",5";
+			ResultSet rs = db.executeQuery(sql, null);
 			while (rs.next()) {
-				
+
 				JSONObject json = new JSONObject();
-				String id = rs.getInt(1)+"";
+				String id = rs.getInt(1) + "";
 				String name = rs.getString(2);
 				String address = rs.getString(3);
 				String send = rs.getString(4);
 				String delivery = rs.getString(5);
 				String imgurl = rs.getString(6);
-				if(imgurl==null){
-					imgurl="";
+				if (imgurl == null) {
+					imgurl = "";
 				}
 				String sale = "12";
 				json.put("id", id);
@@ -68,13 +72,12 @@ public class GetRestaurantServlet extends HttpServlet {
 				json.put("sale", sale);
 				js.add(json);
 			}
+
 			content = String.valueOf(js);
-			System.out.println(number+type+content);
 			response.getOutputStream().write(content.getBytes("utf-8"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		
 	}
 }

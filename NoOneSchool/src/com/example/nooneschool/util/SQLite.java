@@ -13,7 +13,7 @@ public class SQLite extends SQLiteOpenHelper{
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("create table image ( imgid integer primary key, imgblob blob, imgurl varchar(40), imgname varchar(20))");
+		db.execSQL("create table image ( imgid integer primary key, imgurl varchar(100))");
 	}
 
 	@Override
