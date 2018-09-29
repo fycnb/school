@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,6 +29,9 @@ import com.example.nooneschool.my.adapter.MyOrderAdapter;
 import com.example.nooneschool.my.service.MyOrderService;
 import com.example.nooneschool.my.service.UserDataService;
 import com.example.nooneschool.my.utils.ImageUtil;
+import com.example.nooneschool.my.utils.UploadThread;
+import com.example.nooneschool.util.DownImage;
+import com.example.nooneschool.util.DownImage.ImageCallBack;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -34,6 +40,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint.Join;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -58,11 +66,15 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	private Button btn_signin;
 	private Button btn_myorder;
 
+	private ThreadPoolExecutor poolExecutor;
+
 	private GridView gv_function;
 	private List<Map<String, Object>> functionList;
 	private SimpleAdapter adapter;
+	// = Uri.parse("file:///sdcard/temp/head.png")
 
-	private Uri imageUri = Uri.parse("file:///sdcard/temp/img.jpg");
+	private String path = Environment.getExternalStorageDirectory() + "/temp";
+	private Uri imageUri = Uri.parse(path + "/head.png");
 
 	private static final int CAMERA_CODE = 1;
 	private static final int GALLERY_CODE = 2;
@@ -72,6 +84,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	private String account;
 	private String nickname;
 	private String sobo;
+	private String head;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,21 +110,13 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		btn_myorder = (Button) findViewById(R.id.my_myorder_button);
 		gv_function = (GridView) findViewById(R.id.my_function_gridview);
 
+		poolExecutor = new ThreadPoolExecutor(3, 5, 1, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(128));
+
 		// 向function_gridview中插入数据
 		functiondata();
 
 		// 获取数据
 		getuserdata();
-
-		String path = Environment.getExternalStorageDirectory() + "/temp/img.jpg";
-		Bitmap bm = ImageUtil.getLoacalBitmap(path);
-		if (bm != null) {
-			iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
-		} else {
-			
-			bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-			iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
-		}
 
 		// 点击事件
 		btn_signin.setOnClickListener(this);
@@ -141,7 +146,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void getuserdata() {
-		new Thread() {
+		Runnable runnable = new Runnable() {
 			public void run() {
 				final String result = UserDataService.UserDataByPost(userid);
 				if (result != null) {
@@ -150,12 +155,28 @@ public class MyActivity extends Activity implements View.OnClickListener {
 						account = js.getString("account");
 						nickname = js.getString("nickname");
 						sobo = js.getString("sobo");
-						
+						head = js.getString("head");
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					runOnUiThread(new Runnable() {
 						public void run() {
+							String imagepath = path + "/head.png";
+							Bitmap bm = ImageUtil.getLoacalBitmap(imagepath);
+							if (bm != null) {
+								iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
+							} else {
+								DownImage downImage = new DownImage(head);
+								downImage.loadImage(new ImageCallBack() {
+									@Override
+									public void getDrawable(Drawable drawable) {
+										BitmapDrawable bd = (BitmapDrawable) drawable;
+										Bitmap bm= bd.getBitmap();
+										DownImage.saveImage(bm, path, "head.png");
+										iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
+									}
+								});
+							}
 							tv_nickname.setText(nickname);
 							tv_account.setText(account);
 							tv_sobo.setText(sobo);
@@ -165,7 +186,8 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 				}
 			}
-		}.start();
+		};
+		poolExecutor.execute(runnable);
 	}
 
 	private void showTypeDialog() {
@@ -219,32 +241,31 @@ public class MyActivity extends Activity implements View.OnClickListener {
 				Bundle extras = data.getExtras();
 				if (extras != null) {
 					Bitmap bm = extras.getParcelable("data");
-					Uri uri = saveBitmap(bm, "temp");
-					imageUri = startImageZoom(uri);
+					File file = DownImage.saveImage(bm, path, "head.png");
+					upload();
+					Uri uri = Uri.fromFile(file);
+					startImageZoom(uri);
 
 				}
 			}
 			break;
 		case GALLERY_CODE:
 			if (data == null) {
-
 				return;
 			} else {
 				Uri uri;
 				uri = data.getData();
 				uri = convertUri(uri);
-				imageUri = startImageZoom(uri);
+				upload();
+				startImageZoom(uri);
 			}
 			break;
 		case CROP_CODE:
-
-			if (imageUri != null) {
-				Bitmap bm = decodeUriAsBitmap(imageUri);
-				if (bm != null) {
-					iv_headportrait.setImageBitmap(bm);
-				}
-
+			Bitmap bm = decodeUriAsBitmap(imageUri);
+			if (bm != null) {
+				iv_headportrait.setImageBitmap(bm);
 			}
+
 			break;
 		default:
 			break;
@@ -252,14 +273,24 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
-	
+	private void upload() {
+		String url = "http://169.254.96.11:8080/NoOneSchoolService/Upload";
+		File file = Environment.getExternalStorageDirectory();
+		File fileAbs = new File(file, "/temp/head.png");
+		String FileName = fileAbs.getAbsolutePath();
+		UploadThread thread = new UploadThread(url, FileName);
+		thread.start();
+	}
+
 	private Uri convertUri(Uri uri) {
 		InputStream is;
 		try {
 			is = getContentResolver().openInputStream(uri);
 			Bitmap bm = BitmapFactory.decodeStream(is);
+			File file = DownImage.saveImage(bm, path, "head.png");
+			Uri url = Uri.fromFile(file);
 			is.close();
-			return saveBitmap(bm, "temp");
+			return url;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return null;
@@ -269,32 +300,33 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
-	private Uri saveBitmap(Bitmap bm, String dirPath) {
-		File tmpDir = new File(Environment.getExternalStorageDirectory() + "/" + dirPath);
-		if (!tmpDir.exists()) {
-			tmpDir.mkdir();
-		}
-		String filename = "img.jpeg";
-		String imgpath = tmpDir.getAbsolutePath() + "/" + filename;
-		File img = new File(imgpath);
+	// private Uri saveBitmap(Bitmap bm, String dirPath) {
+	// File tmpDir = new File(Environment.getExternalStorageDirectory() + "/" +
+	// dirPath);
+	// if (!tmpDir.exists()) {
+	// tmpDir.mkdir();
+	// }
+	// String filename = "head.png";
+	// String imgpath = tmpDir.getAbsolutePath() + "/" + filename;
+	// File img = new File(imgpath);
+	//
+	// try {
+	// FileOutputStream fos = new FileOutputStream(img);
+	// bm.compress(Bitmap.CompressFormat.PNG, 100, fos);
+	// fos.flush();
+	// fos.close();
+	// return Uri.fromFile(img);
+	// } catch (FileNotFoundException e) {
+	// e.printStackTrace();
+	// return null;
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	//
+	// }
 
-		try {
-			FileOutputStream fos = new FileOutputStream(img);
-			bm.compress(Bitmap.CompressFormat.JPEG, 85, fos);
-			fos.flush();
-			fos.close();
-			return Uri.fromFile(img);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
-	private Uri startImageZoom(Uri uri) {
+	private void startImageZoom(Uri uri) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
 		intent.putExtra("crop", "true");
@@ -305,11 +337,11 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		intent.putExtra("scale", true);
 		intent.putExtra("return-data", false);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
 		intent.putExtra("noFaceDetection", false);
 		startActivityForResult(intent, CROP_CODE);
 
-		return imageUri;
+		// return imageUri;
 	}
 	//
 

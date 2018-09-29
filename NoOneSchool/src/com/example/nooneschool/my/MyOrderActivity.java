@@ -2,6 +2,8 @@ package com.example.nooneschool.my;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,6 +28,7 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 	private ListView lv_myorder;
 	private List<MyOrder> mMyOrders;
 	private String userid = "1";
+	private ExecutorService singleThreadExeutor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +36,14 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 		setContentView(R.layout.activity_my_order);
 		init();
 		getdata(userid);
+		
 	}
 
 	private void init() {
 		iv_return = (ImageView) findViewById(R.id.myorder_return_imageview);
 		lv_myorder = (ListView) findViewById(R.id.myorder_listview);
 		iv_return.setOnClickListener(this);
+		singleThreadExeutor = Executors.newSingleThreadExecutor();
 	}
 
 	@Override
@@ -54,7 +59,7 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void getdata(final String userid) {
-		new Thread() {
+		Runnable runnable = new Runnable() {
 			public void run() {
 				final String result = MyOrderService.MyOrderByPost(userid);
 				if (result != null) {
@@ -107,7 +112,9 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 
 				}
 			}
-		}.start();
+		};
+		singleThreadExeutor.execute(runnable);
+		
 	}
 
 }

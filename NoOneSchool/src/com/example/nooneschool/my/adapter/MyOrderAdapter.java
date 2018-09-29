@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.example.nooneschool.R;
 import com.example.nooneschool.my.MyOrder;
-import com.example.nooneschool.util.ImageUtils;
+import com.example.nooneschool.util.DownImage;
+import com.example.nooneschool.util.DownImage.ImageCallBack;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,26 +45,49 @@ public class MyOrderAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.item_myorder, null);
-		}
+		
+		final ViewHolder holder;
+		    if (convertView == null) {
+		    	holder = new ViewHolder();
+		        convertView = mInflater.inflate(R.layout.item_myorder, null);
 
-		ImageView iv_img = (ImageView) convertView.findViewById(R.id.myorder_img_imageview);
-		TextView tv_state = (TextView) convertView.findViewById(R.id.myorder_state_textview);
-		TextView tv_name = (TextView) convertView.findViewById(R.id.myorder_name_textview);
-		TextView tv_time = (TextView) convertView.findViewById(R.id.myorder_time_textview);
-		TextView tv_total = (TextView) convertView.findViewById(R.id.myorder_total_textview);
+		        holder.iv_img = (ImageView) convertView.findViewById(R.id.myorder_img_imageview);
+				holder.tv_state = (TextView) convertView.findViewById(R.id.myorder_state_textview);
+				holder.tv_name = (TextView) convertView.findViewById(R.id.myorder_name_textview);
+				holder.tv_time = (TextView) convertView.findViewById(R.id.myorder_time_textview);
+				holder.tv_total = (TextView) convertView.findViewById(R.id.myorder_total_textview);
+				
+		        convertView.setTag(holder);
+		    }else{
+		    	holder = (ViewHolder) convertView.getTag();
+		    }
 
 		MyOrder myorder = myorderlist.get(position);
 
-		tv_state.setText(myorder.getState());
-		tv_name.setText(myorder.getName());
-		tv_time.setText(myorder.getTime());
-		tv_total.setText(myorder.getTotal());
-		ImageUtils.setImageBitmap(myorder.getImage(), iv_img);
+		holder.tv_state.setText(myorder.getState());
+		holder.tv_name.setText(myorder.getName());
+		holder.tv_time.setText(myorder.getTime());
+		holder.tv_total.setText(myorder.getTotal());
+		 DownImage downImage = new DownImage(myorder.getImage());
+			downImage.loadImage(new ImageCallBack() {
+				
+				@Override
+				public void getDrawable(Drawable drawable) {
+					holder.iv_img.setImageDrawable(drawable);
+				}
+			});
 		return convertView;
 
 	}
+	
+	
+	public class ViewHolder{
+        ImageView iv_img;
+		TextView tv_state;
+		TextView tv_name;
+		TextView tv_time;
+		TextView tv_total;
+    }
 
 
 }

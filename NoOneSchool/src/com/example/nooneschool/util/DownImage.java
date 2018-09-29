@@ -50,7 +50,7 @@ public class DownImage {
 			        	return;
 			        }
 			        Drawable drawable;
-			        Bitmap loacalBitmap = ImageUtils.getLoacalBitmap(Environment.getExternalStorageDirectory() + ImageUtils.PATH + ImageUtils.getFileName(image_path));
+			        Bitmap loacalBitmap = getLoacalBitmap(Environment.getExternalStorageDirectory() + PATH + getFileName(image_path));
 			        if (loacalBitmap != null) {
 			        	drawable = new BitmapDrawable(loacalBitmap);
 			        } else {

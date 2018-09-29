@@ -2,6 +2,8 @@ package com.example.nooneschool.my.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,6 +29,7 @@ public class SignDate extends LinearLayout {
 	private SignDateAdapter adapterDate;
 	private List<Integer> days;
 	private List<Boolean> status;
+	private ExecutorService singleThreadExeutor;
 
 	public SignDate(Context context) {
 		super(context);
@@ -46,6 +49,7 @@ public class SignDate extends LinearLayout {
 	private void init() {
 		status = new ArrayList<>();
 		days = new ArrayList<>();
+		singleThreadExeutor = Executors.newSingleThreadExecutor();
 		View view = View.inflate(getContext(), R.layout.layout_signdate, this);
 		tv_year = (TextView) view.findViewById(R.id.signdate_year_textview);
 		gv_week = (InnerGridView) view.findViewById(R.id.signdate_week_gridview);
@@ -55,8 +59,8 @@ public class SignDate extends LinearLayout {
 
 	}
 
-	public void thread(final String userid) {
-		new Thread() {
+	public void getsignindata(final String userid) {
+		Runnable runnable = new Runnable() {
 			public void run() {
 				final String result = SignInService.SignInByPost(userid);
 
@@ -109,7 +113,8 @@ public class SignDate extends LinearLayout {
 					}
 				}
 			}
-		}.start();
+		};
+		singleThreadExeutor.execute(runnable);
 		adapterDate = new SignDateAdapter(getContext(), days, status);
 		gv_date.setAdapter(adapterDate);
 

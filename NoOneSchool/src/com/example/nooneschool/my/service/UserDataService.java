@@ -20,7 +20,7 @@ public class UserDataService {
             String content = String.valueOf(json);
 
             //访问的资源路径
-            String path = "http://169.254.96.11:8080/NoOneService/UserDataServlet?";
+            String path = "http://169.254.96.11:8080/NoOneSchoolService/UserData?";
 
             //创建url实例
             URL url = new URL(path);

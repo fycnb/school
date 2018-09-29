@@ -1,5 +1,8 @@
 package com.example.nooneschool.my;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import com.example.nooneschool.R;
 import com.example.nooneschool.my.service.SignInSuccessService;
 import com.example.nooneschool.my.utils.SignDate;
@@ -15,7 +18,9 @@ import android.widget.Toast;
 public class SignInActivity extends Activity implements View.OnClickListener {
 	private SignDate signdate;
 	private ImageView iv_return;
+	private ExecutorService singleThreadExeutor;
 	private String userid = "1";
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,8 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 	private void init() {
 		signdate = (SignDate) findViewById(R.id.signdate);
 		iv_return = (ImageView) findViewById(R.id.signin_return_imageview);
-		signdate.thread(userid);
+		singleThreadExeutor = Executors.newSingleThreadExecutor();
+		signdate.getsignindata(userid);
 	}
 
 	private void signedsuccess() {
@@ -50,15 +56,15 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 			@Override
 			public void OnSignedSuccess() {
 				Log.i("cjq", "sign in success");
-				thread();
+				signin();
 
 			}
 
 		});
 	}
 
-	private void thread() {
-		new Thread() {
+	private void signin() {
+		Runnable runnable = new Runnable() {
 			public void run() {
 				final String result = SignInSuccessService.SignInSuccessByPost(userid);
 				if (result != null) {
@@ -85,7 +91,8 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 
 				}
 			}
-		}.start();
+		};
+		singleThreadExeutor.execute(runnable);
 	}
 
 }

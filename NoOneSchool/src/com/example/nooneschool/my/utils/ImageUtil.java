@@ -20,9 +20,7 @@ import android.net.Uri;
 
 
 public class ImageUtil {
-	
-	
-	
+
 	//获取本地图片
 	public static Bitmap getLoacalBitmap(String url) {
 		if (url != null) {
