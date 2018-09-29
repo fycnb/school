@@ -4,7 +4,7 @@ import com.zh.entity.common.Entity;
 
 public class Detail extends Entity{
 	private int orderid;
-	private String foodname;
+	private int menuid;
 	private String price;
 	private int number;
 	public int getOrderid() {
@@ -13,11 +13,12 @@ public class Detail extends Entity{
 	public void setOrderid(int orderid) {
 		this.orderid = orderid;
 	}
-	public String getFoodname() {
-		return foodname;
+
+	public int getMenuid() {
+		return menuid;
 	}
-	public void setFoodname(String foodname) {
-		this.foodname = foodname;
+	public void setMenuid(int menuid) {
+		this.menuid = menuid;
 	}
 	public String getPrice() {
 		return price;

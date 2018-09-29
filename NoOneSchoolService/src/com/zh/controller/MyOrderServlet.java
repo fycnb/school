@@ -1,6 +1,7 @@
 package com.zh.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -43,13 +44,16 @@ public class MyOrderServlet extends HttpServlet{
 		List<Indent> orderlist = orderDao.find(sql,userid);
 		
 		JSONArray js = new JSONArray();
-		System.out.println(orderlist.size());
 		for(Indent order : orderlist){
 			JSONObject json = new JSONObject();
 			Long orderid = order.getId();
 			int restaurantid = order.getRestaurantid();
-			Date time = order.getTime();
+			Date t = order.getTime();
 			int st = order.getState();
+			String memo = order.getMemo();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+			String time = sdf.format(t);
 			
 			String state = "";
 			switch (st) {
@@ -83,6 +87,7 @@ public class MyOrderServlet extends HttpServlet{
 			Restaurant restaurant = restaurantDao.findOne(new Long(restaurantid));
 			String name = restaurant.getName();
 			String image = restaurant.getImage();
+			String iphone = restaurant.getIphone();
 			
 			json.put("total",total);
 			json.put("orderid",orderid);
@@ -90,8 +95,9 @@ public class MyOrderServlet extends HttpServlet{
 			json.put("state",state);
 			json.put("image",image);
 			json.put("name",name);
+			json.put("memo",memo);
+			json.put("iphone",iphone);
 			js.add(json);
-			System.out.println(image);
 		} 
 		
 		String content = String.valueOf(js);

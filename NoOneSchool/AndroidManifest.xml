@@ -92,7 +92,7 @@
             android:label="@string/title_activity_my_order" >
         </activity>
         <activity
-            android:name=".MyOrderDeatilActivity"
+            android:name="com.example.nooneschool.my.MyOrderDeatilActivity"
             android:label="@string/title_activity_my_order_deatil" >
         </activity>
     </application>

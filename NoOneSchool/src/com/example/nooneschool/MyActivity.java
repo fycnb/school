@@ -71,7 +71,6 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	private GridView gv_function;
 	private List<Map<String, Object>> functionList;
 	private SimpleAdapter adapter;
-	// = Uri.parse("file:///sdcard/temp/head.png")
 
 	private String path = Environment.getExternalStorageDirectory() + "/temp";
 	private Uri imageUri = Uri.parse(path + "/head.png");
@@ -300,31 +299,6 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
-	// private Uri saveBitmap(Bitmap bm, String dirPath) {
-	// File tmpDir = new File(Environment.getExternalStorageDirectory() + "/" +
-	// dirPath);
-	// if (!tmpDir.exists()) {
-	// tmpDir.mkdir();
-	// }
-	// String filename = "head.png";
-	// String imgpath = tmpDir.getAbsolutePath() + "/" + filename;
-	// File img = new File(imgpath);
-	//
-	// try {
-	// FileOutputStream fos = new FileOutputStream(img);
-	// bm.compress(Bitmap.CompressFormat.PNG, 100, fos);
-	// fos.flush();
-	// fos.close();
-	// return Uri.fromFile(img);
-	// } catch (FileNotFoundException e) {
-	// e.printStackTrace();
-	// return null;
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// return null;
-	// }
-	//
-	// }
 
 	private void startImageZoom(Uri uri) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
@@ -343,7 +317,6 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 		// return imageUri;
 	}
-	//
 
 	public Bitmap decodeUriAsBitmap(Uri uri) {
 		Bitmap bitmap = null;

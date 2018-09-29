@@ -8,7 +8,6 @@ import java.util.concurrent.Executors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.example.nooneschool.MyOrderDeatilActivity;
 import com.example.nooneschool.R;
 import com.example.nooneschool.my.adapter.MyOrderAdapter;
 import com.example.nooneschool.my.service.MyOrderService;
@@ -75,7 +74,10 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 							String state = j.getString("state");
 							String total = j.getString("total");
 							String orderid = j.getString("orderid");
-							mMyOrders.add(new MyOrder(name, total, time, state, image, orderid));
+							String memo = j.getString("memo");
+							String iphone = j.getString("iphone");
+							
+							mMyOrders.add(new MyOrder(name, total, time, state, image, orderid,memo,iphone));
 							mMyOrderAdapter = new MyOrderAdapter(MyOrderActivity.this, mMyOrders);
 
 						}
@@ -88,13 +90,24 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 								lv_myorder.setOnItemClickListener(new OnItemClickListener() {
 									@Override
 									public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-										final String orderid = ((MyOrder) mMyOrderAdapter.getItem(position))
-												.getOrderid();
+										MyOrder myOrder = (MyOrder) mMyOrderAdapter.getItem(position);
+										final String orderid = myOrder.getOrderid();
+										final String name = myOrder.getName();
+										final String time = myOrder.getTime();
+										final String memo = myOrder.getMemo();
+										final String state = myOrder.getState();
+										final String iphone = myOrder.getIphone();
+										
 										runOnUiThread(new Runnable() {
 											public void run() {
 												Intent intent = new Intent(MyOrderActivity.this,
 														MyOrderDeatilActivity.class);
 												intent.putExtra("orderid", orderid);
+												intent.putExtra("name", name);
+												intent.putExtra("time", time);
+												intent.putExtra("memo", memo);
+												intent.putExtra("state", state);
+												intent.putExtra("iphone", iphone);
 												startActivity(intent);
 											}
 										});

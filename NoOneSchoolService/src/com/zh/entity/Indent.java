@@ -11,6 +11,7 @@ public class Indent extends Entity{
 	private String iphone;
 	private Date time;
 	private int state;
+	private String memo;
 	
 	public int getUserid() {
 		return userid;
@@ -48,7 +49,10 @@ public class Indent extends Entity{
 	public void setState(int state) {
 		this.state = state;
 	}
-	
-	
-	
+	public String getMemo() {
+		return memo;
+	}
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
 }
