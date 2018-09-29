@@ -1,0 +1,101 @@
+package com.zh.controller;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.zh.Dao.DetailDao;
+import com.zh.Dao.OrderDao;
+import com.zh.Dao.RestaurantDao;
+import com.zh.Dao.common.DaoFactory;
+import com.zh.entity.Detail;
+import com.zh.entity.Indent;
+import com.zh.entity.Restaurant;
+import com.zh.utils.JsonUtil;
+
+@WebServlet("/MyOrder")
+public class MyOrderServlet extends HttpServlet{
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		doPost(req, resp);
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
+		StringBuffer sb = JsonUtil.getjson(req);
+		JSONObject obj = JSONObject.parseObject(sb.toString());
+		String userid = obj.getString("userid");
+		
+		OrderDao orderDao = (OrderDao) DaoFactory.getInstance("orderDao");
+		String sql = "select * from indent where userid = ?";
+		List<Indent> orderlist = orderDao.find(sql,userid);
+		
+		JSONArray js = new JSONArray();
+		System.out.println(orderlist.size());
+		for(Indent order : orderlist){
+			JSONObject json = new JSONObject();
+			Long orderid = order.getId();
+			int restaurantid = order.getRestaurantid();
+			Date time = order.getTime();
+			int st = order.getState();
+			
+			String state = "";
+			switch (st) {
+			case 1:
+				state = "待接单";
+				break;
+			case 2:
+				state = "已接单";
+				break;
+			case 3:
+				state = "待评价";
+				break;
+			case 4:
+				state = "已完成";
+				break;
+			default:
+				break;
+			}
+			
+			DetailDao detailDao = (DetailDao) DaoFactory.getInstance("detailDao");
+			String sql1 = "select price,number from detail where orderid = ?";
+			List<Detail> detaillist = detailDao.find(sql1,orderid);
+			int total = 0;
+			for(Detail detail : detaillist){
+				int price = Integer.parseInt(detail.getPrice());
+				int number = detail.getNumber();
+				total += price*number;
+			}
+			
+			RestaurantDao restaurantDao = (RestaurantDao) DaoFactory.getInstance("restaurantDao");
+			Restaurant restaurant = restaurantDao.findOne(new Long(restaurantid));
+			String name = restaurant.getName();
+			String image = restaurant.getImage();
+			
+			json.put("total",total);
+			json.put("orderid",orderid);
+			json.put("time",time);
+			json.put("state",state);
+			json.put("image",image);
+			json.put("name",name);
+			js.add(json);
+			System.out.println(image);
+		} 
+		
+		String content = String.valueOf(js);
+		resp.getOutputStream().write(content.getBytes("utf-8"));
+	}
+
+}
