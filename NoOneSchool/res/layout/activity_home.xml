@@ -32,6 +32,7 @@
                 android:layout_weight="1" />
 
             <LinearLayout
+                android:id="@+id/home_search_ll"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -45,19 +46,17 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/search" />
 
-                <EditText
-                    android:id="@+id/home_ad_edittext"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="搜索"
                     android:paddingBottom="2dp"
                     android:paddingLeft="2dp"
                     android:paddingRight="5dp"
                     android:paddingTop="2dp"
-                    android:singleLine="true"
-                    android:textColor="#00f"
+                    android:text="搜索"
+                    android:textColor="#ccc"
                     android:textCursorDrawable="@null"
                     android:textSize="14sp" />
             </LinearLayout>

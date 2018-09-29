@@ -1,8 +1,9 @@
-package com.example.nooneschool.home;
+package com.example.nooneschool.home.adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 
 import java.util.List;
 
+import com.example.nooneschool.home.AdActivity;
+import com.example.nooneschool.home.list.ListAd;
 import com.example.nooneschool.util.ListItemClickHelp;
 
 public class AdapterBanner extends PagerAdapter {
@@ -18,7 +21,7 @@ public class AdapterBanner extends PagerAdapter {
 	private int count;
 	private Context content;
 	private List<ListAd> list;
-	private Boolean flag = true;
+	static private Boolean flag = true;
 
 	public AdapterBanner(List<ImageView> ivList, List<ListAd> list, Context content) {
 		super();
@@ -58,7 +61,6 @@ public class AdapterBanner extends PagerAdapter {
 			@Override
 			public void onClick(View v) {
 				if (flag) {
-
 					Intent intent = new Intent(content, AdActivity.class);
 					intent.putExtra("url", list.get(newPosition).getImgurl());
 					content.startActivity(intent);

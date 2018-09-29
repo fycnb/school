@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.nooneschool.R;
+import com.example.nooneschool.home.adapter.AdapterBanner;
+import com.example.nooneschool.home.list.ListAd;
 import com.example.nooneschool.util.DensityUtil;
 import com.example.nooneschool.util.DownImage;
 import com.example.nooneschool.util.DownImage.ImageCallBack;
@@ -105,7 +107,7 @@ public class BannerView extends AbsHeaderView<List<ListAd>> {
             AbsListView.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             imageView.setLayoutParams(params);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            DownImage downImage = new DownImage(list.get(i).getImgurl());
+            DownImage downImage = new DownImage(list.get(i).getImgurl(),bannerHeight*16/9,bannerHeight);
     		downImage.loadImage(new ImageCallBack() {
     			
     			@Override

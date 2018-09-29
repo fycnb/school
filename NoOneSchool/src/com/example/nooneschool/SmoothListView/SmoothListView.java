@@ -98,6 +98,10 @@ public class SmoothListView extends ListView implements OnScrollListener {
             mHeaderViewContent.setVisibility(View.VISIBLE);
         }
     }
+    
+    public void setRefreshUsable(boolean enable){
+        mEnablePullRefresh = enable;
+    }
 
     public void setLoadMoreEnable(boolean enable) {
         mEnablePullLoad = enable;

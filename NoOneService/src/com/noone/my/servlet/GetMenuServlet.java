@@ -14,47 +14,48 @@ import com.alibaba.fastjson.JSONObject;
 import com.noone.db.DBOper;
 import com.noone.util.JsonUtil;
 
-public class GetAdServlet extends HttpServlet {
+public class GetMenuServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
-
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		StringBuffer sb = JsonUtil.getjson(request);
+		JSONObject obj = JSONObject.parseObject(sb.toString());
+		String restaurantid = obj.getString("type");
+		String type = obj.getString("number");
 
 		response.setContentType("text/html");
 		JSONArray js = new JSONArray();
 		String content = "";
 
+		DBOper db = new DBOper();
 		try {
+			db.getConn();
+			System.out.println(type+restaurantid);
 
-			JSONObject json = new JSONObject();
-			json.put("id", 1);
-			json.put("imgurl",
-					"http://169.254.164.100:8080/NoOneService/img_01.png");
-			js.add(json);
+			String sql = "select id,name,money,imgurl from menu where restaurantid=? and type=? ";
+			ResultSet rs = db.executeQuery(sql, new String[]{restaurantid,type});
+			while (rs.next()) {
 
-			json = new JSONObject();
-			json.put("id", 2);
-			json.put("imgurl",
-					"http://169.254.164.100:8080/NoOneService/img_02.png");
-			js.add(json);
-
-			json = new JSONObject();
-			json.put("id", 3);
-			json.put("imgurl",
-					"http://169.254.164.100:8080/NoOneService/img_03.png");
-			js.add(json);
-
-			json = new JSONObject();
-			json.put("id", 4);
-			json.put("imgurl",
-					"http://169.254.164.100:8080/NoOneService/img_04.png");
-			js.add(json);
-
+				JSONObject json = new JSONObject();
+				String id = rs.getInt(1) + "";
+				String name = rs.getString(2);
+				String money = rs.getString(3);
+				String imgurl = rs.getString(4);
+				if (imgurl == null) {
+					imgurl = "";
+				}
+				json.put("id", id);
+				json.put("name", name);
+				json.put("money", money);
+				json.put("imgurl", imgurl);
+				js.add(json);
+			}
+			System.out.println(js.toString());
 			content = String.valueOf(js);
 			response.getOutputStream().write(content.getBytes("utf-8"));
 		} catch (Exception e) {

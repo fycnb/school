@@ -1,9 +1,10 @@
-package com.example.nooneschool.home;
+package com.example.nooneschool.home.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.nooneschool.R;
+import com.example.nooneschool.home.list.ListClass;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -17,12 +18,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AdapterFood extends BaseAdapter{
+public class AdapterClass extends BaseAdapter{
 
-	private List<ListFood> list = new ArrayList<ListFood>();
+	private List<ListClass> list = new ArrayList<ListClass>();
     private LayoutInflater inflater;
     
-    public AdapterFood(Context context,List<ListFood> list){
+    public AdapterClass(Context context,List<ListClass> list){
         this.inflater = LayoutInflater.from(context);
         this.list = list;
     }

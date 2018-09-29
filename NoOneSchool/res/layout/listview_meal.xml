@@ -59,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center_vertical"
+                android:layout_marginBottom="18dp"
                 android:paddingLeft="15dp" >
 
                 <TextView
@@ -68,7 +69,7 @@
                     android:textSize="15sp" />
 
                 <TextView
-                android:id="@+id/meal_send_textview"
+                    android:id="@+id/meal_send_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="xx"
@@ -81,32 +82,31 @@
                     android:textSize="15sp" />
 
                 <TextView
-                android:id="@+id/meal_delivery_textview"
+                    android:id="@+id/meal_delivery_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="xx"
                     android:textSize="15sp" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right" >
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="月销:"
-                    android:textSize="15sp" />
+                    android:gravity="center_vertical|right" >
 
-                <TextView
-                android:id="@+id/meal_sale_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="XX"
-                    android:textSize="15sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="月销:"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/meal_sale_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="XX"
+                        android:textSize="15sp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
