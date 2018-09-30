@@ -39,23 +39,11 @@
             android:layout_height="5dp"
             android:background="#0044BB" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/detail_state_textview"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="订单"
-                android:textSize="25sp" />
-
-            <TextView
-                android:id="@+id/detail_state_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:textSize="25sp" />
-        </LinearLayout>
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/detail_restaurant_textview"
