@@ -22,6 +22,10 @@
     <string name="title_activity_as_main">AsMainActivity</string>
     <string name="title_activity_personal_data">PersonalDataActivity</string>
     <string name="title_activity_my_order">MyOrderActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_comment">CommentActivity</string>
+    <string name="title_activity_merchant">MerchantActivity</string>
     <string name="title_activity_my_order_deatil">MyOrderDeatilActivity</string>
 
 </resources>

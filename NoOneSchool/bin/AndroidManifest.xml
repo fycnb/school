@@ -92,6 +92,22 @@
             android:label="@string/title_activity_my_order" >
         </activity>
         <activity
+            android:name=".home.SearchActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
+        <activity
+            android:name=".home.MenuActivity"
+            android:label="@string/title_activity_menu" >
+        </activity>
+        <activity
+            android:name=".home.CommentActivity"
+            android:label="@string/title_activity_comment" >
+        </activity>
+        <activity
+            android:name="com.example.nooneschool.home.MerchantActivity"
+            android:label="@string/title_activity_merchant" >
+        </activity>
+        <activity
             android:name="com.example.nooneschool.my.MyOrderDeatilActivity"
             android:label="@string/title_activity_my_order_deatil" >
         </activity>

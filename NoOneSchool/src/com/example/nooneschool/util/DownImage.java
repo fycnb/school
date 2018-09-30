@@ -18,9 +18,13 @@ import android.os.Message;
 public class DownImage {
 	public static final String PATH = "/noone/img/";
 	public String image_path;
+	public int piexlW;
+	public  int piexlH;
  
-	public DownImage(String image_path) {
+	public DownImage(String image_path,int width,int height) {
 		this.image_path = image_path;
+		this.piexlW = width;
+		this.piexlH = height;
 	}
  
 	public static String getFileName(String url) {
@@ -50,18 +54,20 @@ public class DownImage {
 			        	return;
 			        }
 			        Drawable drawable;
-			        Bitmap loacalBitmap = getLoacalBitmap(Environment.getExternalStorageDirectory() + PATH + getFileName(image_path));
+			        Bitmap loacalBitmap = getLoacalBitmap(Environment.getExternalStorageDirectory() + PATH + getFileName(image_path),piexlW, piexlH);
+
 			        if (loacalBitmap != null) {
 			        	drawable = new BitmapDrawable(loacalBitmap);
 			        } else {
 			        	drawable = Drawable.createFromStream(new URL(
 								image_path).openStream(), "");
 			        	loacalBitmap=((BitmapDrawable)drawable).getBitmap();
+			        	saveImage(loacalBitmap, Environment.getExternalStorageDirectory() + PATH, getFileName(image_path));
 			        }
 					Message message = Message.obtain();
 					message.obj = drawable;
 					handler.sendMessage(message);
-					saveImage(loacalBitmap, Environment.getExternalStorageDirectory() + PATH, getFileName(image_path));
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -69,13 +75,23 @@ public class DownImage {
 		}).start();
 	}
 	
-	public static Bitmap getLoacalBitmap(String url) {
+	public static Bitmap getLoacalBitmap(String url,int piexlW, int piexlH) {
         if (url != null) {
             FileInputStream fis = null;
             try {
                 fis = new FileInputStream(url);
-                return BitmapFactory.decodeStream(fis);
-            } catch (FileNotFoundException e) {
+                BitmapFactory.Options newOption = new BitmapFactory.Options();
+        		newOption.inJustDecodeBounds = true;
+        		newOption.inPreferredConfig = Bitmap.Config.RGB_565;
+
+                BitmapFactory.decodeFileDescriptor(fis.getFD(), null, newOption);
+        		int originalW = newOption.outWidth;
+        		int originalH = newOption.outHeight;
+
+        		newOption.inSampleSize = getSimpleSize(originalW, originalH, piexlW, piexlH);
+        		newOption.inJustDecodeBounds = false;
+                return BitmapFactory.decodeFileDescriptor(fis.getFD(), null, newOption);
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             } finally {
@@ -92,6 +108,21 @@ public class DownImage {
             return null;
         }
     }
+	
+	private static int getSimpleSize(int originalW, int originalH, int piexlW, int piexlH) {
+		int simpleSize = 1;
+		if (originalW > originalH && originalW > piexlW) {
+			simpleSize = originalW / piexlW;
+		} else if (originalH > originalW && originalH > piexlH) {
+			simpleSize = originalH / piexlH;
+		}
+
+		if (simpleSize <= 0) {
+			simpleSize = 1;
+		}
+		return 1;
+
+	}
 	
 	 public static File saveImage(Bitmap bmp, String path, String fileName) {
 	        File appDir = new File(path);

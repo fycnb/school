@@ -165,7 +165,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 							if (bm != null) {
 								iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
 							} else {
-								DownImage downImage = new DownImage(head);
+								DownImage downImage = new DownImage(head,iv_headportrait.getWidth(),iv_headportrait.getHeight());
 								downImage.loadImage(new ImageCallBack() {
 									@Override
 									public void getDrawable(Drawable drawable) {

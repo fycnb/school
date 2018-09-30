@@ -1,9 +1,11 @@
-package com.example.nooneschool.home;
+package com.example.nooneschool.home.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.nooneschool.R;
+import com.example.nooneschool.home.list.ListFood;
+import com.example.nooneschool.home.list.ListMeal;
 import com.example.nooneschool.util.DownImage;
 import com.example.nooneschool.util.DownImage.ImageCallBack;
 
@@ -19,15 +21,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class AdapterMeal extends BaseAdapter{
+public class AdapterFood extends BaseAdapter{
 
-	private List<ListMeal> list = new ArrayList<ListMeal>();
+	private List<ListFood> list = new ArrayList<ListFood>();
     private LayoutInflater inflater;
     private Boolean isNoData = true;
     private int mHeight;
-    public static final int ONE_SCREEN_COUNT = 3;
+    public static final int ONE_SCREEN_COUNT = 5;
     
-    public AdapterMeal(Context context,List<ListMeal> list){
+    public AdapterFood(Context context,List<ListFood> list){
         this.inflater = LayoutInflater.from(context);
         this.list = list;
     }
@@ -47,7 +49,7 @@ public class AdapterMeal extends BaseAdapter{
 		return i;
 	}
 
-	public void setData(List<ListMeal> alist) {
+	public void setData(List<ListFood> alist) {
 		this.list=alist;
         isNoData = false;
         if (list.size() == 1 && list.get(0).getIsNoData()) {
@@ -63,11 +65,11 @@ public class AdapterMeal extends BaseAdapter{
         notifyDataSetChanged();
     }
 	
-	public List<ListMeal> createEmptyList(int size) {
-        List<ListMeal> emptyList = new ArrayList<>();
+	public List<ListFood> createEmptyList(int size) {
+        List<ListFood> emptyList = new ArrayList<>();
         if (size <= 0) return emptyList;
         for (int i=0; i<size; i++) {
-            emptyList.add(new ListMeal(null, null, null, null, null, null, null));
+            emptyList.add(new ListFood(null, null, null, null, null, null, null));
         }
         return emptyList;
     }
@@ -115,10 +117,9 @@ public class AdapterMeal extends BaseAdapter{
         holder.address.setText(list.get(i).getAddress());
         holder.send.setText(list.get(i).getSend());
         holder.delivery.setText(list.get(i).getDelivery());
-        holder.sale.setText(list.get(i).getSale());
         holder.img.setImageResource(R.drawable.empty);
 
-        DownImage downImage = new DownImage(list.get(i).getImgurl());
+        DownImage downImage = new DownImage(list.get(i).getImgurl(),holder.img.getWidth(),holder.img.getHeight());
 		downImage.loadImage(new ImageCallBack() {
 			
 			@Override

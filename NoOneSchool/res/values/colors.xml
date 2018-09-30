@@ -2,4 +2,6 @@
 <resources>
     <color name="blue">#0D8CEF</color>
     <color name="title">#4000</color>
+    <color name="menucheck">#fff</color>
+    <color name="menuuncheck">#fdfdfd</color>
 </resources>

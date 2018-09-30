@@ -64,7 +64,7 @@ public class MyOrderDetailAdapter extends BaseAdapter {
 		holder.tv_name.setText(detail.getName());
 		holder.tv_number.setText(detail.getNumber());
 		holder.tv_total.setText(detail.getTotal());
-		 DownImage downImage = new DownImage(detail.getImage());
+		 DownImage downImage = new DownImage(detail.getImage(),holder.iv_image.getWidth(),holder.iv_image.getHeight());
 			downImage.loadImage(new ImageCallBack() {
 				
 				@Override

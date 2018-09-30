@@ -1,6 +1,6 @@
-package com.example.nooneschool.home;
+package com.example.nooneschool.home.list;
 
-public class ListFood {
+public class ListClass {
 	private String name;
 	private String type;
 	public String getName() {
@@ -15,7 +15,7 @@ public class ListFood {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public ListFood(String name, String type) {
+	public ListClass(String name, String type) {
 		super();
 		this.name = name;
 		this.type = type;

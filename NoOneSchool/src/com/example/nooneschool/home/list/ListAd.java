@@ -1,4 +1,4 @@
-package com.example.nooneschool.home;
+package com.example.nooneschool.home.list;
 
 public class ListAd {
 	private String id;

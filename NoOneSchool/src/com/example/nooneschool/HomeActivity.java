@@ -2,6 +2,11 @@ package com.example.nooneschool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,14 +14,15 @@ import org.json.JSONObject;
 import com.example.nooneschool.SmoothListView.SmoothListView;
 import com.example.nooneschool.home.BannerView;
 import com.example.nooneschool.home.HomeService;
-import com.example.nooneschool.home.ListAd;
-import com.example.nooneschool.home.ListFood;
-import com.example.nooneschool.home.AdapterMeal;
-import com.example.nooneschool.home.ListMeal;
 import com.example.nooneschool.home.MealActivity;
 import com.example.nooneschool.home.OtherFoodActivity;
+import com.example.nooneschool.home.SearchActivity;
 import com.example.nooneschool.home.WeatherActivity;
-import com.example.nooneschool.home.AdapterFood;
+import com.example.nooneschool.home.adapter.AdapterClass;
+import com.example.nooneschool.home.adapter.AdapterMeal;
+import com.example.nooneschool.home.list.ListAd;
+import com.example.nooneschool.home.list.ListClass;
+import com.example.nooneschool.home.list.ListMeal;
 import com.example.nooneschool.util.ColorUtil;
 import com.example.nooneschool.util.DataUtil;
 import com.example.nooneschool.util.DensityUtil;
@@ -26,10 +32,8 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,8 +41,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class HomeActivity extends Activity implements SmoothListView.ISmoothListViewListener {
@@ -50,19 +54,26 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	private BannerView headerBannerView;
 	private GridView gvFood;
 	private ImageView weather;
+	private LinearLayout search;
+	private View itemHeaderBannerView;
 
 	private AdapterMeal mealadapter;
 
 	private List<ListAd> bannerList;
-	private List<ListFood> foodList;
+	private List<ListClass> foodList;
 	private List<ListMeal> mealList;
 
 	private int titleViewHeight = 65;
-	private boolean isScrollIdle = true;
 	private int bannerViewTopMargin;
-	private View itemHeaderBannerView;
 	private int bannerViewHeight = 180;
+	private boolean isScrollIdle = true;
 
+	private ThreadPoolExecutor cachedThreadPool = new ThreadPoolExecutor(3, 5,1, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(128));
+	private Runnable getMealDataRunnable;
+	private Runnable getAdDataRunnable;
+	private Runnable refreshMealDataRunnable;
+	private Boolean flag = true;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,48 +82,31 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 		smoothListView = (SmoothListView) findViewById(R.id.home_function_sv);
 		rl_title = (RelativeLayout) findViewById(R.id.home_title_rl);
 		weather = (ImageView) findViewById(R.id.home_weather_imageview);
-
+		search = (LinearLayout) findViewById(R.id.home_search_ll);
 		helper = new SQLite(this);
-
-		// new Thread() {
-		// public void run() {
-		// BitmapDrawable img1 = (BitmapDrawable)
-		// getResources().getDrawable(R.drawable.img_01);
-		//
-		// ImageUtils.saveImage(img1.getBitmap(),
-		// Environment.getExternalStorageDirectory() + ImageUtils.PATH,
-		// "img_01.png");
-		//
-		// BitmapDrawable img2 = (BitmapDrawable)
-		// getResources().getDrawable(R.drawable.img_02);
-		//
-		// ImageUtils.saveImage(img2.getBitmap(),
-		// Environment.getExternalStorageDirectory() + ImageUtils.PATH,
-		// "img_02.png");
-		//
-		// BitmapDrawable img3 = (BitmapDrawable)
-		// getResources().getDrawable(R.drawable.img_03);
-		//
-		// ImageUtils.saveImage(img3.getBitmap(),
-		// Environment.getExternalStorageDirectory() + ImageUtils.PATH,
-		// "img_03.png");
-		//
-		// BitmapDrawable img4 = (BitmapDrawable)
-		// getResources().getDrawable(R.drawable.img_04);
-		//
-		// ImageUtils.saveImage(img4.getBitmap(),
-		// Environment.getExternalStorageDirectory() + ImageUtils.PATH,
-		// "img_04.png");
-		// }
-		// }.start();
 
 		weather.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(HomeActivity.this, WeatherActivity.class);
+				if (flag) {
+					Intent intent = new Intent(HomeActivity.this, WeatherActivity.class);
+					startActivityForResult(intent, 1);	
+				}
+			}
+		});
+
+		search.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (flag) {
+				Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
 				startActivityForResult(intent, 1);
+				}
+
 			}
 		});
 
@@ -126,7 +120,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 		View view = LayoutInflater.from(HomeActivity.this).inflate(R.layout.header_food_layout, smoothListView, false);
 		gvFood = (GridView) view.findViewById(R.id.food_type_gridview);
 
-		AdapterFood adapter = new AdapterFood(this, foodList);
+		AdapterClass adapter = new AdapterClass(this, foodList);
 		gvFood.setAdapter(adapter);
 
 		gvFood.setOnItemClickListener(new OnItemClickListener() {
@@ -134,6 +128,8 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// TODO Auto-generated method stub
+
+				if (flag) {
 				switch (position) {
 				case 3:
 					Intent intent1 = new Intent(HomeActivity.this, OtherFoodActivity.class);
@@ -144,6 +140,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 					Intent intent2 = new Intent(HomeActivity.this, OtherFoodActivity.class);
 					startActivity(intent2);
 					break;
+				}
 				}
 			}
 		});
@@ -160,11 +157,15 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// TODO Auto-generated method stub
-				if (!((ListMeal) parent.getAdapter().getItem(position)).getIsNoData()) {
+				if (!((ListMeal) parent.getAdapter().getItem(position)).getIsNoData()&&flag) {
 
 					String mealid = ((ListMeal) parent.getAdapter().getItem(position)).getId();
+					String imgurl = ((ListMeal) parent.getAdapter().getItem(position)).getImgurl();
+					String name = ((ListMeal) parent.getAdapter().getItem(position)).getName();
 					Intent intent = new Intent(HomeActivity.this, MealActivity.class);
 					intent.putExtra("id", mealid);
+					intent.putExtra("imgurl", imgurl);
+					intent.putExtra("name", name);
 					startActivity(intent);
 				}
 
@@ -202,6 +203,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 			}
 		});
 
+		onRefresh();
 	}
 
 	private void handleTitleBarColorEvaluate() {
@@ -233,15 +235,17 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	@Override
 	public void onRefresh() {
 		// TODO Auto-generated method stub
-
-//		new Handler().postDelayed(new Runnable() {
-//			@Override
-//			public void run() {
-//
-//				mealadapter.notifyDataSetChanged();
-//
-//			}
-//		}, 2000);
+		flag = false;
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				smoothListView.stopRefresh();
+				smoothListView.setRefreshTime("刚刚");
+				smoothListView.setRefreshUsable(true);
+				flag=true;
+				headerBannerView.getAdapt().setFlag(true);
+			}
+		}, 2000);
 
 		// new MyTask().execute("");
 		headerBannerView.getAdapt().setFlag(false);
@@ -253,62 +257,16 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	@Override
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
-
-		getMealData();
-	}
-
-	public void getAdData() {
-		new Thread() {
+		flag = false;
+		new Handler().postDelayed(new Runnable() {
+			@Override
 			public void run() {
-				final String result = HomeService.HomeServiceByPost(0, null, "NoOneService/GetAdServlet?");
-
-				runOnUiThread(new Runnable() {
-					public void run() {
-						if (result != null && !result.equals("[]")) {
-							try {
-								List<ListAd> temp = new ArrayList<>();
-								temp.addAll(bannerList);
-								bannerList.clear();
-								JSONArray ja = new JSONArray(result);
-								for (int i = 0; i < ja.length(); i++) {
-									JSONObject j = (JSONObject) ja.get(i);
-
-									String id = j.getString("id");
-									String imgurl = j.getString("imgurl");
-									bannerList.add(new ListAd(id, imgurl));
-								}							
-								
-								headerBannerView.notifyChange(bannerList);
-
-								headerBannerView.getAdapt().setFlag(true);
-								SQLiteDatabase db = helper.getWritableDatabase();
-								for (int i = 0; i < bannerList.size(); i++) {
-									if (temp.get(i).getId() == null) {
-										ContentValues values = new ContentValues();
-										values.put("imgid", bannerList.get(i).getId());
-										values.put("imgurl", bannerList.get(i).getImgurl());
-										db.insert("image", null, values);
-									}else if (!temp.get(i).getImgurl().equals(bannerList.get(i).getImgurl())) {
-										ContentValues values = new ContentValues();
-										values.put("imgurl", bannerList.get(i).getImgurl());
-										db.update("image", values, "imgid=?",
-												new String[] { temp.get(i).getId() });
-									}
-								}
-								db.close();
-
-							} catch (Exception e) {
-								headerBannerView.getAdapt().setFlag(true);
-								e.printStackTrace();
-							}
-						} else {
-							headerBannerView.getAdapt().setFlag(true);
-						}
-					}
-				});
+				flag=true;
+				headerBannerView.getAdapt().setFlag(true);
 			}
-
-		}.start();
+		}, 2000);
+		headerBannerView.getAdapt().setFlag(false);
+		getMealData();
 	}
 
 	// class MyTask extends AsyncTask<String, Void, String> {
@@ -362,9 +320,84 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	// }
 	// }
 	//
-	public void refreshMealData() {
-		new Thread() {
+
+	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		headerBannerView.enqueueBannerLoopMessage();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		headerBannerView.removeBannerLoopMessage();
+	}
+
+	public void getAdData() {
+		
+		getAdDataRunnable = new Runnable() {
+
+			@Override
 			public void run() {
+				// TODO Auto-generated method stub
+				final String result = HomeService.HomeServiceByPost(0, null, "NoOneService/GetAdServlet?");
+
+				runOnUiThread(new Runnable() {
+					public void run() {
+						if (result != null && !result.equals("[]")) {
+							try {
+								List<ListAd> temp = new ArrayList<>();
+								temp.addAll(bannerList);
+								bannerList.clear();
+								JSONArray ja = new JSONArray(result);
+								for (int i = 0; i < ja.length(); i++) {
+									JSONObject j = (JSONObject) ja.get(i);
+
+									String id = j.getString("id");
+									String imgurl = j.getString("imgurl");
+									bannerList.add(new ListAd(id, imgurl));
+								}
+
+								headerBannerView.notifyChange(bannerList);
+								SQLiteDatabase db = helper.getWritableDatabase();
+								for (int i = 0; i < bannerList.size(); i++) {
+									if (temp.get(i).getId() == null) {
+										ContentValues values = new ContentValues();
+										values.put("imgid", bannerList.get(i).getId());
+										values.put("imgurl", bannerList.get(i).getImgurl());
+										db.insert("image", null, values);
+									} else if (!temp.get(i).getImgurl().equals(bannerList.get(i).getImgurl())) {
+										ContentValues values = new ContentValues();
+										values.put("imgurl", bannerList.get(i).getImgurl());
+										db.update("image", values, "imgid=?", new String[] { temp.get(i).getId() });
+									}
+								}
+								db.close();
+
+							} catch (Exception e) {
+								headerBannerView.getAdapt().setFlag(true);
+								e.printStackTrace();
+							}
+						} else {
+							headerBannerView.getAdapt().setFlag(true);
+						}
+					}
+				});
+			}
+		};
+		cachedThreadPool.execute(getAdDataRunnable);
+	}
+	
+	public void refreshMealData() {
+		
+		smoothListView.setRefreshUsable(false);;
+		refreshMealDataRunnable = new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
 				final String result = HomeService.HomeServiceByPost(0, "all", "NoOneService/GetRestaurantServlet?");
 
 				runOnUiThread(new Runnable() {
@@ -390,8 +423,6 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 								mealadapter.setData(mealList);
 								mealadapter.notifyDataSetChanged();
 
-								smoothListView.stopRefresh();
-								smoothListView.setRefreshTime("刚刚");
 								smoothListView.setLoadMoreEnable(true);
 
 							} catch (Exception e) {
@@ -403,14 +434,26 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 					}
 				});
 			}
-
-		}.start();
-
+		};
+		cachedThreadPool.execute(refreshMealDataRunnable);
 	}
 
 	public void getMealData() {
-		new Thread() {
+		
+		getMealDataRunnable = new Runnable() {
+
+			@Override
 			public void run() {
+				// TODO Auto-generated method stub
+				if (mealList.get(0).getIsNoData()) {
+					mealList = new ArrayList<ListMeal>();
+				} else {
+					List<ListMeal> temp = new ArrayList<>();
+					temp.addAll(mealList);
+					for (int i = temp.size(); temp.get(i - 1).getIsNoData() && i > 0; --i) {
+						mealList.remove(i-1);
+					}
+				}
 				final String result = HomeService.HomeServiceByPost(mealList.size(), "all",
 						"NoOneService/GetRestaurantServlet?");
 
@@ -419,13 +462,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 
 						if (result != null && !result.equals("[]")) {
 							try {
-								if (mealList.get(0).getIsNoData()) {
-									mealList = new ArrayList<ListMeal>();
-								} else {
-									for (int i = mealList.size(); mealList.get(i - 1).getName() == null; i--) {
-										mealList.remove(i - 1);
-									}
-								}
+
 								JSONArray ja = new JSONArray(result);
 								for (int i = 0; i < ja.length(); i++) {
 									JSONObject j = (JSONObject) ja.get(i);
@@ -453,20 +490,11 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 					}
 				});
 			}
+		};
+		
 
-		}.start();
+		cachedThreadPool.execute(getMealDataRunnable);
 	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		headerBannerView.enqueueBannerLoopMessage();
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		headerBannerView.removeBannerLoopMessage();
-	}
+	
 
 }
