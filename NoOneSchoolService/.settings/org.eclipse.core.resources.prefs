@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+encoding//src/com/zh/Dao/common/BaseDao.java=UTF-8
+encoding//src/com/zh/Dao/common/DaoException.java=UTF-8
+encoding//src/com/zh/Dao/common/DaoFactory.java=UTF-8
+encoding//src/com/zh/DaoImpl/common/BaseDaoImpl.java=UTF-8
+encoding//src/com/zh/common/DBHelper.java=UTF-8
+encoding//src/com/zh/entity/common/Entity.java=UTF-8
+encoding//src/com/zh/entity/common/Page.java=UTF-8

@@ -21,14 +21,14 @@
             android:src="@drawable/back" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="45dp"
+            android:layout_marginEnd="45dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="签到"
             android:textColor="#0000CC"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <View

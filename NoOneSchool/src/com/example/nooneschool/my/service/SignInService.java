@@ -14,13 +14,12 @@ import com.example.nooneschool.my.utils.StreamTools;
 public class SignInService {
 	public static String SignInByPost(String userid){
         try{
-            
             JSONObject json = new JSONObject();
             json.put("userid",userid);
             String content = String.valueOf(json);
 
             //访问的资源路径
-            String path = "http://169.254.164.100:8080/NoOneService/SignInServlet?";
+            String path = "http://169.254.96.11:8080/NoOneSchoolService/SignIn?";
 
             //创建url实例
             URL url = new URL(path);

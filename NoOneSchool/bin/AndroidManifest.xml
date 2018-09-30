@@ -80,14 +80,6 @@
             android:label="@string/title_activity_customer_service" >
         </activity>
         <activity
-            android:name=".my.MemberCenterActivity"
-            android:label="@string/title_activity_member_center" >
-        </activity>
-        <activity
-            android:name=".my.MemberRechargeActivity"
-            android:label="@string/title_activity_member_recharge" >
-        </activity>
-        <activity
             android:name=".my.SignInActivity"
             android:label="@string/title_activity_signin" >
         </activity>
@@ -114,6 +106,10 @@
         <activity
             android:name="com.example.nooneschool.home.MerchantActivity"
             android:label="@string/title_activity_merchant" >
+        </activity>
+        <activity
+            android:name="com.example.nooneschool.my.MyOrderDeatilActivity"
+            android:label="@string/title_activity_my_order_deatil" >
         </activity>
     </application>
 

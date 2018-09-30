@@ -55,6 +55,7 @@ public class DownImage {
 			        }
 			        Drawable drawable;
 			        Bitmap loacalBitmap = getLoacalBitmap(Environment.getExternalStorageDirectory() + PATH + getFileName(image_path),piexlW, piexlH);
+
 			        if (loacalBitmap != null) {
 			        	drawable = new BitmapDrawable(loacalBitmap);
 			        } else {
