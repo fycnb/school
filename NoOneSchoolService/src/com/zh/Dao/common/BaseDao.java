@@ -34,7 +34,7 @@ public interface BaseDao<T extends Entity> {
 	 * @param entity
 	 *            实例
 	 */
-	public void update(T entity) throws DaoException;
+	public int update(T entity) throws DaoException;
 
 	/**
 	 * 判断指定主键对应的实体是否存�?

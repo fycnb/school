@@ -15,12 +15,14 @@ import com.example.nooneschool.util.DensityUtil;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MyOrderDeatilActivity extends Activity implements View.OnClickListener {
@@ -32,6 +34,7 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 	private TextView tv_orderid;
 
 	private ImageView iv_return;
+	private RelativeLayout rl_iphone;
 	private LinearLayout ll_list;
 	private MyOrderDetailAdapter mDetailAdapter;
 	private ListView lv_detail;
@@ -50,7 +53,7 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_order_deatil);
 		init();
-		getdata(orderid);
+
 	}
 
 	private void init() {
@@ -66,9 +69,9 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 		lv_detail = (ListView) findViewById(R.id.detail_listview);
 
 		ll_list = (LinearLayout) findViewById(R.id.detail_list_linearlayout);
+		rl_iphone = (RelativeLayout) findViewById(R.id.detail_iphone_relativelayout);
 
 		iv_return = (ImageView) findViewById(R.id.orderdetail_return_imageview);
-		iv_return.setOnClickListener(this);
 
 		Intent intent = getIntent();
 		orderid = intent.getStringExtra("orderid");
@@ -84,6 +87,11 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 		tv_restaurant.setText(restaurant);
 		tv_iphone.setText(iphone);
 		tv_orderid.setText(orderid);
+
+		iv_return.setOnClickListener(this);
+		rl_iphone.setOnClickListener(this);
+
+		getdata(orderid);
 	}
 
 	@Override
@@ -91,6 +99,14 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 		switch (v.getId()) {
 		case R.id.orderdetail_return_imageview:
 			MyOrderDeatilActivity.this.finish();
+			break;
+
+		case R.id.detail_iphone_relativelayout:
+			Intent intent = new Intent(Intent.ACTION_DIAL);
+			Uri data = Uri.parse("tel:" + iphone);
+			intent.setData(data);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
 			break;
 
 		default:

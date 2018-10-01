@@ -9,18 +9,17 @@ import org.json.JSONObject;
 
 import com.example.nooneschool.my.utils.StreamTools;
 
-public class PublishCommentService {
-	public static String PublishCommentByPost(String userid, String orderid, String rating, String con) {
+public class ChangeNicknameService {
+	public static String ChangeNicknameByPost(String userid, String nickname) {
 		try {
+
 			JSONObject json = new JSONObject();
 			json.put("userid", userid);
-			json.put("orderid", orderid);
-			json.put("rating", rating);
-			json.put("con", con);
+			json.put("nickname", nickname);
 			String content = String.valueOf(json);
 
 			// 访问的资源路径
-			String path = "http://169.254.96.11:8080/NoOneSchoolService/PublishComment?";
+			String path = "http://169.254.96.11:8080/NoOneSchoolService/ChangeNickname?";
 
 			// 创建url实例
 			URL url = new URL(path);

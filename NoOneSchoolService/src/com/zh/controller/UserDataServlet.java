@@ -40,7 +40,6 @@ public class UserDataServlet extends HttpServlet{
 		json.put("nickname", user.getNickname());
 		json.put("sobo", user.getSobo());
 		json.put("head", user.getHead());
-		System.out.println(user.getHead());
 		String content = String.valueOf(json);
 		resp.getOutputStream().write(content.getBytes("utf-8"));
 		

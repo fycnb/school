@@ -10,14 +10,18 @@ import com.example.nooneschool.util.DownImage.ImageCallBack;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
@@ -28,11 +32,13 @@ public class PublishCommentActivity extends Activity implements View.OnClickList
 	private ImageView iv_restaurant;
 	private TextView tv_name;
 	private TextView tv_feel;
+	private TextView tv_font;
 	private RatingBar rb_taste;
 	private EditText et_content;
 	private Button btn_confirm;
 	private String userid;
 	private String orderid;
+	private int starsImgHeight;
 
 	private ExecutorService singleThreadExeutor;
 
@@ -48,6 +54,7 @@ public class PublishCommentActivity extends Activity implements View.OnClickList
 		iv_restaurant = (ImageView) findViewById(R.id.pcomment_restaurant_imageview);
 		tv_name = (TextView) findViewById(R.id.pcomment_name_textview);
 		tv_feel = (TextView) findViewById(R.id.pcomment_feel_textview);
+		tv_font = (TextView) findViewById(R.id.pcomment_fontcount_textview);
 		rb_taste = (RatingBar) findViewById(R.id.pcomment_taste_ratingbar);
 		et_content = (EditText) findViewById(R.id.pcomment_content_edittext);
 		btn_confirm = (Button) findViewById(R.id.pcommetn_confirm_button);
@@ -73,6 +80,40 @@ public class PublishCommentActivity extends Activity implements View.OnClickList
 		iv_return.setOnClickListener(this);
 		btn_confirm.setOnClickListener(this);
 
+		et_content.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				tv_font.setText(String.valueOf(s.length()) + "/500");
+				if (s.length() >= 500) {
+					Toast.makeText(PublishCommentActivity.this, "上限了，亲", Toast.LENGTH_SHORT).show();
+				}
+
+			}
+		});
+
+		// 获取图片的高度
+		try {
+			Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icon_touchstared);
+			starsImgHeight = bmp.getHeight();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// 将获取的图片高度设置给RatingBar
+		LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) rb_taste.getLayoutParams();
+		lp.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+		lp.height = starsImgHeight;
+		rb_taste.setLayoutParams(lp);
+
 		rb_taste.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 
 			@Override
@@ -81,30 +122,28 @@ public class PublishCommentActivity extends Activity implements View.OnClickList
 				ratingBar.setRating(rating);
 
 				if (rating >= 1) {
-					btn_confirm.setBackgroundColor(Color.parseColor("#EEEE00"));
+					btn_confirm.setBackgroundColor(Color.parseColor("#00BBFF"));
 				}
 
 				int i = (int) rating;
+				if (i >= 1) {
+					tv_feel.setVisibility(View.VISIBLE);
+				}
 				switch (i) {
 				case 1:
-					tv_feel.setVisibility(View.VISIBLE);
 					tv_feel.setText("\"很差\"");
 					break;
 				case 2:
-					tv_feel.setVisibility(View.VISIBLE);
 					tv_feel.setText("\"一般\"");
 					break;
 				case 3:
-					tv_feel.setVisibility(View.VISIBLE);
 					tv_feel.setText("\"还行\"");
 					break;
 				case 4:
-					tv_feel.setVisibility(View.VISIBLE);
 					tv_feel.setText("\"满意\"");
 					break;
 
 				case 5:
-					tv_feel.setVisibility(View.VISIBLE);
 					tv_feel.setText("\"非常满意\"");
 					break;
 

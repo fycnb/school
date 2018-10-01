@@ -119,7 +119,7 @@ public abstract class BaseDaoImpl<T extends Entity> implements BaseDao<T> {
 		return entity;
 	}
 
-	public void update(T entity) throws DaoException {
+	public int update(T entity) throws DaoException {
 
 		// UPDATE 表名 SET 列名=?,列名=?... WHERE id=?;
 		StringBuilder sql = new StringBuilder("UPDATE ");
@@ -157,7 +157,8 @@ public abstract class BaseDaoImpl<T extends Entity> implements BaseDao<T> {
 		Connection conn = null;
 		try {
 			conn = DBHelper.getConn();
-			qr.update(conn, sql.toString(), paramValues.toArray());
+			int rs = qr.update(conn, sql.toString(), paramValues.toArray());
+			return rs;
 		} catch (SQLException e) {
 			throw new DaoException(e);
 		} finally {

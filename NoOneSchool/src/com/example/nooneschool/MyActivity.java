@@ -151,6 +151,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		switch (v.getId()) {
 		case R.id.my_signin_button:
 			intent = new Intent(MyActivity.this, SignInActivity.class);
+			intent.putExtra("userid", userid);
 			startActivity(intent);
 			break;
 		case R.id.my_myorder_button:
@@ -365,9 +366,8 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void functiondata() {
-		int icno[] = { R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
-				R.drawable.ic_launcher, };
-		String name[] = { "收藏", "最近浏览", "客服", "个人资料" };
+		int icno[] = { R.drawable.collection, R.drawable.recentlybrowse, R.drawable.person, R.drawable.customer };
+		String name[] = { "收藏", "最近浏览", "个人资料", "客服" };
 
 		functionList = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < icno.length; i++) {
@@ -406,6 +406,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 				break;
 			case "个人资料":
 				intent = new Intent(MyActivity.this, PersonalDataActivity.class);
+				intent.putExtra("userid", userid);
 				startActivity(intent);
 				break;
 			default:

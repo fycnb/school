@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zh.Dao.OrderDao;
+import com.zh.Dao.UserDao;
 import com.zh.Dao.common.DaoFactory;
+import com.zh.entity.User;
 import com.zh.utils.JsonUtil;
 
-@WebServlet("/CancelOrder")
-public class CancelOrderServlet extends HttpServlet{
+@WebServlet("/ChangeNickname")
+public class ChangeNicknameServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -27,19 +28,19 @@ public class CancelOrderServlet extends HttpServlet{
 		req.setCharacterEncoding("utf-8");
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
-		String orderid = obj.getString("orderid");
 		String userid = obj.getString("userid");
-		
-		
-		OrderDao orderDao = (OrderDao) DaoFactory.getInstance("orderDao");
-		String sql = "update indent set state = 5  where userid = ? and id = ? and state = 1";
-		int rs = orderDao.update(sql, userid,orderid);
+		String nickname = obj.getString("nickname");
+	
+		UserDao userDao = (UserDao) DaoFactory.getInstance("userDao");
+		String sql = "update user set nickname = ?  where id = ?";
+		int rs = userDao.update(sql,nickname,userid);
 		
 		resp.setContentType("text/html");
 		if(rs > 0){
-			resp.getOutputStream().write("取消订单成功".getBytes("utf-8"));
+			resp.getOutputStream().write("修改昵称成功".getBytes("utf-8"));
 		}else{
-			resp.getOutputStream().write("取消订单失败".getBytes("utf-8"));
+			resp.getOutputStream().write("修改昵称失败".getBytes("utf-8"));
 		}
 	}
+
 }

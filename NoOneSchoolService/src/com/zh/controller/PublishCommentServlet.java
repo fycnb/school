@@ -68,7 +68,6 @@ public class PublishCommentServlet extends HttpServlet{
 			OrderDao orderDao = (OrderDao) DaoFactory.getInstance("orderDao");
 			String sql = "update indent set state = 4  where userid = ? and id = ? and state = 3";
 			int rs = orderDao.update(sql,userid,orderid);
-			System.out.println(rs);
 			if(rs > 0){
 				resp.getOutputStream().write("¸ÐÐ»ÄúµÄÆÀ¼Û".getBytes("utf-8"));
 			}else{

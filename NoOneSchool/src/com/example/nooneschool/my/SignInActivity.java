@@ -4,11 +4,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.example.nooneschool.R;
+import com.example.nooneschool.my.inter.OnSignedSuccess;
 import com.example.nooneschool.my.service.SignInSuccessService;
 import com.example.nooneschool.my.utils.SignDate;
-import com.example.nooneschool.my.inter.OnSignedSuccess;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,22 +20,21 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 	private SignDate signdate;
 	private ImageView iv_return;
 	private ExecutorService singleThreadExeutor;
-	private String userid = "1";
+	private String userid;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_signin);
 		init();
-		signedsuccess();
-		iv_return.setOnClickListener(this);
 	}
-
+	
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.signin_return_imageview:
-			finish();
+			SignInActivity.this.finish();
 			break;
 
 		default:
@@ -43,10 +43,15 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void init() {
+		singleThreadExeutor = Executors.newSingleThreadExecutor();
 		signdate = (SignDate) findViewById(R.id.signdate);
 		iv_return = (ImageView) findViewById(R.id.signin_return_imageview);
-		singleThreadExeutor = Executors.newSingleThreadExecutor();
+		
+		Intent intent = getIntent();
+		userid = intent.getStringExtra("userid");
 		signdate.getsignindata(userid);
+		signedsuccess();
+		iv_return.setOnClickListener(this);
 	}
 
 	private void signedsuccess() {
@@ -56,7 +61,6 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 			public void OnSignedSuccess() {
 				Log.i("cjq", "sign in success");
 				signin();
-
 			}
 
 		});

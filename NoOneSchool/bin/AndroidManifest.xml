@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -112,8 +113,12 @@
             android:label="@string/title_activity_my_order_deatil" >
         </activity>
         <activity
-            android:name="com.example.nooneschool.my.PublishCommentActivity"
+            android:name=".my.PublishCommentActivity"
             android:label="@string/title_activity_publish_comment" >
+        </activity>
+        <activity
+            android:name=".ChangeNickNameActivity"
+            android:label="@string/title_activity_change_nick_name" >
         </activity>
     </application>
 

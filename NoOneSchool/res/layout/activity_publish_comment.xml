@@ -79,20 +79,39 @@
         android:rating="0"
         android:stepSize="1.0" />
 
-    <EditText
-        android:id="@+id/pcomment_content_edittext"
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@android:drawable/alert_light_frame"
-        android:ems="10"
-        android:enabled="true"
-        android:gravity="top"
-        android:hint="亲,觉得菜品口味如何,对包装服务等还满意吗?"
-        android:inputType="textMultiLine"
-        android:maxLines="6"
-        android:minLines="4"
-        android:textSize="18sp" />
+        android:background="@drawable/shape_circle_while_bg" >
+
+        <EditText
+            android:id="@+id/pcomment_content_edittext"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="亲,觉得菜品口味如何,对包装服务等还满意吗?"
+            android:inputType="textMultiLine"
+            android:maxLength="500"
+            android:minLines="4"
+            android:padding="10dp"
+            android:textColorHint="#DDDDDD"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/pcomment_fontcount_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/pcomment_content_edittext"
+            android:padding="2dp"
+            android:text="1/500"
+            android:textColor="#DDDDDD"
+            android:textSize="14sp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -109,5 +128,6 @@
             android:text="提交"
             android:textSize="18sp" />
     </LinearLayout>
+
 
 </LinearLayout>

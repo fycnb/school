@@ -39,14 +39,12 @@ public class MyOrderActivity extends Activity implements View.OnClickListener, L
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_order);
 		init();
-		getdata(userid);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		init();
-		getdata(userid);
 	}
 
 	private void init() {
@@ -57,6 +55,8 @@ public class MyOrderActivity extends Activity implements View.OnClickListener, L
 
 		Intent intent = getIntent();
 		state = intent.getStringExtra("state");
+		
+		getdata(userid);
 	}
 
 	@Override
