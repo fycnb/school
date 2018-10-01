@@ -30,78 +30,85 @@ public class OtherFoodActivity extends Activity {
 	private BannerView foodBanner;
 	private List<ListAd> adList;
 	private List<ListFood> foodList;
-	
+
 	private AdapterFood foodAdapter;
-	
-	
+
 	private int titleViewHeight = 65;
 	private int bannerViewTopMargin;
 	private int bannerViewHeight = 180;
 	private boolean isScrollIdle = true;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_other_food);
-		
+
 		smoothListView = (SmoothListView) findViewById(R.id.food_function_sv);
-		
+
 		adList = DataUtil.getBannerData(this);
 		foodBanner = new BannerView(OtherFoodActivity.this);
 		foodBanner.fillView(adList, smoothListView);
 		foodBanner.getAdapt().setFlag(false);
-		
-		
+
 		foodList = DataUtil.getNoDataFood(DensityUtil.getWindowHeight(this) - DensityUtil.dip2px(this, 300));
 		foodAdapter = new AdapterFood(this, foodList);
 		smoothListView.setAdapter(foodAdapter);
 
-//		smoothListView.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//				// TODO Auto-generated method stub
-//				if (!((ListMeal) parent.getAdapter().getItem(position)).getIsNoData()) {
-//
-//					String mealid = ((ListMeal) parent.getAdapter().getItem(position)).getId();
-//					Intent intent = new Intent(OtherFoodActivity.this, MealActivity.class);
-//					intent.putExtra("id", mealid);
-//					startActivity(intent);
-//				}
-//
-//			}
-//		});
+		// smoothListView.setOnItemClickListener(new OnItemClickListener() {
+		//
+		// @Override
+		// public void onItemClick(AdapterView<?> parent, View view, int
+		// position, long id) {
+		// // TODO Auto-generated method stub
+		// if (!((ListMeal)
+		// parent.getAdapter().getItem(position)).getIsNoData()) {
+		//
+		// String mealid = ((ListMeal)
+		// parent.getAdapter().getItem(position)).getId();
+		// Intent intent = new Intent(OtherFoodActivity.this,
+		// MealActivity.class);
+		// intent.putExtra("id", mealid);
+		// startActivity(intent);
+		// }
+		//
+		// }
+		// });
 		smoothListView.setRefreshEnable(false);
 		smoothListView.setLoadMoreEnable(false);
-//		smoothListView.setSmoothListViewListener(this);
-//
-//		smoothListView.setOnScrollListener(new SmoothListView.OnSmoothScrollListener() {
-//			@Override
-//			public void onSmoothScrolling(View view) {
-//			}
-//
-//			@Override
-//			public void onScrollStateChanged(AbsListView view, int scrollState) {
-//				isScrollIdle = (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE);
-//			}
-//
-//			@Override
-//			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//				if (isScrollIdle && bannerViewTopMargin < 0)
-//					return;
-//
-//				// 获取广告头部View、自身的高度、距离顶部的高度
-//				if (itemHeaderBannerView == null) {
-//					itemHeaderBannerView = smoothListView.getChildAt(1);
-//				}
-//				if (itemHeaderBannerView != null) {
-//					bannerViewTopMargin = DensityUtil.px2dip(HomeActivity.this, itemHeaderBannerView.getTop());
-//					bannerViewHeight = DensityUtil.px2dip(HomeActivity.this, itemHeaderBannerView.getHeight());
-//				}
-//				// 处理标题栏颜色渐变
-//				handleTitleBarColorEvaluate();
-//			}
-//		});
-//		
+		// smoothListView.setSmoothListViewListener(this);
+		//
+		// smoothListView.setOnScrollListener(new
+		// SmoothListView.OnSmoothScrollListener() {
+		// @Override
+		// public void onSmoothScrolling(View view) {
+		// }
+		//
+		// @Override
+		// public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// isScrollIdle = (scrollState ==
+		// AbsListView.OnScrollListener.SCROLL_STATE_IDLE);
+		// }
+		//
+		// @Override
+		// public void onScroll(AbsListView view, int firstVisibleItem, int
+		// visibleItemCount, int totalItemCount) {
+		// if (isScrollIdle && bannerViewTopMargin < 0)
+		// return;
+		//
+		// // 获取广告头部View、自身的高度、距离顶部的高度
+		// if (itemHeaderBannerView == null) {
+		// itemHeaderBannerView = smoothListView.getChildAt(1);
+		// }
+		// if (itemHeaderBannerView != null) {
+		// bannerViewTopMargin = DensityUtil.px2dip(HomeActivity.this,
+		// itemHeaderBannerView.getTop());
+		// bannerViewHeight = DensityUtil.px2dip(HomeActivity.this,
+		// itemHeaderBannerView.getHeight());
+		// }
+		// // 处理标题栏颜色渐变
+		// handleTitleBarColorEvaluate();
+		// }
+		// });
+		//
 	}
 }

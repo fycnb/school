@@ -51,7 +51,7 @@ public class WelcomeActivity extends Activity {
 	}
 
 	private void init() {
-		
+
 		setStatusBar();
 		tv_time = (TextView) findViewById(R.id.welcome_time_textview);
 		ll_jump = (LinearLayout) findViewById(R.id.welcome_jump_layout);

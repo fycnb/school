@@ -37,7 +37,6 @@ public class SignInSuccessServlet extends HttpServlet{
 		int month = c.get(Calendar.MONTH) + 1;
 		int day = c.get(Calendar.DATE);
 		
-		
 		SignIn signin = new SignIn();
 		signin.setUserid(Integer.parseInt(userid));
 		signin.setYear(year);
@@ -47,6 +46,8 @@ public class SignInSuccessServlet extends HttpServlet{
 		SignInDao signInDao = (SignInDao) DaoFactory.getInstance("signInDao");
 		SignIn sign = signInDao.save(signin);
 		Long id = sign.getId();
+	
+		resp.setContentType("text/html");
 		if(signInDao.exists(id)){
 			resp.getOutputStream().write("Ç©µ½³É¹¦".getBytes("utf-8"));
 		}else{

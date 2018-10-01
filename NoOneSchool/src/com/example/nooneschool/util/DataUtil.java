@@ -56,8 +56,7 @@ public class DataUtil {
 		list.add(meal);
 		return list;
 	}
-	
-	
+
 	public static List<ListFood> getNoDataFood(int height) {
 		List<ListFood> list = new ArrayList<ListFood>();
 		ListFood meal = new ListFood(null, null, null, null, null, null, null);
@@ -66,7 +65,7 @@ public class DataUtil {
 		list.add(meal);
 		return list;
 	}
-	
+
 	public static List<String> getLeftMenuData() {
 		List<String> list = new ArrayList<>();
 

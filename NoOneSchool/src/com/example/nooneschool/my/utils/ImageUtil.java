@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -18,10 +17,9 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Shader.TileMode;
 import android.net.Uri;
 
-
 public class ImageUtil {
 
-	//获取本地图片
+	// 获取本地图片
 	public static Bitmap getLoacalBitmap(String url) {
 		if (url != null) {
 			FileInputStream fis = null;
@@ -46,7 +44,7 @@ public class ImageUtil {
 		}
 	}
 
-	//将图片裁剪成圆形
+	// 将图片裁剪成圆形
 	public static Bitmap toRoundBitmap(Bitmap bitmap) {
 		bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
 		Bitmap bm = Bitmap.createBitmap(200, 200, Config.ARGB_8888);

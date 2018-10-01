@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends TabActivity {
 
@@ -23,8 +22,7 @@ public class MainActivity extends TabActivity {
 		tabhost = getTabHost();
 
 		Intent one = new Intent(MainActivity.this, HomeActivity.class);
-		tabhost.addTab(tabhost.newTabSpec("one").setIndicator(createTabIcon(R.color.home, "首页"))
-				.setContent(one));
+		tabhost.addTab(tabhost.newTabSpec("one").setIndicator(createTabIcon(R.color.home, "首页")).setContent(one));
 
 		Intent two = new Intent(MainActivity.this, DatingActivity.class);
 		tabhost.addTab(tabhost.newTabSpec("two").setIndicator(createTabIcon(R.color.dating, "社交"))

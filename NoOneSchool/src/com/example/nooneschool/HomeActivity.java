@@ -68,12 +68,13 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	private int bannerViewHeight = 180;
 	private boolean isScrollIdle = true;
 
-	private ThreadPoolExecutor cachedThreadPool = new ThreadPoolExecutor(3, 5,1, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(128));
+	private ThreadPoolExecutor cachedThreadPool = new ThreadPoolExecutor(3, 5, 1, TimeUnit.SECONDS,
+			new LinkedBlockingDeque<Runnable>(128));
 	private Runnable getMealDataRunnable;
 	private Runnable getAdDataRunnable;
 	private Runnable refreshMealDataRunnable;
 	private Boolean flag = true;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,7 +93,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 				// TODO Auto-generated method stub
 				if (flag) {
 					Intent intent = new Intent(HomeActivity.this, WeatherActivity.class);
-					startActivityForResult(intent, 1);	
+					startActivityForResult(intent, 1);
 				}
 			}
 		});
@@ -103,8 +104,8 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (flag) {
-				Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
-				startActivityForResult(intent, 1);
+					Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
+					startActivityForResult(intent, 1);
 				}
 
 			}
@@ -130,17 +131,17 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 				// TODO Auto-generated method stub
 
 				if (flag) {
-				switch (position) {
-				case 3:
-					Intent intent1 = new Intent(HomeActivity.this, OtherFoodActivity.class);
-					startActivity(intent1);
-					break;
+					switch (position) {
+					case 3:
+						Intent intent1 = new Intent(HomeActivity.this, OtherFoodActivity.class);
+						startActivity(intent1);
+						break;
 
-				default:
-					Intent intent2 = new Intent(HomeActivity.this, OtherFoodActivity.class);
-					startActivity(intent2);
-					break;
-				}
+					default:
+						Intent intent2 = new Intent(HomeActivity.this, OtherFoodActivity.class);
+						startActivity(intent2);
+						break;
+					}
 				}
 			}
 		});
@@ -157,7 +158,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// TODO Auto-generated method stub
-				if (!((ListMeal) parent.getAdapter().getItem(position)).getIsNoData()&&flag) {
+				if (!((ListMeal) parent.getAdapter().getItem(position)).getIsNoData() && flag) {
 
 					String mealid = ((ListMeal) parent.getAdapter().getItem(position)).getId();
 					String imgurl = ((ListMeal) parent.getAdapter().getItem(position)).getImgurl();
@@ -242,7 +243,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 				smoothListView.stopRefresh();
 				smoothListView.setRefreshTime("刚刚");
 				smoothListView.setRefreshUsable(true);
-				flag=true;
+				flag = true;
 				headerBannerView.getAdapt().setFlag(true);
 			}
 		}, 2000);
@@ -261,7 +262,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				flag=true;
+				flag = true;
 				headerBannerView.getAdapt().setFlag(true);
 			}
 		}, 2000);
@@ -321,8 +322,6 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	// }
 	//
 
-	
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -336,7 +335,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	}
 
 	public void getAdData() {
-		
+
 		getAdDataRunnable = new Runnable() {
 
 			@Override
@@ -389,10 +388,11 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 		};
 		cachedThreadPool.execute(getAdDataRunnable);
 	}
-	
+
 	public void refreshMealData() {
-		
-		smoothListView.setRefreshUsable(false);;
+
+		smoothListView.setRefreshUsable(false);
+		;
 		refreshMealDataRunnable = new Runnable() {
 
 			@Override
@@ -439,7 +439,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	}
 
 	public void getMealData() {
-		
+
 		getMealDataRunnable = new Runnable() {
 
 			@Override
@@ -451,7 +451,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 					List<ListMeal> temp = new ArrayList<>();
 					temp.addAll(mealList);
 					for (int i = temp.size(); temp.get(i - 1).getIsNoData() && i > 0; --i) {
-						mealList.remove(i-1);
+						mealList.remove(i - 1);
 					}
 				}
 				final String result = HomeService.HomeServiceByPost(mealList.size(), "all",
@@ -491,10 +491,8 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 				});
 			}
 		};
-		
 
 		cachedThreadPool.execute(getMealDataRunnable);
 	}
-	
 
 }

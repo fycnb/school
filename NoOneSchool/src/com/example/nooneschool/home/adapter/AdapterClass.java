@@ -18,16 +18,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AdapterClass extends BaseAdapter{
+public class AdapterClass extends BaseAdapter {
 
 	private List<ListClass> list = new ArrayList<ListClass>();
-    private LayoutInflater inflater;
-    
-    public AdapterClass(Context context,List<ListClass> list){
-        this.inflater = LayoutInflater.from(context);
-        this.list = list;
-    }
-    
+	private LayoutInflater inflater;
+
+	public AdapterClass(Context context, List<ListClass> list) {
+		this.inflater = LayoutInflater.from(context);
+		this.list = list;
+	}
+
 	@Override
 	public int getCount() {
 		return list.size();
@@ -47,21 +47,22 @@ public class AdapterClass extends BaseAdapter{
 	public View getView(int i, View view, ViewGroup viewGroup) {
 		ViewHolder holder = null;
 
-        if(view == null){
-            view = inflater.inflate(R.layout.gridview_food,null);
-            holder = new ViewHolder();
-            holder.id = (TextView) view.findViewById(R.id.food_type_textview);
+		if (view == null) {
+			view = inflater.inflate(R.layout.gridview_food, null);
+			holder = new ViewHolder();
+			holder.id = (TextView) view.findViewById(R.id.food_type_textview);
 
-            view.setTag(holder);
-        }else{
-            holder = (ViewHolder) view.getTag();
-        }
-        holder.id.setText(list.get(i).getName());
-        
+			view.setTag(holder);
+		} else {
+			holder = (ViewHolder) view.getTag();
+		}
+		holder.id.setText(list.get(i).getName());
+
 		return view;
 	}
-	public class ViewHolder{
-        TextView id;
-    }
+
+	public class ViewHolder {
+		TextView id;
+	}
 
 }

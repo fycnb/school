@@ -38,11 +38,30 @@ public class MyOrderServlet extends HttpServlet{
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
 		String userid = obj.getString("userid");
+		String sta = obj.getString("state");
+		
+		resp.setContentType("text/html");
+		JSONArray js = null;
+		String sql = null;
+		List<Indent> orderlist = null;
 		
 		OrderDao orderDao = (OrderDao) DaoFactory.getInstance("orderDao");
-		String sql = "select * from indent where userid = ?";
-		List<Indent> orderlist = orderDao.find(sql,userid);
 		
+		if(sta.equals("all")){
+			sql = "select * from indent where userid = ? order by state";
+			orderlist = orderDao.find(sql,userid);
+			js = getdata(orderlist);
+		}else{
+			sql = "select * from indent where userid = ? and state = ?";
+			orderlist = orderDao.find(sql,userid,sta);
+			js = getdata(orderlist);
+		}
+			
+		String content = String.valueOf(js);
+		resp.getOutputStream().write(content.getBytes("utf-8"));
+	}
+	
+	private JSONArray getdata(List<Indent> orderlist){
 		JSONArray js = new JSONArray();
 		for(Indent order : orderlist){
 			JSONObject json = new JSONObject();
@@ -52,7 +71,7 @@ public class MyOrderServlet extends HttpServlet{
 			int st = order.getState();
 			String memo = order.getMemo();
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 			String time = sdf.format(t);
 			
 			String state = "";
@@ -68,6 +87,12 @@ public class MyOrderServlet extends HttpServlet{
 				break;
 			case 4:
 				state = "已完成";
+				break;
+			case 5:
+				state = "已取消";
+				break;
+			case 6:
+				state = "已拒绝";
 				break;
 			default:
 				break;
@@ -99,9 +124,7 @@ public class MyOrderServlet extends HttpServlet{
 			json.put("iphone",iphone);
 			js.add(json);
 		} 
-		
-		String content = String.valueOf(js);
-		resp.getOutputStream().write(content.getBytes("utf-8"));
+		return js;
 	}
 
 }

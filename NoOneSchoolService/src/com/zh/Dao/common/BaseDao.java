@@ -85,8 +85,9 @@ public interface BaseDao<T extends Entity> {
 	 *            SQL语句
 	 * @param paramValues
 	 *            参数值数�?
+	 * @return 
 	 */
-	public void update(String sql, Object... paramValues) throws DaoException;
+	public int update(String sql, Object... paramValues) throws DaoException;
 
 	/**
 	 * 根据指定的SQL语句和参数�?执行查询数据的操�?

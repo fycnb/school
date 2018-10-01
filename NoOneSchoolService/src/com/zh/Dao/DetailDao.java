@@ -5,5 +5,5 @@ import com.zh.entity.Detail;
 
 
 public interface DetailDao extends BaseDao<Detail> {
-
+	
 }

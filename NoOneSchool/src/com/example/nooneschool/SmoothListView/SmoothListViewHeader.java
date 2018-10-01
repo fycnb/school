@@ -23,9 +23,9 @@ public class SmoothListViewHeader extends LinearLayout {
 
 	private Animation mRotateUpAnim;
 	private Animation mRotateDownAnim;
-	
+
 	private final int ROTATE_ANIM_DURATION = 180;
-	
+
 	public final static int STATE_NORMAL = 0;
 	public final static int STATE_READY = 1;
 	public final static int STATE_REFRESHING = 2;
@@ -41,33 +41,30 @@ public class SmoothListViewHeader extends LinearLayout {
 	}
 
 	private void initView(Context context) {
-		
-		LayoutParams lp = new LayoutParams(
-				LayoutParams.FILL_PARENT, 0);
-		mContainer = (LinearLayout) LayoutInflater.from(context).inflate(
-				R.layout.smoothlistview_header, null);
+
+		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, 0);
+		mContainer = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.smoothlistview_header, null);
 		addView(mContainer, lp);
 		setGravity(Gravity.BOTTOM);
 
-		mArrowImageView = (ImageView)findViewById(R.id.smoothlistview_header_arrow);
-		mHintTextView = (TextView)findViewById(R.id.smoothlistview_header_hint_textview);
-		mProgressBar = (ProgressBar)findViewById(R.id.smoothlistview_header_progressbar);
-		
-		mRotateUpAnim = new RotateAnimation(0.0f, -180.0f,
-				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+		mArrowImageView = (ImageView) findViewById(R.id.smoothlistview_header_arrow);
+		mHintTextView = (TextView) findViewById(R.id.smoothlistview_header_hint_textview);
+		mProgressBar = (ProgressBar) findViewById(R.id.smoothlistview_header_progressbar);
+
+		mRotateUpAnim = new RotateAnimation(0.0f, -180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
 				0.5f);
 		mRotateUpAnim.setDuration(ROTATE_ANIM_DURATION);
 		mRotateUpAnim.setFillAfter(true);
-		mRotateDownAnim = new RotateAnimation(-180.0f, 0.0f,
-				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-				0.5f);
+		mRotateDownAnim = new RotateAnimation(-180.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+				Animation.RELATIVE_TO_SELF, 0.5f);
 		mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
 		mRotateDownAnim.setFillAfter(true);
 	}
 
 	public void setState(int state) {
-		if (state == mState) return ;
-		
+		if (state == mState)
+			return;
+
 		if (state == STATE_REFRESHING) {
 			mArrowImageView.clearAnimation();
 			mArrowImageView.setVisibility(View.INVISIBLE);
@@ -76,8 +73,8 @@ public class SmoothListViewHeader extends LinearLayout {
 			mArrowImageView.setVisibility(View.VISIBLE);
 			mProgressBar.setVisibility(View.INVISIBLE);
 		}
-		
-		switch(state){
+
+		switch (state) {
 		case STATE_NORMAL:
 			if (mState == STATE_READY) {
 				mArrowImageView.startAnimation(mRotateDownAnim);
@@ -97,17 +94,16 @@ public class SmoothListViewHeader extends LinearLayout {
 		case STATE_REFRESHING:
 			mHintTextView.setText("正在刷新数据...");
 			break;
-			default:
+		default:
 		}
-		
+
 		mState = state;
 	}
-	
+
 	public void setVisiableHeight(int height) {
 		if (height < 0)
 			height = 0;
-		LayoutParams lp = (LayoutParams) mContainer
-				.getLayoutParams();
+		LayoutParams lp = (LayoutParams) mContainer.getLayoutParams();
 		lp.height = height;
 		mContainer.setLayoutParams(lp);
 	}

@@ -20,7 +20,6 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 	private ImageView iv_return;
 	private ExecutorService singleThreadExeutor;
 	private String userid = "1";
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,20 +68,11 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 				final String result = SignInSuccessService.SignInSuccessByPost(userid);
 				if (result != null) {
 					try {
-						if (result.equals("签到成功")) {
-							runOnUiThread(new Runnable() {
-								public void run() {
-									Toast.makeText(SignInActivity.this, "Sign in success!", 0).show();
-								}
-							});
-
-						} else if (result.equals("签到失败")) {
-							runOnUiThread(new Runnable() {
-								public void run() {
-									Toast.makeText(SignInActivity.this, "Sign in fail!", 0).show();
-								}
-							});
-						}
+						runOnUiThread(new Runnable() {
+							public void run() {
+								Toast.makeText(SignInActivity.this, result, 0).show();
+							}
+						});
 
 					} catch (Exception e) {
 						e.printStackTrace();

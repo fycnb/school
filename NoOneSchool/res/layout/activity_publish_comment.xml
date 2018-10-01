@@ -1,0 +1,113 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.nooneschool.my.PublishCommentActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/pcomment_return_imageview"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="4dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="45dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="评价"
+            android:textColor="#0000CC"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#0044BB" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal" >
+
+        <com.example.nooneschool.my.utils.RoundImageView
+            android:id="@+id/pcomment_restaurant_imageview"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:type="circle" />
+
+        <TextView
+            android:id="@+id/pcomment_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:padding="5dp"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pcomment_feel_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:textSize="22sp"
+        android:visibility="gone" />
+
+    <RatingBar
+        android:id="@+id/pcomment_taste_ratingbar"
+        style="@style/RatingbarBigStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="62px"
+        android:layout_gravity="center"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1.0" />
+
+    <EditText
+        android:id="@+id/pcomment_content_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@android:drawable/alert_light_frame"
+        android:ems="10"
+        android:enabled="true"
+        android:gravity="top"
+        android:hint="亲,觉得菜品口味如何,对包装服务等还满意吗?"
+        android:inputType="textMultiLine"
+        android:maxLines="6"
+        android:minLines="4"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/pcommetn_confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
+            android:text="提交"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</LinearLayout>

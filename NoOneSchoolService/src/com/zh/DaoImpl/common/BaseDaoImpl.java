@@ -317,12 +317,13 @@ public abstract class BaseDaoImpl<T extends Entity> implements BaseDao<T> {
 		return pager;
 	}
 
-	public void update(String sql, Object... paramValues) throws DaoException {
+	public int update(String sql, Object... paramValues) throws DaoException {
 		Connection conn = null;
 		try {
 			conn = DBHelper.getConn();
 
-			qr.update(conn, sql, paramValues);
+			int rs = qr.update(conn, sql, paramValues);
+			return rs;
 		} catch (SQLException e) {
 			throw new DaoException(e);
 		} finally {

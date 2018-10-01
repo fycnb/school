@@ -34,7 +34,7 @@ public class AdapterBanner extends PagerAdapter {
 	}
 
 	public void setFlag(Boolean flag) {
-		this.flag=flag;
+		this.flag = flag;
 	}
 
 	@Override

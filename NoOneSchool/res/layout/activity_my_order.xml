@@ -39,6 +39,8 @@
         android:id="@+id/myorder_listview"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp" 
+        android:divider="#CCDDFF"
+        android:dividerHeight="5dp"/>
 
 </LinearLayout>

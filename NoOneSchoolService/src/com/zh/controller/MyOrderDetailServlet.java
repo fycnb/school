@@ -39,6 +39,7 @@ public class MyOrderDetailServlet extends HttpServlet{
 		String sql = "select * from detail where orderid = ?";
 		List<Detail> detaillist = detailDao.find(sql,orderid);
 		
+		resp.setContentType("text/html");
 		JSONArray js = new JSONArray();
 		for(Detail detail : detaillist){
 			JSONObject json = new JSONObject();

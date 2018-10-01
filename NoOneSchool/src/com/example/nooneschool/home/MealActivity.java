@@ -35,7 +35,7 @@ public class MealActivity extends TabActivity {
 	private TextView ad;
 	private ImageView img;
 	private ImageView back;
-	
+
 	private TabHost tabhost;
 	private String id;
 	private String name;
@@ -45,27 +45,26 @@ public class MealActivity extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_meal);
-		
+
 		nametv = (TextView) findViewById(R.id.restaurant_name_textview);
 		ad = (TextView) findViewById(R.id.restaurant_ad_textview);
 		img = (ImageView) findViewById(R.id.restaurant_img_imageview);
 		back = (ImageView) findViewById(R.id.restaurant_back_imageview);
-		
+
 		back.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				finish();
 			}
 		});
-		
-		
+
 		Intent intent = getIntent();
 		id = intent.getStringExtra("id");
 		name = intent.getStringExtra("name");
 		imgurl = intent.getStringExtra("imgurl");
-		
+
 		nametv.setText(name);
 		DownImage downImage = new DownImage(imgurl, img.getWidth(), img.getHeight());
 		downImage.loadImage(new ImageCallBack() {
@@ -75,8 +74,7 @@ public class MealActivity extends TabActivity {
 				img.setImageDrawable(drawable);
 			}
 		});
-		
-		
+
 		tabhost = getTabHost();
 
 		Intent one = new Intent(MealActivity.this, MenuActivity.class);
@@ -93,34 +91,35 @@ public class MealActivity extends TabActivity {
 		three.putExtra("id", id);
 		tabhost.addTab(tabhost.newTabSpec("three").setIndicator(createTabIcon(R.color.lesson, "商家"))
 				.setContent(three.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
-		
+
 		upTabhost();
 		tabhost.setOnTabChangedListener(new OnTabChangeListener() {
-			
+
 			@Override
 			public void onTabChanged(String tabId) {
 				// TODO Auto-generated method stub
 				upTabhost();
 			}
 		});
-		
+
 	}
-	private void upTabhost(){
+
+	private void upTabhost() {
 		TabWidget tabw = tabhost.getTabWidget();
-		for(int i = 0;i<tabw.getChildCount();i++){
+		for (int i = 0; i < tabw.getChildCount(); i++) {
 			LinearLayout ll = (LinearLayout) tabw.getChildAt(i);
 			TextView tv = (TextView) ll.findViewById(R.id.tv);
-			
-			if(tabhost.getCurrentTab()==i){
+
+			if (tabhost.getCurrentTab() == i) {
 				tv.setTextColor(0xff000000);
 				tv.setTextSize(DensityUtil.px2sp(MealActivity.this, 25));
-			}else{
+			} else {
 				tv.setTextColor(0xffcdcdcd);
 				tv.setTextSize(DensityUtil.px2sp(MealActivity.this, 20));
 			}
 		}
 	}
-	
+
 	public View createTabIcon(int resId, String title) {
 
 		View view = LayoutInflater.from(this).inflate(R.layout.tab1, null);

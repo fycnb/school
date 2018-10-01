@@ -63,8 +63,12 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	private TextView tv_account;
 	private TextView tv_sobo;
 	private ImageView iv_headportrait;
+
 	private Button btn_signin;
 	private Button btn_myorder;
+	private Button btn_waitorder;
+	private Button btn_acceptorder;
+	private Button btn_waitcomment;
 
 	private ThreadPoolExecutor poolExecutor;
 
@@ -105,8 +109,13 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		tv_account = (TextView) findViewById(R.id.my_account_textview);
 		tv_sobo = (TextView) findViewById(R.id.my_sobo_textview);
 		iv_headportrait = (ImageView) findViewById(R.id.my_headportrait_imageview);
+
 		btn_signin = (Button) findViewById(R.id.my_signin_button);
 		btn_myorder = (Button) findViewById(R.id.my_myorder_button);
+		btn_waitorder = (Button) findViewById(R.id.my_waitingorder_button);
+		btn_acceptorder = (Button) findViewById(R.id.my_acceptorder_button);
+		btn_waitcomment = (Button) findViewById(R.id.my_waitingcomment_button);
+
 		gv_function = (GridView) findViewById(R.id.my_function_gridview);
 
 		poolExecutor = new ThreadPoolExecutor(3, 5, 1, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(128));
@@ -114,25 +123,55 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		// 向function_gridview中插入数据
 		functiondata();
 
+		// 头像
+		String imagepath = path + "/head.png";
+		Bitmap bm = ImageUtil.getLoacalBitmap(imagepath);
+		if (bm != null) {
+			iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
+		} else {
+			Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+			iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bmp));
+		}
+
 		// 获取数据
 		getuserdata();
 
 		// 点击事件
 		btn_signin.setOnClickListener(this);
 		btn_myorder.setOnClickListener(this);
+		btn_waitorder.setOnClickListener(this);
+		btn_acceptorder.setOnClickListener(this);
+		btn_waitcomment.setOnClickListener(this);
 		iv_headportrait.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
+		Intent intent;
 		switch (v.getId()) {
 		case R.id.my_signin_button:
-			Intent intent = new Intent(MyActivity.this, SignInActivity.class);
+			intent = new Intent(MyActivity.this, SignInActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.my_myorder_button:
-			Intent intent1 = new Intent(MyActivity.this, MyOrderActivity.class);
-			startActivity(intent1);
+			intent = new Intent(MyActivity.this, MyOrderActivity.class);
+			intent.putExtra("state", "all");
+			startActivity(intent);
+			break;
+		case R.id.my_waitingorder_button:
+			intent = new Intent(MyActivity.this, MyOrderActivity.class);
+			intent.putExtra("state", "1");
+			startActivity(intent);
+			break;
+		case R.id.my_acceptorder_button:
+			intent = new Intent(MyActivity.this, MyOrderActivity.class);
+			intent.putExtra("state", "2");
+			startActivity(intent);
+			break;
+		case R.id.my_waitingcomment_button:
+			intent = new Intent(MyActivity.this, MyOrderActivity.class);
+			intent.putExtra("state", "3");
+			startActivity(intent);
 			break;
 
 		case R.id.my_headportrait_imageview:
@@ -160,28 +199,25 @@ public class MyActivity extends Activity implements View.OnClickListener {
 					}
 					runOnUiThread(new Runnable() {
 						public void run() {
-							String imagepath = path + "/head.png";
-							Bitmap bm = ImageUtil.getLoacalBitmap(imagepath);
-							if (bm != null) {
-								iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
-							} else {
-								DownImage downImage = new DownImage(head,iv_headportrait.getWidth(),iv_headportrait.getHeight());
-								downImage.loadImage(new ImageCallBack() {
-									@Override
-									public void getDrawable(Drawable drawable) {
-										BitmapDrawable bd = (BitmapDrawable) drawable;
-										Bitmap bm= bd.getBitmap();
-										DownImage.saveImage(bm, path, "head.png");
-										iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
-									}
-								});
-							}
+							DownImage downImage = new DownImage(head, iv_headportrait.getWidth(),
+									iv_headportrait.getHeight());
+							downImage.loadImage(new ImageCallBack() {
+								@Override
+								public void getDrawable(Drawable drawable) {
+									BitmapDrawable bd = (BitmapDrawable) drawable;
+									Bitmap bm = bd.getBitmap();
+									DownImage.saveImage(bm, path, "head.png");
+									iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
+								}
+							});
+
 							tv_nickname.setText(nickname);
 							tv_account.setText(account);
 							tv_sobo.setText(sobo);
 						}
 					});
 				} else {
+					// 没有返回数据
 
 				}
 			}
@@ -299,7 +335,6 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
-
 	private void startImageZoom(Uri uri) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
@@ -354,23 +389,24 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Intent intent;
 			String name = functionList.get(position).get("name").toString();
 			switch (name) {
 			case "收藏":
-				Intent intent1 = new Intent(MyActivity.this, CollectionActivity.class);
-				startActivity(intent1);
+				intent = new Intent(MyActivity.this, CollectionActivity.class);
+				startActivity(intent);
 				break;
 			case "最近浏览":
-				Intent intent2 = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
-				startActivity(intent2);
+				intent = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
+				startActivity(intent);
 				break;
 			case "客服":
-				Intent intent3 = new Intent(MyActivity.this, CustomerServiceActivity.class);
-				startActivity(intent3);
+				intent = new Intent(MyActivity.this, CustomerServiceActivity.class);
+				startActivity(intent);
 				break;
 			case "个人资料":
-				Intent intent4 = new Intent(MyActivity.this, PersonalDataActivity.class);
-				startActivity(intent4);
+				intent = new Intent(MyActivity.this, PersonalDataActivity.class);
+				startActivity(intent);
 				break;
 			default:
 				Log.i("cjq", "function gridview error");

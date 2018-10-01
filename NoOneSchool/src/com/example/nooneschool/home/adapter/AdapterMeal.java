@@ -128,7 +128,7 @@ public class AdapterMeal extends BaseAdapter {
 		holder.sale.setText(list.get(i).getSale());
 		holder.img.setImageResource(R.drawable.empty);
 
-		DownImage downImage = new DownImage(list.get(i).getImgurl(),holder.img.getWidth(),holder.img.getHeight());
+		DownImage downImage = new DownImage(list.get(i).getImgurl(), holder.img.getWidth(), holder.img.getHeight());
 		downImage.loadImage(new ImageCallBack() {
 
 			@Override
