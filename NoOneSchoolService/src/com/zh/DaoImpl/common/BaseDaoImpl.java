@@ -44,7 +44,8 @@ public abstract class BaseDaoImpl<T extends Entity> implements BaseDao<T> {
 
 	public BaseDaoImpl() {
 		// 通过反射机制获取子类传�?过来的实体类的类型信息对�?
-		ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
+		ParameterizedType type = (ParameterizedType) this.getClass()
+				.getGenericSuperclass();
 		clazz = (Class<T>) type.getActualTypeArguments()[0];
 
 		beanHandler = new BeanHandler<T>(clazz);
@@ -102,12 +103,13 @@ public abstract class BaseDaoImpl<T extends Entity> implements BaseDao<T> {
 		sql.append(values);
 		sql.append(")");
 
-		System.out.println(sql.toString());  
-		
+		System.out.println(sql.toString());
+
 		Connection conn = null;
 		try {
 			conn = DBHelper.getConn();
-			Long temp = qr.insert(conn, sql.toString(), scalarHandler, paramValues.toArray());
+			Long temp = qr.insert(conn, sql.toString(), scalarHandler,
+					paramValues.toArray());
 			if (temp != null) {
 				entity.setId(temp);
 			}
@@ -259,7 +261,7 @@ public abstract class BaseDaoImpl<T extends Entity> implements BaseDao<T> {
 
 		return list;
 	}
-	
+
 	public long count() throws DaoException {
 		long count = 0;
 
@@ -306,7 +308,8 @@ public abstract class BaseDaoImpl<T extends Entity> implements BaseDao<T> {
 			Connection conn = null;
 			try {
 				conn = DBHelper.getConn();
-				List<T> items = qr.query(conn, sql.toString(), beanListHandler, params);
+				List<T> items = qr.query(conn, sql.toString(), beanListHandler,
+						params);
 				pager.setItems(items);
 			} catch (SQLException e) {
 				throw new DaoException(e);

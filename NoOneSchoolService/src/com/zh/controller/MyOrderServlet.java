@@ -23,14 +23,14 @@ import com.zh.entity.Restaurant;
 import com.zh.utils.JsonUtil;
 
 @WebServlet("/MyOrder")
-public class MyOrderServlet extends HttpServlet{
-	
+public class MyOrderServlet extends HttpServlet {
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		doPost(req, resp);
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -39,41 +39,41 @@ public class MyOrderServlet extends HttpServlet{
 		JSONObject obj = JSONObject.parseObject(sb.toString());
 		String userid = obj.getString("userid");
 		String sta = obj.getString("state");
-		
+
 		resp.setContentType("text/html");
 		JSONArray js = null;
 		String sql = null;
 		List<Indent> orderlist = null;
-		
+
 		OrderDao orderDao = (OrderDao) DaoFactory.getInstance("orderDao");
-		
-		if(sta.equals("all")){
+
+		if (sta.equals("all")) {
 			sql = "select * from indent where userid = ? order by state";
-			orderlist = orderDao.find(sql,userid);
+			orderlist = orderDao.find(sql, userid);
 			js = getdata(orderlist);
-		}else{
+		} else {
 			sql = "select * from indent where userid = ? and state = ?";
-			orderlist = orderDao.find(sql,userid,sta);
+			orderlist = orderDao.find(sql, userid, sta);
 			js = getdata(orderlist);
 		}
-			
+
 		String content = String.valueOf(js);
 		resp.getOutputStream().write(content.getBytes("utf-8"));
 	}
-	
-	private JSONArray getdata(List<Indent> orderlist){
+
+	private JSONArray getdata(List<Indent> orderlist) {
 		JSONArray js = new JSONArray();
-		for(Indent order : orderlist){
+		for (Indent order : orderlist) {
 			JSONObject json = new JSONObject();
 			Long orderid = order.getId();
 			int restaurantid = order.getRestaurantid();
 			Date t = order.getTime();
 			int st = order.getState();
 			String memo = order.getMemo();
-			
+
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 			String time = sdf.format(t);
-			
+
 			String state = "";
 			switch (st) {
 			case 1:
@@ -97,33 +97,36 @@ public class MyOrderServlet extends HttpServlet{
 			default:
 				break;
 			}
-			
-			DetailDao detailDao = (DetailDao) DaoFactory.getInstance("detailDao");
+
+			DetailDao detailDao = (DetailDao) DaoFactory
+					.getInstance("detailDao");
 			String sql1 = "select price,number from detail where orderid = ?";
-			List<Detail> detaillist = detailDao.find(sql1,orderid);
+			List<Detail> detaillist = detailDao.find(sql1, orderid);
 			int total = 0;
-			for(Detail detail : detaillist){
+			for (Detail detail : detaillist) {
 				int price = Integer.parseInt(detail.getPrice());
 				int number = detail.getNumber();
-				total += price*number;
+				total += price * number;
 			}
-			
-			RestaurantDao restaurantDao = (RestaurantDao) DaoFactory.getInstance("restaurantDao");
-			Restaurant restaurant = restaurantDao.findOne(new Long(restaurantid));
+
+			RestaurantDao restaurantDao = (RestaurantDao) DaoFactory
+					.getInstance("restaurantDao");
+			Restaurant restaurant = restaurantDao
+					.findOne(new Long(restaurantid));
 			String name = restaurant.getName();
 			String image = restaurant.getImage();
 			String iphone = restaurant.getIphone();
-			
-			json.put("total",total);
-			json.put("orderid",orderid);
-			json.put("time",time);
-			json.put("state",state);
-			json.put("image",image);
-			json.put("name",name);
-			json.put("memo",memo);
-			json.put("iphone",iphone);
+
+			json.put("total", total);
+			json.put("orderid", orderid);
+			json.put("time", time);
+			json.put("state", state);
+			json.put("image", image);
+			json.put("name", name);
+			json.put("memo", memo);
+			json.put("iphone", iphone);
 			js.add(json);
-		} 
+		}
 		return js;
 	}
 

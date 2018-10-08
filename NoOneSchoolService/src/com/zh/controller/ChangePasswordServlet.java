@@ -14,8 +14,8 @@ import com.zh.Dao.common.DaoFactory;
 import com.zh.entity.User;
 import com.zh.utils.JsonUtil;
 
-@WebServlet("/ChangeNickname")
-public class ChangeNicknameServlet extends HttpServlet {
+@WebServlet("/ChangePassword")
+public class ChangePasswordServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -29,18 +29,25 @@ public class ChangeNicknameServlet extends HttpServlet {
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
 		String userid = obj.getString("userid");
-		String nickname = obj.getString("nickname");
+		String currentpw = obj.getString("currentpw");
+		String newpw = obj.getString("newpw");
 
 		UserDao userDao = (UserDao) DaoFactory.getInstance("userDao");
-		String sql = "update user set nickname = ?  where id = ?";
-		int rs = userDao.update(sql, nickname, userid);
+		User user = userDao.findOne(Long.parseLong(userid));
+		String password = user.getPassword();
 
 		resp.setContentType("text/html");
-		if (rs > 0) {
-			resp.getOutputStream().write("修改昵称成功".getBytes("utf-8"));
+		if (currentpw.equals(password)) {
+			String sql = "update user set password = ?  where id = ?";
+			int rs = userDao.update(sql, newpw, userid);
+			if (rs > 0) {
+				resp.getOutputStream().write("修改密码成功".getBytes("utf-8"));
+			} else {
+				resp.getOutputStream().write("修改密码失败，请稍后再试".getBytes("utf-8"));
+			}
 		} else {
-			resp.getOutputStream().write("修改昵称失败".getBytes("utf-8"));
+			resp.getOutputStream().write("当前的密码输入不正确".getBytes("utf-8"));
 		}
-	}
 
+	}
 }

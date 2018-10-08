@@ -117,8 +117,12 @@
             android:label="@string/title_activity_publish_comment" >
         </activity>
         <activity
-            android:name=".ChangeNickNameActivity"
+            android:name="com.example.nooneschool.my.ChangeNickNameActivity"
             android:label="@string/title_activity_change_nick_name" >
+        </activity>
+        <activity
+            android:name="com.example.nooneschool.my.ChangePasswordActivity"
+            android:label="@string/title_activity_change_password" >
         </activity>
     </application>
 

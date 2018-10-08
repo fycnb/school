@@ -60,6 +60,7 @@ public interface BaseDao<T extends Entity> {
 	 * @return 符合条件的实例列�?
 	 */
 	public List<T> findAll() throws DaoException;
+
 	/**
 	 * 统计总实体实例的数量
 	 * 
@@ -85,7 +86,7 @@ public interface BaseDao<T extends Entity> {
 	 *            SQL语句
 	 * @param paramValues
 	 *            参数值数�?
-	 * @return 
+	 * @return
 	 */
 	public int update(String sql, Object... paramValues) throws DaoException;
 

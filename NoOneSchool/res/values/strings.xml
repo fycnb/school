@@ -29,5 +29,6 @@
     <string name="title_activity_my_order_deatil">MyOrderDeatilActivity</string>
     <string name="title_activity_publish_comment">PublishCommentActivity</string>
     <string name="title_activity_change_nick_name">ChangeNickNameActivity</string>
+    <string name="title_activity_change_password">ChangePasswordActivity</string>
 
 </resources>

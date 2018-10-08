@@ -12,14 +12,16 @@ import java.util.Properties;
 public class DaoFactory {
 	private static final Properties props = new Properties();
 
-	private static final Map<String, Object> cache = Collections.synchronizedMap(new HashMap<String, Object>());
+	private static final Map<String, Object> cache = Collections
+			.synchronizedMap(new HashMap<String, Object>());
 
 	private DaoFactory() {
 	}
 
 	static {
 		try {
-			props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("dao.properties"));
+			props.load(Thread.currentThread().getContextClassLoader()
+					.getResourceAsStream("dao.properties"));
 		} catch (IOException e) {
 			System.err.println("在classpath下未找到dao.properties配置文件!!!");
 			e.printStackTrace();

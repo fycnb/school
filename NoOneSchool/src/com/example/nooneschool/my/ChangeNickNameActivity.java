@@ -1,9 +1,11 @@
-package com.example.nooneschool;
+package com.example.nooneschool.my;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.example.nooneschool.my.PublishCommentActivity;
+import com.example.nooneschool.R;
+import com.example.nooneschool.R.id;
+import com.example.nooneschool.R.layout;
 import com.example.nooneschool.my.service.ChangeNicknameService;
 
 import android.app.Activity;
@@ -64,7 +66,7 @@ public class ChangeNickNameActivity extends Activity implements View.OnClickList
 
 							runOnUiThread(new Runnable() {
 								public void run() {
-									Toast.makeText(ChangeNickNameActivity.this, result, 0).show();
+									Toast.makeText(ChangeNickNameActivity.this, result, Toast.LENGTH_SHORT).show();
 									ChangeNickNameActivity.this.finish();
 								}
 							});

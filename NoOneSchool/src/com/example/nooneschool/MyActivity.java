@@ -1,12 +1,9 @@
 package com.example.nooneschool;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,18 +12,14 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.example.nooneschool.my.CollectionActivity;
 import com.example.nooneschool.my.CustomerServiceActivity;
-import com.example.nooneschool.my.MyOrder;
 import com.example.nooneschool.my.MyOrderActivity;
 import com.example.nooneschool.my.PersonalDataActivity;
 import com.example.nooneschool.my.RecentlyBrowseActivity;
 import com.example.nooneschool.my.SignInActivity;
-import com.example.nooneschool.my.adapter.MyOrderAdapter;
-import com.example.nooneschool.my.service.MyOrderService;
 import com.example.nooneschool.my.service.UserDataService;
 import com.example.nooneschool.my.utils.ImageUtil;
 import com.example.nooneschool.my.utils.UploadThread;
@@ -38,8 +31,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Paint.Join;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -54,6 +45,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,13 +54,15 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	private TextView tv_nickname;
 	private TextView tv_account;
 	private TextView tv_sobo;
-	private ImageView iv_headportrait;
 
 	private Button btn_signin;
 	private Button btn_myorder;
 	private Button btn_waitorder;
 	private Button btn_acceptorder;
 	private Button btn_waitcomment;
+	
+	private ImageView iv_headportrait;
+	private RelativeLayout rl_person;
 
 	private ThreadPoolExecutor poolExecutor;
 
@@ -117,6 +111,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		btn_waitcomment = (Button) findViewById(R.id.my_waitingcomment_button);
 
 		gv_function = (GridView) findViewById(R.id.my_function_gridview);
+		rl_person = (RelativeLayout) findViewById(R.id.my_person_relativelayout);
 
 		poolExecutor = new ThreadPoolExecutor(3, 5, 1, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(128));
 
@@ -143,6 +138,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		btn_acceptorder.setOnClickListener(this);
 		btn_waitcomment.setOnClickListener(this);
 		iv_headportrait.setOnClickListener(this);
+		rl_person.setOnClickListener(this);
 	}
 
 	@Override
@@ -174,10 +170,17 @@ public class MyActivity extends Activity implements View.OnClickListener {
 			intent.putExtra("state", "3");
 			startActivity(intent);
 			break;
+			
+		case R.id.my_person_relativelayout:
+			intent = new Intent(MyActivity.this, PersonalDataActivity.class);
+			intent.putExtra("userid", userid);
+			startActivity(intent);
+			break;
 
 		case R.id.my_headportrait_imageview:
 			showTypeDialog();
 			break;
+			
 		default:
 			break;
 		}
@@ -367,7 +370,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 	private void functiondata() {
 		int icno[] = { R.drawable.collection, R.drawable.recentlybrowse, R.drawable.person, R.drawable.customer };
-		String name[] = { "收藏", "最近浏览", "个人资料", "客服" };
+		String name[] = { "收藏", "最近浏览", "个人资料", "联系客服" };
 
 		functionList = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < icno.length; i++) {
@@ -400,9 +403,15 @@ public class MyActivity extends Activity implements View.OnClickListener {
 				intent = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
 				startActivity(intent);
 				break;
-			case "客服":
-				intent = new Intent(MyActivity.this, CustomerServiceActivity.class);
+			case "联系客服":
+				String iphone = "13920147107";
+				intent = new Intent(Intent.ACTION_CALL);
+				Uri data = Uri.parse("tel:" + iphone);
+				intent.setData(data);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
+//				intent = new Intent(MyActivity.this, CustomerServiceActivity.class);
+//				startActivity(intent);
 				break;
 			case "个人资料":
 				intent = new Intent(MyActivity.this, PersonalDataActivity.class);

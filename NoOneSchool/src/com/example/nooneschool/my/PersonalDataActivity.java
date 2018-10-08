@@ -5,7 +5,6 @@ import java.util.concurrent.Executors;
 
 import org.json.JSONObject;
 
-import com.example.nooneschool.ChangeNickNameActivity;
 import com.example.nooneschool.R;
 import com.example.nooneschool.R.id;
 import com.example.nooneschool.R.layout;
@@ -34,6 +33,7 @@ public class PersonalDataActivity extends Activity implements View.OnClickListen
 	private TextView tv_nickname;
 	private TextView tv_iphone;
 	private LinearLayout ll_nickname;
+	private LinearLayout ll_password;
 	private String nickname;
 	private String userid;
 	private String account;
@@ -59,28 +59,39 @@ public class PersonalDataActivity extends Activity implements View.OnClickListen
 		tv_nickname = (TextView) findViewById(R.id.person_nickname_textview);
 		tv_iphone = (TextView) findViewById(R.id.person_iphone_textview);
 		ll_nickname = (LinearLayout) findViewById(R.id.person_nickname_linearlayout);
+		ll_password = (LinearLayout) findViewById(R.id.person_password_linearlayout);
 		
 		Intent intent = getIntent();
 		userid = intent.getStringExtra("userid");
 
 		iv_return.setOnClickListener(this);
 		ll_nickname.setOnClickListener(this);
+		ll_password.setOnClickListener(this);
 		
 		getuserdata();
 	}
 
 	@Override
 	public void onClick(View v) {
+		Intent intent;
 		switch (v.getId()) {
 		case R.id.person_return_imageview:
 			PersonalDataActivity.this.finish();
 			break;
+			
 		case R.id.person_nickname_linearlayout:
-			Intent intent = new Intent(PersonalDataActivity.this, ChangeNickNameActivity.class);
+			intent = new Intent(PersonalDataActivity.this, ChangeNickNameActivity.class);
 			intent.putExtra("nickname", nickname);
 			intent.putExtra("userid", userid);
 			startActivity(intent);
 			break;
+			
+		case R.id.person_password_linearlayout:
+			intent = new Intent(PersonalDataActivity.this, ChangePasswordActivity.class);
+			intent.putExtra("userid", userid);
+			startActivity(intent);
+			break;
+			
 		default:
 			break;
 		}

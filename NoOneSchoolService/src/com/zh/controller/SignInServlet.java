@@ -19,13 +19,13 @@ import com.zh.entity.SignIn;
 import com.zh.utils.JsonUtil;
 
 @WebServlet("/SignIn")
-public class SignInServlet extends HttpServlet{
+public class SignInServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		doPost(req, resp);
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -33,19 +33,19 @@ public class SignInServlet extends HttpServlet{
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
 		String userid = obj.getString("userid");
-		
+
 		Calendar c = Calendar.getInstance();
 		String year = String.valueOf(c.get(Calendar.YEAR));
-		String month = String.valueOf(c.get(Calendar.MONTH)+1);
-		
+		String month = String.valueOf(c.get(Calendar.MONTH) + 1);
+
 		SignInDao signInDao = (SignInDao) DaoFactory.getInstance("signInDao");
 		String sql = "select day from signin where userid = ? and year = ? and month = ?";
-		List<SignIn> list = signInDao.find(sql,userid,year,month);
-		
+		List<SignIn> list = signInDao.find(sql, userid, year, month);
+
 		resp.setContentType("text/html");
 		JSONArray js = new JSONArray();
-		
-		for(SignIn signin : list){
+
+		for (SignIn signin : list) {
 			JSONObject json = new JSONObject();
 			int day = signin.getDay();
 			json.put("day", day);
@@ -53,7 +53,7 @@ public class SignInServlet extends HttpServlet{
 		}
 		String content = String.valueOf(js);
 		resp.getOutputStream().write(content.getBytes("utf-8"));
-		
+
 	}
 
 }
