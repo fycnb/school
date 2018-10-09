@@ -32,7 +32,8 @@
                 android:id="@+id/restaurant_img_imageview"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp" />
             
             <TextView 
                 android:id="@+id/restaurant_name_textview"

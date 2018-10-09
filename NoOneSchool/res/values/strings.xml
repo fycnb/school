@@ -27,5 +27,7 @@
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_merchant">MerchantActivity</string>
     <string name="title_activity_my_order_deatil">MyOrderDeatilActivity</string>
+    <string name="title_activity_send">SendActivity</string>
+    <string name="title_activity_send_detail">SendDetailActivity</string>
 
 </resources>

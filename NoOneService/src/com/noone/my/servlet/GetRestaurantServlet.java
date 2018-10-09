@@ -43,7 +43,6 @@ public class GetRestaurantServlet extends HttpServlet {
 		DBOper db = new DBOper();
 		try {
 			db.getConn();
-			System.out.println(type);
 
 			String sql = "select restaurantid,name,address,send,delivery,image from restaurant "
 					+ type

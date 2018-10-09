@@ -89,10 +89,10 @@ public class MealActivity extends TabActivity {
 		tabhost.addTab(tabhost.newTabSpec("two").setIndicator(createTabIcon(R.color.dating, "评价"))
 				.setContent(two.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
-		Intent three = new Intent(MealActivity.this, MerchantActivity.class);
-		three.putExtra("id", id);
-		tabhost.addTab(tabhost.newTabSpec("three").setIndicator(createTabIcon(R.color.lesson, "商家"))
-				.setContent(three.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+//		Intent three = new Intent(MealActivity.this, MerchantActivity.class);
+//		three.putExtra("id", id);
+//		tabhost.addTab(tabhost.newTabSpec("three").setIndicator(createTabIcon(R.color.lesson, "商家"))
+//				.setContent(three.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 		
 		upTabhost();
 		tabhost.setOnTabChangedListener(new OnTabChangeListener() {

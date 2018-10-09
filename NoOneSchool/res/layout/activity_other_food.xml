@@ -13,14 +13,21 @@
         android:fadingEdge="none"
         android:overScrollMode="never"
         android:scrollbars="none" />
-    
-    
-    <ImageView 
-        android:id="@+id/food_back_imageview"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+
+    <LinearLayout
+        android:id="@+id/food_back_ll"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:padding="3dp"
+        android:paddingLeft="15dp"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/back"/>
+        android:background="@drawable/corner_shape4" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/back" />
+        
+    </LinearLayout>
 
 </RelativeLayout>

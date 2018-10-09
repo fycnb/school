@@ -17,6 +17,7 @@ import com.example.nooneschool.home.HomeService;
 import com.example.nooneschool.home.MealActivity;
 import com.example.nooneschool.home.OtherFoodActivity;
 import com.example.nooneschool.home.SearchActivity;
+import com.example.nooneschool.home.SendActivity;
 import com.example.nooneschool.home.WeatherActivity;
 import com.example.nooneschool.home.adapter.AdapterClass;
 import com.example.nooneschool.home.adapter.AdapterMeal;
@@ -114,7 +115,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 		bannerList = DataUtil.getBannerData(this);
 		headerBannerView = new BannerView(HomeActivity.this);
 		headerBannerView.fillView(bannerList, smoothListView);
-
+		headerBannerView.getAdapt().setFlag(false);
 		// 食品标签初始化
 		foodList = DataUtil.getFoodData();
 		View view = LayoutInflater.from(HomeActivity.this).inflate(R.layout.header_food_layout, smoothListView, false);
@@ -132,7 +133,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 				if (flag) {
 				switch (position) {
 				case 3:
-					Intent intent1 = new Intent(HomeActivity.this, OtherFoodActivity.class);
+					Intent intent1 = new Intent(HomeActivity.this, SendActivity.class);
 					startActivity(intent1);
 					break;
 
@@ -243,12 +244,13 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 				smoothListView.setRefreshTime("刚刚");
 				smoothListView.setRefreshUsable(true);
 				flag=true;
-				headerBannerView.getAdapt().setFlag(true);
+//				headerBannerView.getAdapt().setFlag(true);
 			}
 		}, 2000);
 
 		// new MyTask().execute("");
-		headerBannerView.getAdapt().setFlag(false);
+//		headerBannerView.getAdapt().setFlag(false);
+		smoothListView.setRefreshUsable(false);
 		refreshMealData();
 		getAdData();
 
@@ -262,10 +264,10 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 			@Override
 			public void run() {
 				flag=true;
-				headerBannerView.getAdapt().setFlag(true);
+//				headerBannerView.getAdapt().setFlag(true);
 			}
 		}, 2000);
-		headerBannerView.getAdapt().setFlag(false);
+//		headerBannerView.getAdapt().setFlag(false);
 		getMealData();
 	}
 
@@ -326,12 +328,14 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	@Override
 	protected void onResume() {
 		super.onResume();
+		headerBannerView.getAdapt().setFlag(false);
 		headerBannerView.enqueueBannerLoopMessage();
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
+		headerBannerView.getAdapt().setFlag(false);
 		headerBannerView.removeBannerLoopMessage();
 	}
 
@@ -391,8 +395,6 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 	}
 	
 	public void refreshMealData() {
-		
-		smoothListView.setRefreshUsable(false);;
 		refreshMealDataRunnable = new Runnable() {
 
 			@Override
@@ -428,7 +430,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-						} else
+						} else if (result != null)
 							smoothListView.setLoadMoreEnable(false);
 
 					}
@@ -483,7 +485,7 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-						} else {
+						} else if(result != null){
 							smoothListView.setLoadMoreEnable(false);
 						}
 						smoothListView.stopLoadMore();
