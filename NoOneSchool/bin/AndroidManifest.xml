@@ -116,8 +116,28 @@
             android:label="@string/title_activity_send" >
         </activity>
         <activity
-            android:name="com.example.nooneschool.home.SendDetailActivity"
+            android:name=".home.SendDetailActivity"
             android:label="@string/title_activity_send_detail" >
+        </activity>
+        <activity
+            android:name=".dating.TempInfoActivity"
+            android:label="@string/title_activity_temp_info" >
+        </activity>
+        <activity
+            android:name=".dating.RoomActivity"
+            android:label="@string/title_activity_room" >
+        </activity>
+        <activity
+            android:name=".dating.FlockActivity"
+            android:label="@string/title_activity_flock" >
+        </activity>
+        <activity
+            android:name=".dating.FriendActivity"
+            android:label="@string/title_activity_friend" >
+        </activity>
+        <activity
+            android:name="com.example.nooneschool.dating.InfoActivity"
+            android:label="@string/title_activity_info" >
         </activity>
     </application>
 

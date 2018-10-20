@@ -29,5 +29,10 @@
     <string name="title_activity_my_order_deatil">MyOrderDeatilActivity</string>
     <string name="title_activity_send">SendActivity</string>
     <string name="title_activity_send_detail">SendDetailActivity</string>
+    <string name="title_activity_temp_info">TempInfoActivity</string>
+    <string name="title_activity_room">RoomActivity</string>
+    <string name="title_activity_flock">FlockActivity</string>
+    <string name="title_activity_friend">FriendActivity</string>
+    <string name="title_activity_info">InfoActivity</string>
 
 </resources>
