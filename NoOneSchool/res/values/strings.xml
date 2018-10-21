@@ -30,5 +30,7 @@
     <string name="title_activity_publish_comment">PublishCommentActivity</string>
     <string name="title_activity_change_nick_name">ChangeNickNameActivity</string>
     <string name="title_activity_change_password">ChangePasswordActivity</string>
+    <string name="title_activity_add_course">AddCourseActivity</string>
+    <string name="title_activity_source_detail">SourceDetailActivity</string>
 
 </resources>

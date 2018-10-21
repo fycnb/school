@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="blue">#0D8CEF</color>
+   <color name="blue">#0D8CEF</color>
     <color name="title">#4000</color>
     <color name="menucheck">#fff</color>
     <color name="menuuncheck">#fdfdfd</color>
     <color name="white">#FFFFFF</color>
- 	<color name="yellow">#FFFF77</color>
- 	<color name="gray">#DDDDDD</color>
- 	<color name="indigo">#CCEEFF</color>
+    <color name="yellow">#FFFF77</color>
+    <color name="gray">#DDDDDD</color>
+    <color name="indigo">#CCEEFF</color>
+    <color name="black">#000000</color>
+    <color name="clarity">#00000000</color>
 </resources>
