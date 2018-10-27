@@ -1,6 +1,8 @@
 package com.example.nooneschool;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.example.nooneschool.lesson.AddCourseActivity;
@@ -10,7 +12,10 @@ import com.example.nooneschool.lesson.CourseSQLiteOpenHelper;
 import com.example.nooneschool.util.DensityUtil;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -37,15 +42,19 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 	private ImageView iv_add;
 	private CourseSQLiteOpenHelper helper;
 	private SQLiteDatabase db;
+	private SharedPreferences sp;
 
 	private int currentCoursesNumber = 0;
 	private int maxCoursesNumber = 0;
-	private int currweek = 1;
+	private int currweek;
+	
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lesson);
+		initLeftView();
 		init();
 	}
 
@@ -56,12 +65,20 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void init() {
+		sp = this.getSharedPreferences("currweek", Context.MODE_PRIVATE);
+		currweek = sp.getInt("currweek", 0);
+//		Date date = new Date();
+//		Calendar cal = Calendar.getInstance();
+//		cal.setFirstDayOfWeek(Calendar.MONDAY);//设置周一为一周的第一天
+//		cal.setTime(date);
+//		int n = cal.get(Calendar.WEEK_OF_YEAR);
+//		if(n>weekofyear){
+//			currweek++;
+//		}
 		helper = new CourseSQLiteOpenHelper(this);
 		iv_add = (ImageView) findViewById(R.id.course_add_imageview);
 		sp_week = (Spinner) findViewById(R.id.lesson_week_spinner);
 		iv_add.setOnClickListener(this);
-
-		
 		loadData();
 		weekSipnner();
 	}
@@ -76,29 +93,29 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 			break;
 		}
 	}
+	
+	private void setCurrentWeek(){
+			Editor editor = sp.edit();
+			editor.putInt("currweek", currweek);
+			editor.commit();
+		
+	}
 
 	private void weekSipnner() {
 		weekList = new ArrayList<String>();
-		weekList.add("周一");
-		weekList.add("周二");
-		weekList.add("周三");
-		weekList.add("周四");
-		weekList.add("周五");
-		weekList.add("周六");
-		weekList.add("周七");
+		for (int i = 1; i <= 25; i++) {
+			weekList.add("第" + i + "周");
+		}
 		weekAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, weekList);
-		weekAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		weekAdapter.setDropDownViewResource(R.layout.week_spinner_style);
 		sp_week.setAdapter(weekAdapter);
-		sp_week.setSelection(0, true);
+		sp_week.setSelection(currweek-1, true);
 		sp_week.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				currweek = position + 1;
-				if(day != null){
-					day.removeAllViews();
-				}
-				
+				setCurrentWeek();
 				loadData();
 			}
 
@@ -112,10 +129,13 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 
 	// 从数据库加载数据
 	private void loadData() {
+		removeViews();
 		ArrayList<Course> coursesList = new ArrayList<>();
 		db = helper.getWritableDatabase();
 		String week = String.valueOf(currweek);
 		Cursor cursor = db.rawQuery("select courseid from weekday where week = ?", new String[] { week });
+		int c = cursor.getCount();
+
 		if (cursor.moveToFirst()) {
 			do {
 				String courseid = String.valueOf(cursor.getInt(cursor.getColumnIndex("courseid")));
@@ -129,11 +149,29 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 				cr.close();
 			} while (cursor.moveToNext());
 		}
-
 		cursor.close();
+		db.close();
 		for (Course course : coursesList) {
 			createLeftView(course);
 			createCourseView(course);
+		}
+	}
+
+	private void initLeftView() {
+		if (maxCoursesNumber <= 8) {
+			for (int i = 1; i <= 8; i++) {
+				View view = LayoutInflater.from(this).inflate(R.layout.left_view, null);
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.getWindowWidth(this) / 8,
+						100);
+				view.setLayoutParams(params);
+
+				TextView text = (TextView) view.findViewById(R.id.class_number_text);
+				text.setText(String.valueOf(++currentCoursesNumber));
+
+				LinearLayout leftViewLayout = (LinearLayout) findViewById(R.id.left_view_layout);
+				leftViewLayout.addView(view);
+			}
+			maxCoursesNumber = 8;
 		}
 	}
 
@@ -153,8 +191,9 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 				LinearLayout leftViewLayout = (LinearLayout) findViewById(R.id.left_view_layout);
 				leftViewLayout.addView(view);
 			}
+			maxCoursesNumber = len;
 		}
-		maxCoursesNumber = len;
+
 	}
 
 	// 创建课程视图
@@ -162,8 +201,9 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 		int height = 100;
 		int getDay = course.getDay();
 		if ((getDay < 1 || getDay > 7) || course.getClass_start() > course.getClass_end())
-			Toast.makeText(this, "星期几没写对,或课程结束时间比开始时间还早~~", 0).show();
+			Toast.makeText(this, "星期几没写对,或课程结束时间比开始时间还早~~", Toast.LENGTH_SHORT).show();
 		else {
+
 			switch (getDay) {
 			case 1:
 				day = (RelativeLayout) findViewById(R.id.monday);
@@ -207,7 +247,6 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 					intent.putExtra("cName", course.getCourse_name());
 					intent.putExtra("cRoom", course.getClass_room());
 					intent.putExtra("teacher", course.getTeacher());
-					intent.putExtra("week", currweek);
 					intent.putExtra("day", course.getDay());
 					intent.putExtra("start", course.getClass_start());
 					intent.putExtra("end", course.getClass_end());
@@ -242,8 +281,8 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 							vw.setVisibility(View.GONE);// 先隐藏
 							day.removeView(vw);// 再移除课程视图
 							db = helper.getWritableDatabase();
-							db.execSQL("delete from course where course_name = ?",
-									new String[] { course.getCourse_name() });
+							db.execSQL("delete from course where courseid = ?",
+									new String[] { course.getCourseid()+"" });
 							db.close();
 							popup.dismiss();
 						}
@@ -261,8 +300,8 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 			});
 		}
 	}
-	
-	private void popupFunction(){
+
+	private void popupFunction() {
 		View view = getLayoutInflater().inflate(R.layout.popup_lesson_function, null);
 
 		final PopupWindow popup = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -274,7 +313,7 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 		popup.setFocusable(true);
 		popup.setTouchable(true);
 		popup.showAsDropDown(iv_add);
-		
+
 		TextView tv_function = (TextView) view.findViewById(R.id.lesson_add_textview);
 		TextView tv_clear = (TextView) view.findViewById(R.id.lesson_clear_textview);
 		tv_function.setOnClickListener(new OnClickListener() {
@@ -285,7 +324,7 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 				startActivity(intent);
 			}
 		});
-		
+
 		tv_clear.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -303,10 +342,10 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 				TextView tv_ok = (TextView) view.findViewById(R.id.delete_ok_textview);
 				TextView tv_cancel = (TextView) view.findViewById(R.id.delete_cancel_textview);
 				tv_ok.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-						day.removeAllViews();
+						removeViews();
 						db = helper.getWritableDatabase();
 						db.execSQL("delete from course");
 						db.execSQL("delete from weekday");
@@ -314,8 +353,50 @@ public class LessonActivity extends Activity implements View.OnClickListener {
 						popup.dismiss();
 					}
 				});
+
+				tv_cancel.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						popup.dismiss();
+					}
+				});
 			}
 		});
 	}
 
+	private void removeViews() {
+		for(int i = 1;i<8;i++){
+			switch (i) {
+			case 1:
+				day = (RelativeLayout) findViewById(R.id.monday);
+				break;
+			case 2:
+				day = (RelativeLayout) findViewById(R.id.tuesday);
+				break;
+			case 3:
+				day = (RelativeLayout) findViewById(R.id.wednesday);
+				break;
+			case 4:
+				day = (RelativeLayout) findViewById(R.id.thursday);
+				break;
+			case 5:
+				day = (RelativeLayout) findViewById(R.id.friday);
+				break;
+			case 6:
+				day = (RelativeLayout) findViewById(R.id.saturday);
+				break;
+			case 7:
+				day = (RelativeLayout) findViewById(R.id.weekday);
+				break;
+			}
+			if (day != null) {
+				day.removeAllViews();
+			}
+
+		}
+	
+	
+	
+	}
 }

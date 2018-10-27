@@ -8,9 +8,12 @@ import com.example.nooneschool.lesson.WeekGridViewAdpter.ViewHolder;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract.DeletedContacts;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -217,7 +220,7 @@ public class AddCourseActivity extends Activity implements View.OnClickListener 
 		TextView tv_cancel = (TextView) view.findViewById(R.id.day_cancel_textview);
 
 		final ListView lv_day = (ListView) view.findViewById(R.id.day_listview);
-		final String[] days = { "周一", "周二", "周三", "周四", "周五", "周六", "周七" };
+		final String[] days = { "周一", "周二", "周三", "周四", "周五", "周六", "周日" };
 		dayAdapter = new ArrayAdapter<String>(this, R.layout.item_arrayadpter, days);
 		lv_day.setAdapter(dayAdapter);
 		lv_day.setSelected(true);
@@ -319,26 +322,63 @@ public class AddCourseActivity extends Activity implements View.OnClickListener 
 		course.setClass_start(currstart);
 		course.setClass_end(currend);
 
+		db = helper.getWritableDatabase();
 		Long id = saveCourse(course);
-
-		Integer courseid = id.intValue();
+		int courseid = id.intValue();
 		if (list != null) {
 			for (int i = 0; i < list.size(); i++) {
-				Week w = new Week();
-				w.setWeek(list.get(i) + 1);
-				w.setCourseid(courseid);
-				saveWeek(w);
-			}
-			Toast.makeText(AddCourseActivity.this, "添加成功", 0).show();
-			AddCourseActivity.this.finish();
-		}
+				String wk = String.valueOf(list.get(i) + 1);
+				
+				Cursor cursor = db.rawQuery("select courseid from weekday where week = ? ", new String[] { wk });
+				int number = cursor.getCount();
+				if (number > 0) {
+					while (cursor.moveToNext()) {
+						int cid = cursor.getInt(cursor.getColumnIndex("courseid"));
+						Cursor cr = db.rawQuery(
+								"select * from course where courseid = ? and day = ? and class_start = ?",
+								new String[] { cid + "", currday + "", currstart + "" });
+						int count = cr.getCount();
+						if (count <= 0) {
+							Cursor cur = db.rawQuery(
+									"select * from course where courseid = ? and day = ? and class_start = ?",
+									new String[] { cid + "", currday + "", currend + "" });
+							int num = cur.getCount();
+							if (num <= 0 ) {
+								Week w = new Week();
+								w.setWeek(list.get(i) + 1);
+								w.setCourseid(courseid);
+								saveWeek(w);
+								
+								Toast.makeText(AddCourseActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+								AddCourseActivity.this.finish();
+								break;
+							} else {
+								deleteCourse(courseid);
+								Toast.makeText(AddCourseActivity.this, "当前节数已有课程,请重新选择", Toast.LENGTH_SHORT).show();
+							}
 
+						} else {
+							deleteCourse(courseid);
+							Toast.makeText(AddCourseActivity.this, "当前节数已有课程,请重新选择", Toast.LENGTH_SHORT).show();
+						}
+						cr.close();
+					}
+				} else {
+					Week w = new Week();
+					w.setWeek(list.get(i) + 1);
+					w.setCourseid(courseid);
+					saveWeek(w);
+					Toast.makeText(AddCourseActivity.this, "添加成功", 0).show();
+					AddCourseActivity.this.finish();
+				}
+				cursor.close();
+			}
+		}
+		db.close();
 	}
 
 	// 保存数据到数据库
 	private Long saveCourse(Course course) {
-		db = helper.getWritableDatabase();
-
 		ContentValues Values = new ContentValues();
 		Values.put("course_name", course.getCourse_name());
 		Values.put("teacher", course.getTeacher());
@@ -348,17 +388,18 @@ public class AddCourseActivity extends Activity implements View.OnClickListener 
 		Values.put("class_end", course.getClass_end());
 		Long id = db.insert("course", null, Values);
 
-		db.close();
 		return id;
 	}
 
 	private void saveWeek(Week week) {
-		db = helper.getWritableDatabase();
 		ContentValues Values = new ContentValues();
 		Values.put("courseid", week.getCourseid());
 		Values.put("week", week.getWeek());
 		db.insert("weekday", null, Values);
-		db.close();
+	}
+	
+	private void deleteCourse(int courseid){
+		db.execSQL("delete from weekday where courseid = ?",new String[]{courseid+""});
 	}
 
 	public class weekGirdView implements OnItemClickListener {

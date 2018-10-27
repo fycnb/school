@@ -348,6 +348,7 @@ containing a value of this type.
         public static final int smoothlistview_header=0x7f030036;
         public static final int tab=0x7f030037;
         public static final int tab1=0x7f030038;
+        public static final int week_spinner_style=0x7f030039;
     }
     public static final class menu {
         public static final int as_main=0x7f080000;

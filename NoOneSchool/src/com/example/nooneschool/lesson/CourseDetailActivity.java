@@ -9,9 +9,11 @@ import com.example.nooneschool.lesson.WeekGridViewAdpter.ViewHolder;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -63,20 +65,30 @@ public class CourseDetailActivity extends Activity implements View.OnClickListen
 	}
 	
 	private void init(){
+		helper = new CourseSQLiteOpenHelper(this);
 		Intent intent = getIntent();
 		String cName = intent.getStringExtra("cName");
 		String cRoom = intent.getStringExtra("cRoom");
 		String teacher = intent.getStringExtra("teacher");
 		
-		int week = intent.getIntExtra("week", 0);
 		courseid = intent.getIntExtra("courseid", 0);
 		currday = intent.getIntExtra("day", 0);
 		currstart = intent.getIntExtra("start", 0);
 		currend = intent.getIntExtra("end", 0);
-		
+		list = new ArrayList<Integer>();
+		listItemID.clear();
+		db = helper.getWritableDatabase();
+		Cursor cursor = db.rawQuery("select week from weekday where courseid = ?", new String[] { courseid+"" });
+		while(cursor.moveToNext()){
+			int week = cursor.getInt(cursor.getColumnIndex("week"));
+			list.add(week-1);
+			listItemID.add(weekArray[week-1]);
+		}
+		cursor.close();
+		db.close();
 		iv_return = (ImageView) findViewById(R.id.course_detail_return_imageview);
 		
-		helper = new CourseSQLiteOpenHelper(this);
+		
 		et_course_name = (EditText) findViewById(R.id.course_detail_name_edittext);
 		et_class_room = (EditText) findViewById(R.id.detail_class_room_edittext);
 		et_teacher = (EditText) findViewById(R.id.teacher_detail_edittext);
@@ -92,7 +104,17 @@ public class CourseDetailActivity extends Activity implements View.OnClickListen
 		et_course_name.setText(cName);
 		et_class_room.setText(cRoom);
 		et_teacher.setText(teacher);
-		tv_week.setText("第"+week+"周");
+		
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < listItemID.size(); i++) {
+			if (i == listItemID.size() - 1) {
+				sb.append(listItemID.get(i) + "周");
+			} else {
+				sb.append(listItemID.get(i) + ",");
+			}
+		}
+		tv_week.setText(sb.toString());
+		
 		tv_day.setText("周"+currday+" "+currstart+"-"+currend+"节");
 	}
 
@@ -334,19 +356,54 @@ public class CourseDetailActivity extends Activity implements View.OnClickListen
 		course.setDay(currday);
 		course.setClass_start(currstart);
 		course.setClass_end(currend);
-
-		updateCourse(course);
-
 		
+		db = helper.getWritableDatabase();
+		updateCourse(course);
 		if (list != null) {
 			for (int i = 0; i < list.size(); i++) {
-				Week w = new Week();
-				w.setWeek(list.get(i) + 1);
-				w.setCourseid(courseid);
-				updateweek(w);
+				String wk = String.valueOf(list.get(i) + 1);
+				Cursor cursor = db.rawQuery("select courseid from weekday where week = ? ", new String[] { wk });
+				int number = cursor.getCount();
+				if (number > 0) {
+					while (cursor.moveToNext()) {
+						int cid = cursor.getInt(cursor.getColumnIndex("courseid"));
+						Cursor cr = db.rawQuery(
+								"select * from course where courseid = ? and day = ? and class_start = ?",
+								new String[] { cid + "", currday + "", currstart + "" });
+						int count = cr.getCount();
+						if (count <= 0) {
+							Cursor cur = db.rawQuery(
+									"select * from course where courseid = ? and day = ? and class_start = ?",
+									new String[] { cid + "", currday + "", currend + "" });
+							int num = cur.getCount();
+							if (num <= 0) {
+								Week w = new Week();
+								w.setWeek(list.get(i) + 1);
+								w.setCourseid(courseid);
+								updateWeek(w);
+								Toast.makeText(CourseDetailActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+								CourseDetailActivity.this.finish();
+							} else {
+								Toast.makeText(CourseDetailActivity.this, "当前节数已有课程,请重新选择", Toast.LENGTH_SHORT).show();
+							}
+
+						} else {
+							Toast.makeText(CourseDetailActivity.this, "当前节数已有课程,请重新选择", Toast.LENGTH_SHORT).show();
+						}
+						cr.close();
+					}
+				} else {
+					Week w = new Week();
+					w.setWeek(list.get(i) + 1);
+					w.setCourseid(courseid);
+					updateWeek(w);
+					Toast.makeText(CourseDetailActivity.this, "添加成功", 0).show();
+					CourseDetailActivity.this.finish();
+				}
+				cursor.close();
 			}
 		}
-		CourseDetailActivity.this.finish();
+		db.close();
 	}
 	
 	private void updateCourse(Course course){
@@ -361,17 +418,15 @@ public class CourseDetailActivity extends Activity implements View.OnClickListen
 		values.put("class_end", course.getClass_end());
 		String id = String.valueOf(courseid);
 		int count = db.update("course", values, "courseid = ?", new String[] { id });
-		db.close();
 	}
 	
-	private void updateweek(Week week){
+	private void updateWeek(Week week){
 		db = helper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("courseid", week.getCourseid());
 		values.put("week", week.getWeek());
 		String id = String.valueOf(courseid);
 		int count = db.update("weekday", values, "courseid = ?", new String[] { id });
-		db.close();
 	}
 	
 	public class weekGirdView implements OnItemClickListener {
