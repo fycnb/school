@@ -18,8 +18,8 @@ import com.zh.entity.Detail;
 import com.zh.entity.Menu;
 import com.zh.utils.JsonUtil;
 
-@WebServlet("/MyOrderDetail")
-public class MyOrderDetailServlet extends HttpServlet {
+@WebServlet("/TakerOrderDetail")
+public class TakerOrderDetailServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -43,18 +43,13 @@ public class MyOrderDetailServlet extends HttpServlet {
 			JSONObject json = new JSONObject();
 			int menuid = detail.getMenuid();
 			int number = detail.getNumber();
-			int price = Integer.parseInt(detail.getPrice());
-			int total = number * price;
 
 			MenuDao menuDao = (MenuDao) DaoFactory.getInstance("menuDao");
 			Menu menu = menuDao.findOne(new Long(menuid));
 			String name = menu.getFoodname();
-			String image = menu.getImage();
 
-			json.put("total", total);
 			json.put("number", number);
 			json.put("name", name);
-			json.put("image", image);
 			js.add(json);
 		}
 		String content = String.valueOf(js);

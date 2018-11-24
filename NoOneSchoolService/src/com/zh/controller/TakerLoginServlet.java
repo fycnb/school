@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zh.Dao.OrderDao;
+import com.zh.Dao.TakerDao;
 import com.zh.Dao.common.DaoFactory;
+import com.zh.entity.Taker;
 import com.zh.utils.JsonUtil;
 
-@WebServlet("/CancelOrder")
-public class CancelOrderServlet extends HttpServlet {
+@WebServlet("/TakerLogin")
+public class TakerLoginServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -26,17 +27,19 @@ public class CancelOrderServlet extends HttpServlet {
 			throws ServletException, IOException {
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
-		String orderid = obj.getString("orderid");
-		String userid = obj.getString("userid");
+		String account = obj.getString("account");
+		String password = obj.getString("password");
 
-		OrderDao orderDao = (OrderDao) DaoFactory.getInstance("orderDao");
-		int rs = orderDao.cancelOrder(userid, orderid);
-
+		TakerDao takerDao = (TakerDao) DaoFactory.getInstance("takerDao");
+		Taker taker = takerDao.Login(account,password);
+		
 		resp.setContentType("text/html");
-		if (rs > 0) {
-			resp.getOutputStream().write("取消订单成功".getBytes("utf-8"));
+		if (taker != null) { 
+			JSONObject json = new JSONObject();
+			json.put("takerid", taker.getId());
+			resp.getOutputStream().write(String.valueOf(json).getBytes("utf-8"));
 		} else {
-			resp.getOutputStream().write("取消订单失败".getBytes("utf-8"));
+			resp.getOutputStream().write("账号或密码输入错误,请重新输入".getBytes("utf-8"));
 		}
 	}
 }

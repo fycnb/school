@@ -25,7 +25,6 @@ public class ChangePasswordServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
 		String userid = obj.getString("userid");
@@ -38,8 +37,8 @@ public class ChangePasswordServlet extends HttpServlet {
 
 		resp.setContentType("text/html");
 		if (currentpw.equals(password)) {
-			String sql = "update user set password = ?  where id = ?";
-			int rs = userDao.update(sql, newpw, userid);
+			int rs = userDao.changePwd(newpw, userid);
+			
 			if (rs > 0) {
 				resp.getOutputStream().write("ĞŞ¸ÄÃÜÂë³É¹¦".getBytes("utf-8"));
 			} else {

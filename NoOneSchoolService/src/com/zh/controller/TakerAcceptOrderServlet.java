@@ -13,30 +13,30 @@ import com.zh.Dao.OrderDao;
 import com.zh.Dao.common.DaoFactory;
 import com.zh.utils.JsonUtil;
 
-@WebServlet("/CancelOrder")
-public class CancelOrderServlet extends HttpServlet {
+@WebServlet("/TakerAcceptOrder")
+public class TakerAcceptOrderServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		doPost(req, resp);
 	}
-
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
+		String takerid = obj.getString("takerid");
 		String orderid = obj.getString("orderid");
-		String userid = obj.getString("userid");
-
+		
 		OrderDao orderDao = (OrderDao) DaoFactory.getInstance("orderDao");
-		int rs = orderDao.cancelOrder(userid, orderid);
-
-		resp.setContentType("text/html");
+		int rs = orderDao.updateByTakerid(orderid,takerid);
+		
 		if (rs > 0) {
-			resp.getOutputStream().write("取消订单成功".getBytes("utf-8"));
+			resp.getOutputStream().write("成功接单,请尽快到达商家取餐".getBytes("utf-8"));
 		} else {
-			resp.getOutputStream().write("取消订单失败".getBytes("utf-8"));
+			resp.getOutputStream().write("请稍后再操作".getBytes("utf-8"));
 		}
 	}
+
 }

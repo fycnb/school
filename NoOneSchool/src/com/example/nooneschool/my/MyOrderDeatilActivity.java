@@ -32,6 +32,7 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 	private TextView tv_memo;
 	private TextView tv_iphone;
 	private TextView tv_orderid;
+	private TextView tv_address;
 
 	private ImageView iv_return;
 	private RelativeLayout rl_iphone;
@@ -47,6 +48,7 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 	private String memo;
 	private String state;
 	private String iphone;
+	private String address;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 		tv_memo = (TextView) findViewById(R.id.deatil_memo_textview);
 		tv_iphone = (TextView) findViewById(R.id.detail_iphone_textview);
 		tv_orderid = (TextView) findViewById(R.id.detail_orderid_textview);
+		tv_address = (TextView) findViewById(R.id.deatil_address_textview);
 
 		lv_detail = (ListView) findViewById(R.id.detail_listview);
 
@@ -80,6 +83,7 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 		memo = intent.getStringExtra("memo");
 		state = intent.getStringExtra("state");
 		iphone = intent.getStringExtra("iphone");
+		address = intent.getStringExtra("address");
 
 		tv_state.setText(state);
 		tv_time.setText(time);
@@ -87,6 +91,7 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 		tv_restaurant.setText(restaurant);
 		tv_iphone.setText(iphone);
 		tv_orderid.setText(orderid);
+		tv_address.setText(address);
 
 		iv_return.setOnClickListener(this);
 		rl_iphone.setOnClickListener(this);

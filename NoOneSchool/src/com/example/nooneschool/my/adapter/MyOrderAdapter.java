@@ -115,10 +115,6 @@ public class MyOrderAdapter extends BaseAdapter {
 			setStateColor(holder.tv_state, "#FF0000");
 			break;
 
-		case "已拒绝":
-			setStateColor(holder.tv_state, "#FF0000");
-			break;
-
 		default:
 			break;
 		}

@@ -90,7 +90,8 @@ public class MyOrderActivity extends Activity implements View.OnClickListener, L
 							String orderid = j.getString("orderid");
 							String memo = j.getString("memo");
 							String iphone = j.getString("iphone");
-							mMyOrders.add(new MyOrder(name, total, time, state, image, orderid, memo, iphone));
+							String address = j.getString("address");
+							mMyOrders.add(new MyOrder(name, total, time, state, image, orderid, memo, iphone,address));
 							mMyOrderAdapter = new MyOrderAdapter(MyOrderActivity.this, mMyOrders, listitemclickhelp);
 
 						}
@@ -110,6 +111,7 @@ public class MyOrderActivity extends Activity implements View.OnClickListener, L
 										final String memo = myOrder.getMemo();
 										final String state = myOrder.getState();
 										final String iphone = myOrder.getIphone();
+										final String address = myOrder.getAddress();
 
 										runOnUiThread(new Runnable() {
 											public void run() {
@@ -121,6 +123,7 @@ public class MyOrderActivity extends Activity implements View.OnClickListener, L
 												intent.putExtra("memo", memo);
 												intent.putExtra("state", state);
 												intent.putExtra("iphone", iphone);
+												intent.putExtra("address", address);
 												startActivity(intent);
 											}
 										});

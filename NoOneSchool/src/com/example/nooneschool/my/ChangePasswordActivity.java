@@ -74,17 +74,17 @@ public class ChangePasswordActivity extends Activity implements View.OnClickList
 			final String currentpw = et_currentpw.getText().toString().trim();
 			final String newpw = et_newpw.getText().toString().trim();
 			String confirmpw = et_confirmpw.getText().toString().trim();
-			if(currentpw.equals("")||currentpw==null){
+			if(currentpw==null || currentpw.equals("")){
 				Toast.makeText(ChangePasswordActivity.this, "请输入当前密码", Toast.LENGTH_SHORT).show();
-			}else if(newpw.equals("")||newpw==null){
+			}else if(newpw == null || newpw.equals("")){
 				Toast.makeText(ChangePasswordActivity.this, "请输入新密码", Toast.LENGTH_SHORT).show();
 			}else if(newpw.equals(currentpw)){
 				Toast.makeText(ChangePasswordActivity.this, "新密码和之前的一样，请重新输入", Toast.LENGTH_SHORT).show();
-			}else if(confirmpw.equals("")||confirmpw==null){
+			}else if(confirmpw==null ||confirmpw.equals("")){
 				Toast.makeText(ChangePasswordActivity.this, "请确认新密码", Toast.LENGTH_SHORT).show();
 			}else if(!confirmpw.equals(newpw)){
 				Toast.makeText(ChangePasswordActivity.this, "两次输入的密码不一样请重新输入", Toast.LENGTH_SHORT).show();
-			}else if(et_currentpw.length()<8 || et_newpw.length()<8 || et_confirmpw.length()<8){
+			}else if(et_newpw.length()<=8 || et_confirmpw.length()<=8){
 				Toast.makeText(ChangePasswordActivity.this, "密码长度不够", Toast.LENGTH_SHORT).show();
 			}else{
 				Runnable runnable = new Runnable() {

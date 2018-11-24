@@ -29,7 +29,6 @@ public class SignInServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
 		String userid = obj.getString("userid");
@@ -39,8 +38,8 @@ public class SignInServlet extends HttpServlet {
 		String month = String.valueOf(c.get(Calendar.MONTH) + 1);
 
 		SignInDao signInDao = (SignInDao) DaoFactory.getInstance("signInDao");
-		String sql = "select day from signin where userid = ? and year = ? and month = ?";
-		List<SignIn> list = signInDao.find(sql, userid, year, month);
+		List<SignIn> list = signInDao.findById(userid, year, month);
+		
 
 		resp.setContentType("text/html");
 		JSONArray js = new JSONArray();

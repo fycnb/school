@@ -30,7 +30,6 @@ public class PublishCommentServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
 		String uid = obj.getString("userid");
@@ -65,8 +64,8 @@ public class PublishCommentServlet extends HttpServlet {
 
 		if (commentDao.exists(id)) {
 			OrderDao orderDao = (OrderDao) DaoFactory.getInstance("orderDao");
-			String sql = "update indent set state = 4  where userid = ? and id = ? and state = 3";
-			int rs = orderDao.update(sql, userid, orderid);
+			int rs = orderDao.update5ofstate(userid, orderid);
+			
 			if (rs > 0) {
 				resp.getOutputStream().write("¸ÐÐ»ÄúµÄÆÀ¼Û".getBytes("utf-8"));
 			} else {

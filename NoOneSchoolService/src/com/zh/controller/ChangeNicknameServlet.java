@@ -25,15 +25,13 @@ public class ChangeNicknameServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
 		String userid = obj.getString("userid");
 		String nickname = obj.getString("nickname");
 
 		UserDao userDao = (UserDao) DaoFactory.getInstance("userDao");
-		String sql = "update user set nickname = ?  where id = ?";
-		int rs = userDao.update(sql, nickname, userid);
+		int rs = userDao.changeNickname(nickname, userid);
 
 		resp.setContentType("text/html");
 		if (rs > 0) {

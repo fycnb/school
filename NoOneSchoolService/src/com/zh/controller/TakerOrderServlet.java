@@ -22,8 +22,8 @@ import com.zh.entity.Indent;
 import com.zh.entity.Restaurant;
 import com.zh.utils.JsonUtil;
 
-@WebServlet("/MyOrder")
-public class MyOrderServlet extends HttpServlet {
+@WebServlet("/TakerOrder")
+public class TakerOrderServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -34,28 +34,17 @@ public class MyOrderServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		StringBuffer sb = JsonUtil.getjson(req);
-		JSONObject obj = JSONObject.parseObject(sb.toString());
-		String userid = obj.getString("userid");
-		String sta = obj.getString("state");
-
 		resp.setContentType("text/html");
-		JSONArray js = null;
-		String sql = null;
-		List<Indent> orderlist = null;
 
 		OrderDao orderDao = (OrderDao) DaoFactory.getInstance("orderDao");
 
-		if (sta.equals("all")) {
-			orderlist = orderDao.findAllById(userid);
-			js = getdata(orderlist);
-		} else {
-			orderlist = orderDao.findByState(userid, sta);
-			js = getdata(orderlist);
-		}
-
-		String content = String.valueOf(js);
-		resp.getOutputStream().write(content.getBytes("utf-8"));
+		List<Indent> orderlist = orderDao.findByTaker0();
+	
+			JSONArray js = getdata(orderlist);
+			String content = String.valueOf(js);
+			resp.getOutputStream().write(content.getBytes("utf-8"));
+		
+		
 	}
 
 	private JSONArray getdata(List<Indent> orderlist) {
@@ -65,61 +54,25 @@ public class MyOrderServlet extends HttpServlet {
 			Long orderid = order.getId();
 			int restaurantid = order.getRestaurantid();
 			Date t = order.getTime();
-			int st = order.getState();
 			String memo = order.getMemo();
-			String address = order.getAddress();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+			String oAddress = order.getAddress();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String time = sdf.format(t);
-
-			String state = "";
-			switch (st) {
-			case 0:
-				state = "待接单";
-				break;
-			case 1:
-				state = "已接单";
-				break;
-			case 4:
-				state = "待评价";
-				break;
-			case 5:
-				state = "已完成";
-				break;
-			case -1:
-				state = "已取消";
-				break;
-			
-			default:
-				break;
-			}
-
-			DetailDao detailDao = (DetailDao) DaoFactory
-					.getInstance("detailDao");
-			List<Detail> detaillist = detailDao.findById(orderid);
-			
-			int total = 0;
-			for (Detail detail : detaillist) {
-				int price = Integer.parseInt(detail.getPrice());
-				int number = detail.getNumber();
-				total += price * number;
-			}
 
 			RestaurantDao restaurantDao = (RestaurantDao) DaoFactory
 					.getInstance("restaurantDao");
 			Restaurant restaurant = restaurantDao
 					.findOne(new Long(restaurantid));
 			String name = restaurant.getName();
-			String image = restaurant.getImage();
+			String rAddress = restaurant.getAddress();
 			String iphone = restaurant.getIphone();
 
-			json.put("total", total);
 			json.put("orderid", orderid);
 			json.put("time", time);
-			json.put("state", state);
-			json.put("image", image);
 			json.put("name", name);
 			json.put("memo", memo);
-			json.put("address", address);
+			json.put("rAddress", rAddress);
+			json.put("oAddress", oAddress);
 			json.put("iphone", iphone);
 			js.add(json);
 		}

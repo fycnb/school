@@ -116,7 +116,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		poolExecutor = new ThreadPoolExecutor(3, 5, 1, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(128));
 
 		// 向function_gridview中插入数据
-		functiondata();
+		functionData();
 
 		// 头像
 		String imagepath = path + "/head.png";
@@ -129,7 +129,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		}
 
 		// 获取数据
-		getuserdata();
+		getUserData();
 
 		// 点击事件
 		btn_signin.setOnClickListener(this);
@@ -157,17 +157,17 @@ public class MyActivity extends Activity implements View.OnClickListener {
 			break;
 		case R.id.my_waitingorder_button:
 			intent = new Intent(MyActivity.this, MyOrderActivity.class);
-			intent.putExtra("state", "1");
+			intent.putExtra("state", "0");
 			startActivity(intent);
 			break;
 		case R.id.my_acceptorder_button:
 			intent = new Intent(MyActivity.this, MyOrderActivity.class);
-			intent.putExtra("state", "2");
+			intent.putExtra("state", "1");
 			startActivity(intent);
 			break;
 		case R.id.my_waitingcomment_button:
 			intent = new Intent(MyActivity.this, MyOrderActivity.class);
-			intent.putExtra("state", "3");
+			intent.putExtra("state", "4");
 			startActivity(intent);
 			break;
 			
@@ -187,7 +187,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 	}
 
-	private void getuserdata() {
+	private void getUserData() {
 		Runnable runnable = new Runnable() {
 			public void run() {
 				final String result = UserDataService.UserDataByPost(userid);
@@ -368,9 +368,9 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		return bitmap;
 	}
 
-	private void functiondata() {
-		int icno[] = { R.drawable.collection, R.drawable.recentlybrowse, R.drawable.person, R.drawable.customer };
-		String name[] = { "收藏", "最近浏览", "个人资料", "联系客服" };
+	private void functionData() {
+		int icno[] = { R.drawable.person, R.drawable.customer };
+		String name[] = {  "个人资料", "联系客服" };
 
 		functionList = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < icno.length; i++) {
@@ -395,14 +395,14 @@ public class MyActivity extends Activity implements View.OnClickListener {
 			Intent intent;
 			String name = functionList.get(position).get("name").toString();
 			switch (name) {
-			case "收藏":
-				intent = new Intent(MyActivity.this, CollectionActivity.class);
-				startActivity(intent);
-				break;
-			case "最近浏览":
-				intent = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
-				startActivity(intent);
-				break;
+//			case "收藏":
+//				intent = new Intent(MyActivity.this, CollectionActivity.class);
+//				startActivity(intent);
+//				break;
+//			case "最近浏览":
+//				intent = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
+//				startActivity(intent);
+//				break;
 			case "联系客服":
 				String iphone = "13920147107";
 				intent = new Intent(Intent.ACTION_CALL);

@@ -9,9 +9,12 @@ public class MyOrder {
 	private String orderid;
 	private String memo;
 	private String iphone;
+	private String address;
 
+
+	
 	public MyOrder(String name, String total, String time, String state, String image, String orderid, String memo,
-			String iphone) {
+			String iphone, String address) {
 		super();
 		this.name = name;
 		this.total = total;
@@ -21,7 +24,19 @@ public class MyOrder {
 		this.orderid = orderid;
 		this.memo = memo;
 		this.iphone = iphone;
+		this.address = address;
 	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 
 	public String getIphone() {
 		return iphone;
