@@ -2,6 +2,8 @@ package com.example.nooneschool.my.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
@@ -15,6 +17,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
@@ -27,11 +30,12 @@ public class UploadThread extends Thread {
 
 	private String fileName;
 	private String url;
+	private String userid;
 
-	public UploadThread(String url, String fileName) {
+	public UploadThread(String url, String fileName,String userid) {
 		this.url = url;
 		this.fileName = fileName;
-
+		this.userid = userid;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -43,7 +47,13 @@ public class UploadThread extends Thread {
 		// File fileAbs = new File(parent,"head.png");
 		File file = new File(fileName);
 		FileBody fileBody = new FileBody(file);
-		muti.addPart("file", fileBody);
+		muti.addPart("head", fileBody);
+		try {
+			muti.addPart("userid",new StringBody(userid, Charset.forName("UTF-8")));
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+
 		post.setEntity(muti);
 		try {
 			HttpResponse response = client.execute(post);

@@ -29,7 +29,7 @@ public class MyOrderActivity extends Activity implements View.OnClickListener, L
 	private MyOrderAdapter mMyOrderAdapter;
 	private ListView lv_myorder;
 	private List<MyOrder> mMyOrders;
-	private String userid = "1";
+	private String userid;
 	private ExecutorService singleThreadExeutor;
 	private ListItemClickHelp listitemclickhelp = this;
 	private String state;
@@ -54,6 +54,7 @@ public class MyOrderActivity extends Activity implements View.OnClickListener, L
 		singleThreadExeutor = Executors.newSingleThreadExecutor();
 
 		Intent intent = getIntent();
+		userid = intent.getStringExtra("userid");
 		state = intent.getStringExtra("state");
 		
 		getdata(userid);

@@ -114,7 +114,11 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		rl_person = (RelativeLayout) findViewById(R.id.my_person_relativelayout);
 
 		poolExecutor = new ThreadPoolExecutor(3, 5, 1, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(128));
-
+		
+		
+//		Intent intent = getIntent();
+//		userid = intent.getStringExtra("userid");
+		
 		// 向function_gridview中插入数据
 		functionData();
 
@@ -153,11 +157,13 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		case R.id.my_myorder_button:
 			intent = new Intent(MyActivity.this, MyOrderActivity.class);
 			intent.putExtra("state", "all");
+			intent.putExtra("userid", userid);
 			startActivity(intent);
 			break;
 		case R.id.my_waitingorder_button:
 			intent = new Intent(MyActivity.this, MyOrderActivity.class);
 			intent.putExtra("state", "0");
+			intent.putExtra("userid", userid);
 			startActivity(intent);
 			break;
 		case R.id.my_acceptorder_button:
@@ -168,6 +174,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		case R.id.my_waitingcomment_button:
 			intent = new Intent(MyActivity.this, MyOrderActivity.class);
 			intent.putExtra("state", "4");
+			intent.putExtra("userid", userid);
 			startActivity(intent);
 			break;
 			
@@ -281,7 +288,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 				if (extras != null) {
 					Bitmap bm = extras.getParcelable("data");
 					File file = DownImage.saveImage(bm, path, "head.png");
-					upload();
+					upload(userid);
 					Uri uri = Uri.fromFile(file);
 					startImageZoom(uri);
 
@@ -295,7 +302,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 				Uri uri;
 				uri = data.getData();
 				uri = convertUri(uri);
-				upload();
+				upload(userid);
 				startImageZoom(uri);
 			}
 			break;
@@ -312,12 +319,12 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
-	private void upload() {
+	private void upload(String userid) {
 		String url = "http://169.254.96.11:8080/NoOneSchoolService/Upload";
 		File file = Environment.getExternalStorageDirectory();
 		File fileAbs = new File(file, "/temp/head.png");
 		String FileName = fileAbs.getAbsolutePath();
-		UploadThread thread = new UploadThread(url, FileName);
+		UploadThread thread = new UploadThread(url, FileName,userid);
 		thread.start();
 	}
 
