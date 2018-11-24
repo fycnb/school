@@ -111,7 +111,6 @@ public class MyOrderActivity extends Activity implements View.OnClickListener, L
 										final String time = myOrder.getTime();
 										final String memo = myOrder.getMemo();
 										final String state = myOrder.getState();
-										final String iphone = myOrder.getIphone();
 										final String address = myOrder.getAddress();
 
 										runOnUiThread(new Runnable() {
@@ -123,7 +122,6 @@ public class MyOrderActivity extends Activity implements View.OnClickListener, L
 												intent.putExtra("time", time);
 												intent.putExtra("memo", memo);
 												intent.putExtra("state", state);
-												intent.putExtra("iphone", iphone);
 												intent.putExtra("address", address);
 												startActivity(intent);
 											}

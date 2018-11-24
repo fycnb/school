@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_toEndOf="@+id/iphone_image"
-                android:text="联系电话"
+                android:text="骑手电话"
                 android:textSize="14sp" />
 
             <TextView
@@ -195,5 +195,7 @@
                 android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>
+    
+    
 
 </ScrollView>

@@ -12,6 +12,16 @@ public class Indent extends Entity {
 	private Date time;
 	private int state;
 	private String memo;
+	private int takerid;
+	
+	
+	public int getTakerid() {
+		return takerid;
+	}
+
+	public void setTakerid(int takerid) {
+		this.takerid = takerid;
+	}
 
 	public int getUserid() {
 		return userid;

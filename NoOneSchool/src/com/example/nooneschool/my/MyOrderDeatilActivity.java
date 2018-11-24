@@ -11,13 +11,13 @@ import org.json.JSONObject;
 import com.example.nooneschool.R;
 import com.example.nooneschool.my.adapter.MyOrderDetailAdapter;
 import com.example.nooneschool.my.service.MyOrderDetailService;
+import com.example.nooneschool.my.service.MyOrderTakerService;
 import com.example.nooneschool.util.DensityUtil;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,21 +82,21 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 		time = intent.getStringExtra("time");
 		memo = intent.getStringExtra("memo");
 		state = intent.getStringExtra("state");
-		iphone = intent.getStringExtra("iphone");
 		address = intent.getStringExtra("address");
 
 		tv_state.setText(state);
 		tv_time.setText(time);
 		tv_memo.setText(memo);
 		tv_restaurant.setText(restaurant);
-		tv_iphone.setText(iphone);
+	
 		tv_orderid.setText(orderid);
 		tv_address.setText(address);
 
 		iv_return.setOnClickListener(this);
 		rl_iphone.setOnClickListener(this);
 
-		getdata(orderid);
+		getDetailData(orderid);
+		getTakerData(orderid);
 	}
 
 	@Override
@@ -118,8 +118,36 @@ public class MyOrderDeatilActivity extends Activity implements View.OnClickListe
 			break;
 		}
 	}
+	private void getTakerData(final String orderid) {
+		Runnable runnable = new Runnable() {
+			public void run() {
+				final String result = MyOrderTakerService.MyOrderTakerByPost(orderid);
+				if (result != null) {
+					try {
+					
+						
+							JSONObject j = new JSONObject(result);
+							iphone = j.getString("iphone");
+						
 
-	private void getdata(final String orderid) {
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								tv_iphone.setText(iphone);
+							}
+						});
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+
+				}
+			}
+		};
+		singleThreadExeutor.execute(runnable);
+	}
+
+	private void getDetailData(final String orderid) {
 		Runnable runnable = new Runnable() {
 			public void run() {
 				final String result = MyOrderDetailService.MyOrderDetailByPost(orderid);
