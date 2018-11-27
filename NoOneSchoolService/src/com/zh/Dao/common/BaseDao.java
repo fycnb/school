@@ -34,7 +34,7 @@ public interface BaseDao<T extends Entity> {
 	 * @param entity
 	 *            实例
 	 */
-	public void update(T entity) throws DaoException;
+	public int update(T entity) throws DaoException;
 
 	/**
 	 * 判断指定主键对应的实体是否存�?
@@ -60,6 +60,7 @@ public interface BaseDao<T extends Entity> {
 	 * @return 符合条件的实例列�?
 	 */
 	public List<T> findAll() throws DaoException;
+
 	/**
 	 * 统计总实体实例的数量
 	 * 
@@ -85,8 +86,9 @@ public interface BaseDao<T extends Entity> {
 	 *            SQL语句
 	 * @param paramValues
 	 *            参数值数�?
+	 * @return
 	 */
-	public void update(String sql, Object... paramValues) throws DaoException;
+	public int update(String sql, Object... paramValues) throws DaoException;
 
 	/**
 	 * 根据指定的SQL语句和参数�?执行查询数据的操�?

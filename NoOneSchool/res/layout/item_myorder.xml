@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eee" 
-     android:descendantFocusability="blocksDescendants">
+    android:background="#eee"
+    android:descendantFocusability="blocksDescendants" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,7 +34,8 @@
             android:src="@drawable/enter" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/infor_linearlayout"
+            android:layout_width="wrap_content"
             android:layout_height="70dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
@@ -87,6 +88,34 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp" />
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/infor_linearlayout"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/myorder_comment_button"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/btn_bottom_confirm_bg"
+                android:text="评价"
+                android:textSize="12sp" 
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/myorder_cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/btn_bottom_confirm_bg"
+                android:text="取消订单"
+                android:textSize="12sp"
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
 

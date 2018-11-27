@@ -4,7 +4,7 @@ public class ListMenu {
 	private String id;
 	private String name;
 	private String imgurl;
-	private Float money;
+	private String money;
 	public String getId() {
 		return id;
 	}
@@ -23,13 +23,13 @@ public class ListMenu {
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
 	}
-	public Float getMoney() {
+	public String getMoney() {
 		return money;
 	}
-	public void setMoney(Float money) {
+	public void setMoney(String money) {
 		this.money = money;
 	}
-	public ListMenu(String id, String name, String imgurl, Float money) {
+	public ListMenu(String id, String name, String imgurl, String money) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -38,3 +38,4 @@ public class ListMenu {
 	}
 	
 }
+

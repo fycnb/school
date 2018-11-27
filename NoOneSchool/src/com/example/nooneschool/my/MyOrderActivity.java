@@ -10,32 +10,41 @@ import org.json.JSONObject;
 
 import com.example.nooneschool.R;
 import com.example.nooneschool.my.adapter.MyOrderAdapter;
+import com.example.nooneschool.my.service.CancelOrderService;
 import com.example.nooneschool.my.service.MyOrderService;
+import com.example.nooneschool.util.ListItemClickHelp;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
-public class MyOrderActivity extends Activity implements View.OnClickListener {
+public class MyOrderActivity extends Activity implements View.OnClickListener, ListItemClickHelp {
 	private ImageView iv_return;
 	private MyOrderAdapter mMyOrderAdapter;
 	private ListView lv_myorder;
 	private List<MyOrder> mMyOrders;
-	private String userid = "1";
+	private String userid;
 	private ExecutorService singleThreadExeutor;
+	private ListItemClickHelp listitemclickhelp = this;
+	private String state;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_order);
 		init();
-		getdata(userid);
-		
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		init();
 	}
 
 	private void init() {
@@ -43,6 +52,12 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 		lv_myorder = (ListView) findViewById(R.id.myorder_listview);
 		iv_return.setOnClickListener(this);
 		singleThreadExeutor = Executors.newSingleThreadExecutor();
+
+		Intent intent = getIntent();
+		userid = intent.getStringExtra("userid");
+		state = intent.getStringExtra("state");
+		
+		getdata(userid);
 	}
 
 	@Override
@@ -60,7 +75,7 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 	private void getdata(final String userid) {
 		Runnable runnable = new Runnable() {
 			public void run() {
-				final String result = MyOrderService.MyOrderByPost(userid);
+				final String result = MyOrderService.MyOrderByPost(userid, state);
 				if (result != null) {
 					try {
 						JSONArray ja = new JSONArray(result);
@@ -76,16 +91,16 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 							String orderid = j.getString("orderid");
 							String memo = j.getString("memo");
 							String iphone = j.getString("iphone");
-							
-							mMyOrders.add(new MyOrder(name, total, time, state, image, orderid,memo,iphone));
-							mMyOrderAdapter = new MyOrderAdapter(MyOrderActivity.this, mMyOrders);
+							String address = j.getString("address");
+							mMyOrders.add(new MyOrder(name, total, time, state, image, orderid, memo, iphone,address));
+							mMyOrderAdapter = new MyOrderAdapter(MyOrderActivity.this, mMyOrders, listitemclickhelp);
 
 						}
 
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								
+
 								lv_myorder.setAdapter(mMyOrderAdapter);
 								lv_myorder.setOnItemClickListener(new OnItemClickListener() {
 									@Override
@@ -96,8 +111,8 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 										final String time = myOrder.getTime();
 										final String memo = myOrder.getMemo();
 										final String state = myOrder.getState();
-										final String iphone = myOrder.getIphone();
-										
+										final String address = myOrder.getAddress();
+
 										runOnUiThread(new Runnable() {
 											public void run() {
 												Intent intent = new Intent(MyOrderActivity.this,
@@ -107,11 +122,11 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 												intent.putExtra("time", time);
 												intent.putExtra("memo", memo);
 												intent.putExtra("state", state);
-												intent.putExtra("iphone", iphone);
+												intent.putExtra("address", address);
 												startActivity(intent);
 											}
 										});
-										
+
 									}
 
 								});
@@ -122,12 +137,57 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
 						e.printStackTrace();
 					}
 				} else {
-
+					// 没有返回结果
 				}
 			}
 		};
 		singleThreadExeutor.execute(runnable);
-		
+
+	}
+
+	@Override
+	public void onClick(View item, View widget, int position, int which) {
+		final String orderid = mMyOrders.get(position).getOrderid();
+		final String name = mMyOrders.get(position).getName();
+		final String image = mMyOrders.get(position).getImage();
+
+		switch (which) {
+		case R.id.myorder_cancel_button:
+			Runnable runnable = new Runnable() {
+				@Override
+				public void run() {
+					final String result = CancelOrderService.CancelOrderByPost(userid, orderid);
+					if (result != null) {
+						try {
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									getdata(userid);
+									mMyOrderAdapter.notifyDataSetChanged();
+									Toast.makeText(MyOrderActivity.this, result, Toast.LENGTH_SHORT).show();
+								}
+							});
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					} else {
+						// 没有返回结果
+					}
+				}
+			};
+			singleThreadExeutor.execute(runnable);
+			break;
+		case R.id.myorder_comment_button:
+			Intent intent = new Intent(MyOrderActivity.this, PublishCommentActivity.class);
+			intent.putExtra("userid", userid);
+			intent.putExtra("orderid", orderid);
+			intent.putExtra("name", name);
+			intent.putExtra("image", image);
+			startActivity(intent);
+			break;
+		default:
+			break;
+		}
 	}
 
 }

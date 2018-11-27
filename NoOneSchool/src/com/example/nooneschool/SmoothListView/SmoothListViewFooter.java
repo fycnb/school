@@ -19,18 +19,17 @@ public class SmoothListViewFooter extends LinearLayout {
 	private View mContentView;
 	private View mProgressBar;
 	private TextView mHintView;
-	
+
 	public SmoothListViewFooter(Context context) {
 		super(context);
 		initView(context);
 	}
-	
+
 	public SmoothListViewFooter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initView(context);
 	}
 
-	
 	public void setState(int state) {
 		mHintView.setVisibility(View.INVISIBLE);
 		mProgressBar.setVisibility(View.INVISIBLE);
@@ -45,16 +44,17 @@ public class SmoothListViewFooter extends LinearLayout {
 			mHintView.setText("查看更多");
 		}
 	}
-	
+
 	public void setBottomMargin(int height) {
-		if (height < 0) return ;
-		LayoutParams lp = (LayoutParams)mContentView.getLayoutParams();
+		if (height < 0)
+			return;
+		LayoutParams lp = (LayoutParams) mContentView.getLayoutParams();
 		lp.bottomMargin = height;
 		mContentView.setLayoutParams(lp);
 	}
-	
+
 	public int getBottomMargin() {
-		LayoutParams lp = (LayoutParams)mContentView.getLayoutParams();
+		LayoutParams lp = (LayoutParams) mContentView.getLayoutParams();
 		return lp.bottomMargin;
 	}
 
@@ -69,27 +69,27 @@ public class SmoothListViewFooter extends LinearLayout {
 	}
 
 	public void hide() {
-		LayoutParams lp = (LayoutParams)mContentView.getLayoutParams();
+		LayoutParams lp = (LayoutParams) mContentView.getLayoutParams();
 		lp.height = 0;
 		mContentView.setLayoutParams(lp);
 	}
 
 	public void show() {
-		LayoutParams lp = (LayoutParams)mContentView.getLayoutParams();
+		LayoutParams lp = (LayoutParams) mContentView.getLayoutParams();
 		lp.height = LayoutParams.WRAP_CONTENT;
 		mContentView.setLayoutParams(lp);
 	}
-	
+
 	private void initView(Context context) {
 		mContext = context;
-		LinearLayout moreView = (LinearLayout)LayoutInflater.from(mContext).inflate(R.layout.smoothlistview_footer, null);
+		LinearLayout moreView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.smoothlistview_footer,
+				null);
 		addView(moreView);
 		moreView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-		
+
 		mContentView = moreView.findViewById(R.id.smoothlistview_footer_content);
 		mProgressBar = moreView.findViewById(R.id.smoothlistview_footer_progressbar);
-		mHintView = (TextView)moreView.findViewById(R.id.smoothlistview_footer_hint_textview);
+		mHintView = (TextView) moreView.findViewById(R.id.smoothlistview_footer_hint_textview);
 	}
-	
-	
+
 }

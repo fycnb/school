@@ -1,5 +1,5 @@
 package com.example.nooneschool.my.inter;
 
-public interface OnSignedSuccess{
-    void OnSignedSuccess();
+public interface OnSignedSuccess {
+	void OnSignedSuccess();
 }

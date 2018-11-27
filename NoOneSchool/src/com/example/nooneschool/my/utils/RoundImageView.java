@@ -52,12 +52,14 @@ public class RoundImageView extends ImageView {
 		initViews();
 	}
 
-	 private void obtainStyledAttrs(Context context, AttributeSet attrs, int defStyleAttr) {
-	        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView, defStyleAttr, 0);
-	        currMode = a.hasValue(R.styleable.RoundImageView_type) ? a.getInt(R.styleable.RoundImageView_type, MODE_NONE) : MODE_NONE;
-	        currRound = a.hasValue(R.styleable.RoundImageView_radius) ? a.getDimensionPixelSize(R.styleable.RoundImageView_radius, currRound) : currRound;
-	        a.recycle();
-	    }
+	private void obtainStyledAttrs(Context context, AttributeSet attrs, int defStyleAttr) {
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView, defStyleAttr, 0);
+		currMode = a.hasValue(R.styleable.RoundImageView_type) ? a.getInt(R.styleable.RoundImageView_type, MODE_NONE)
+				: MODE_NONE;
+		currRound = a.hasValue(R.styleable.RoundImageView_radius)
+				? a.getDimensionPixelSize(R.styleable.RoundImageView_radius, currRound) : currRound;
+		a.recycle();
+	}
 
 	private void initViews() {
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);

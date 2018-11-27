@@ -22,7 +22,7 @@ public class Page<T> implements Serializable {
 	/** 数据的�?条数 */
 	private long totalElements;
 
-	/** 总页�?根据每页要显示的记录数和总记录数来计算得�?*/
+	/** 总页�?根据每页要显示的记录数和总记录数来计算得�? */
 	private int totalPages;
 
 	/** 存放当前页数据的集合 */
@@ -86,7 +86,7 @@ public class Page<T> implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Page [number=" + number + ", size=" + size + ", totalElements=" + totalElements + ", totalPages="
-				+ totalPages + "]";
+		return "Page [number=" + number + ", size=" + size + ", totalElements="
+				+ totalElements + ", totalPages=" + totalPages + "]";
 	}
 }

@@ -6,4 +6,3 @@ import com.zh.entity.Menu;
 
 public class MenuDaoImpl extends BaseDaoImpl<Menu> implements MenuDao {
 }
-

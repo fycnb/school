@@ -80,7 +80,7 @@ public class SignDateAdapter extends BaseAdapter {
 				int day = calendar.get(Calendar.DATE);
 				if (day == days.get(i)) {
 					if (status.get(i)) {
-						Toast.makeText(context, "Already sign in!", 0).show();
+						Toast.makeText(context, "已经签到啦!", 0).show();
 					} else {
 						status.set(i, true);
 						notifyDataSetChanged();
@@ -89,7 +89,7 @@ public class SignDateAdapter extends BaseAdapter {
 						}
 					}
 				} else {
-					Toast.makeText(context, "Don't sign in!", 0).show();
+					Toast.makeText(context, "不能签到!", 0).show();
 				}
 			}
 		});

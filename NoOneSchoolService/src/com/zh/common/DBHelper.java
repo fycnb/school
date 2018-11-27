@@ -24,7 +24,8 @@ public class DBHelper {
 	static {
 
 		try {
-			props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("jdbc.properties"));
+			props.load(Thread.currentThread().getContextClassLoader()
+					.getResourceAsStream("jdbc.properties"));
 
 			DruidDataSource dds = new DruidDataSource();
 			dds.setDriverClassName(props.getProperty("driverClass"));
@@ -57,7 +58,8 @@ public class DBHelper {
 		try {
 			conn = ds.getConnection();
 		} catch (SQLException e) {
-			throw new DaoException(DaoException.CODE_CONNECTION_FAIL, "获取数据库的连接失败", e);
+			throw new DaoException(DaoException.CODE_CONNECTION_FAIL,
+					"获取数据库的连接失败", e);
 		}
 
 		return conn;

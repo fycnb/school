@@ -17,5 +17,14 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:windowNoTitle">true</item>
     </style>
+    
+      <style name="RatingbarBigStyle" parent="@android:style/Widget.RatingBar">
+        <!--定义星星图片-->
+        <item name="android:progressDrawable">@drawable/bigratingbar_drawable</item>
+        <!-- 根据自定义星星图片的大小,设置相应的值,否则可能显示不全 -->
+        <item name="android:numColumns">5</item>
+        <item name="android:minHeight">62px</item>
+        <item name="android:maxHeight">62px</item>
+    </style>
 
 </resources>

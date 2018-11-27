@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -138,6 +139,26 @@
         <activity
             android:name="com.example.nooneschool.dating.InfoActivity"
             android:label="@string/title_activity_info" >
+        </activity>
+        <activity
+            android:name=".my.PublishCommentActivity"
+            android:label="@string/title_activity_publish_comment" >
+        </activity>
+        <activity
+            android:name=".my.ChangeNickNameActivity"
+            android:label="@string/title_activity_change_nick_name" >
+        </activity>
+        <activity
+            android:name=".my.ChangePasswordActivity"
+            android:label="@string/title_activity_change_password" >
+        </activity>
+        <activity
+            android:name=".lesson.AddCourseActivity"
+            android:label="@string/title_activity_add_course" >
+        </activity>
+        <activity
+            android:name="com.example.nooneschool.lesson.CourseDetailActivity"
+            android:label="@string/title_activity_source_detail" >
         </activity>
     </application>
 

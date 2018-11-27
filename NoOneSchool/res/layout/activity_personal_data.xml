@@ -32,6 +32,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/person_nickname_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:layout_marginTop="10dp"
@@ -42,21 +43,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
+            android:padding="5dp"
             android:text="昵称"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/person_username_textview"
+            android:id="@+id/person_nickname_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
+            android:padding="5dp"
             android:textSize="18sp" />
 
         <ImageView
@@ -71,61 +66,49 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/person_password_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="34dp"
-        android:layout_marginTop="0.1dp"
+        android:layout_marginTop="5dp"
         android:background="@android:color/white"
         android:orientation="horizontal" >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
+            android:padding="5dp"
             android:text="账号密码"
             android:textSize="18sp" />
 
         <TextView
-             android:id="@+id/person_password_textview"
+            android:id="@+id/person_password_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:padding="5dp"
             android:text="修改"
-            android:paddingTop="5dp"
             android:textSize="18sp" />
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="end"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            
-            android:paddingTop="5dp"
+            android:padding="5dp"
             android:src="@drawable/enter" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="34dp"
-        android:layout_marginTop="0.1dp"
+        android:layout_marginTop="5dp"
         android:background="@android:color/white"
         android:orientation="horizontal" >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
+            android:padding="5dp"
             android:text="手机号"
             android:textSize="18sp" />
 
@@ -133,20 +116,14 @@
             android:id="@+id/person_iphone_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
+            android:padding="5dp"
             android:textSize="18sp" />
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="end"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
+            android:padding="5dp"
             android:src="@drawable/enter" />
     </LinearLayout>
 

@@ -25,12 +25,12 @@ public class AdapterLeftMenu extends BaseAdapter {
 
 	private List<String> list = new ArrayList<>();
 	private LayoutInflater inflater;
-	private int check ;
+	private int check;
 
 	public AdapterLeftMenu(Context context, List<String> list) {
 		this.inflater = LayoutInflater.from(context);
 		this.list = list;
-		check=0;
+		check = 0;
 	}
 
 	@Override
@@ -47,11 +47,11 @@ public class AdapterLeftMenu extends BaseAdapter {
 	public long getItemId(int i) {
 		return i;
 	}
-	
+
 	public void setCheck(int i) {
 		check = i;
 	}
-	
+
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
 		final ViewHolder holder;
@@ -66,13 +66,13 @@ public class AdapterLeftMenu extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		
-		if(check==i){
+
+		if (check == i) {
 			holder.tv.setBackgroundResource(R.color.menucheck);
-		}else{
+		} else {
 			holder.tv.setBackgroundResource(R.color.menuuncheck);
 		}
-			
+
 		holder.tv.setText(list.get(i));
 		return view;
 	}

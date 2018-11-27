@@ -1,12 +1,9 @@
 package com.example.nooneschool;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,18 +12,14 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.example.nooneschool.my.CollectionActivity;
 import com.example.nooneschool.my.CustomerServiceActivity;
-import com.example.nooneschool.my.MyOrder;
 import com.example.nooneschool.my.MyOrderActivity;
 import com.example.nooneschool.my.PersonalDataActivity;
 import com.example.nooneschool.my.RecentlyBrowseActivity;
 import com.example.nooneschool.my.SignInActivity;
-import com.example.nooneschool.my.adapter.MyOrderAdapter;
-import com.example.nooneschool.my.service.MyOrderService;
 import com.example.nooneschool.my.service.UserDataService;
 import com.example.nooneschool.my.utils.ImageUtil;
 import com.example.nooneschool.my.utils.UploadThread;
@@ -38,8 +31,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Paint.Join;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -54,6 +45,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,9 +54,15 @@ public class MyActivity extends Activity implements View.OnClickListener {
 	private TextView tv_nickname;
 	private TextView tv_account;
 	private TextView tv_sobo;
-	private ImageView iv_headportrait;
+
 	private Button btn_signin;
 	private Button btn_myorder;
+	private Button btn_waitorder;
+	private Button btn_acceptorder;
+	private Button btn_waitcomment;
+	
+	private ImageView iv_headportrait;
+	private RelativeLayout rl_person;
 
 	private ThreadPoolExecutor poolExecutor;
 
@@ -105,46 +103,98 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		tv_account = (TextView) findViewById(R.id.my_account_textview);
 		tv_sobo = (TextView) findViewById(R.id.my_sobo_textview);
 		iv_headportrait = (ImageView) findViewById(R.id.my_headportrait_imageview);
+
 		btn_signin = (Button) findViewById(R.id.my_signin_button);
 		btn_myorder = (Button) findViewById(R.id.my_myorder_button);
+		btn_waitorder = (Button) findViewById(R.id.my_waitingorder_button);
+		btn_acceptorder = (Button) findViewById(R.id.my_acceptorder_button);
+		btn_waitcomment = (Button) findViewById(R.id.my_waitingcomment_button);
+
 		gv_function = (GridView) findViewById(R.id.my_function_gridview);
+		rl_person = (RelativeLayout) findViewById(R.id.my_person_relativelayout);
 
 		poolExecutor = new ThreadPoolExecutor(3, 5, 1, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(128));
-
+		
+		
+//		Intent intent = getIntent();
+//		userid = intent.getStringExtra("userid");
+		
 		// 向function_gridview中插入数据
-		functiondata();
+		functionData();
+
+		// 头像
+		String imagepath = path + "/head.png";
+		Bitmap bm = ImageUtil.getLoacalBitmap(imagepath);
+		if (bm != null) {
+			iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
+		} else {
+			Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+			iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bmp));
+		}
 
 		// 获取数据
-		getuserdata();
+		getUserData();
 
 		// 点击事件
 		btn_signin.setOnClickListener(this);
 		btn_myorder.setOnClickListener(this);
+		btn_waitorder.setOnClickListener(this);
+		btn_acceptorder.setOnClickListener(this);
+		btn_waitcomment.setOnClickListener(this);
 		iv_headportrait.setOnClickListener(this);
+		rl_person.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
+		Intent intent;
 		switch (v.getId()) {
 		case R.id.my_signin_button:
-			Intent intent = new Intent(MyActivity.this, SignInActivity.class);
+			intent = new Intent(MyActivity.this, SignInActivity.class);
+			intent.putExtra("userid", userid);
 			startActivity(intent);
 			break;
 		case R.id.my_myorder_button:
-			Intent intent1 = new Intent(MyActivity.this, MyOrderActivity.class);
-			startActivity(intent1);
+			intent = new Intent(MyActivity.this, MyOrderActivity.class);
+			intent.putExtra("state", "all");
+			intent.putExtra("userid", userid);
+			startActivity(intent);
+			break;
+		case R.id.my_waitingorder_button:
+			intent = new Intent(MyActivity.this, MyOrderActivity.class);
+			intent.putExtra("state", "0");
+			intent.putExtra("userid", userid);
+			startActivity(intent);
+			break;
+		case R.id.my_acceptorder_button:
+			intent = new Intent(MyActivity.this, MyOrderActivity.class);
+			intent.putExtra("state", "1");
+			startActivity(intent);
+			break;
+		case R.id.my_waitingcomment_button:
+			intent = new Intent(MyActivity.this, MyOrderActivity.class);
+			intent.putExtra("state", "4");
+			intent.putExtra("userid", userid);
+			startActivity(intent);
+			break;
+			
+		case R.id.my_person_relativelayout:
+			intent = new Intent(MyActivity.this, PersonalDataActivity.class);
+			intent.putExtra("userid", userid);
+			startActivity(intent);
 			break;
 
 		case R.id.my_headportrait_imageview:
 			showTypeDialog();
 			break;
+			
 		default:
 			break;
 		}
 
 	}
 
-	private void getuserdata() {
+	private void getUserData() {
 		Runnable runnable = new Runnable() {
 			public void run() {
 				final String result = UserDataService.UserDataByPost(userid);
@@ -160,28 +210,25 @@ public class MyActivity extends Activity implements View.OnClickListener {
 					}
 					runOnUiThread(new Runnable() {
 						public void run() {
-							String imagepath = path + "/head.png";
-							Bitmap bm = ImageUtil.getLoacalBitmap(imagepath);
-							if (bm != null) {
-								iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
-							} else {
-								DownImage downImage = new DownImage(head,iv_headportrait.getWidth(),iv_headportrait.getHeight());
-								downImage.loadImage(new ImageCallBack() {
-									@Override
-									public void getDrawable(Drawable drawable) {
-										BitmapDrawable bd = (BitmapDrawable) drawable;
-										Bitmap bm= bd.getBitmap();
-										DownImage.saveImage(bm, path, "head.png");
-										iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
-									}
-								});
-							}
+							DownImage downImage = new DownImage(head, iv_headportrait.getWidth(),
+									iv_headportrait.getHeight());
+							downImage.loadImage(new ImageCallBack() {
+								@Override
+								public void getDrawable(Drawable drawable) {
+									BitmapDrawable bd = (BitmapDrawable) drawable;
+									Bitmap bm = bd.getBitmap();
+									DownImage.saveImage(bm, path, "head.png");
+									iv_headportrait.setImageBitmap(ImageUtil.toRoundBitmap(bm));
+								}
+							});
+
 							tv_nickname.setText(nickname);
 							tv_account.setText(account);
 							tv_sobo.setText(sobo);
 						}
 					});
 				} else {
+					// 没有返回数据
 
 				}
 			}
@@ -241,7 +288,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 				if (extras != null) {
 					Bitmap bm = extras.getParcelable("data");
 					File file = DownImage.saveImage(bm, path, "head.png");
-					upload();
+					upload(userid);
 					Uri uri = Uri.fromFile(file);
 					startImageZoom(uri);
 
@@ -255,7 +302,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 				Uri uri;
 				uri = data.getData();
 				uri = convertUri(uri);
-				upload();
+				upload(userid);
 				startImageZoom(uri);
 			}
 			break;
@@ -272,12 +319,12 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
-	private void upload() {
+	private void upload(String userid) {
 		String url = "http://169.254.96.11:8080/NoOneSchoolService/Upload";
 		File file = Environment.getExternalStorageDirectory();
 		File fileAbs = new File(file, "/temp/head.png");
 		String FileName = fileAbs.getAbsolutePath();
-		UploadThread thread = new UploadThread(url, FileName);
+		UploadThread thread = new UploadThread(url, FileName,userid);
 		thread.start();
 	}
 
@@ -298,7 +345,6 @@ public class MyActivity extends Activity implements View.OnClickListener {
 			return null;
 		}
 	}
-
 
 	private void startImageZoom(Uri uri) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
@@ -329,10 +375,9 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		return bitmap;
 	}
 
-	private void functiondata() {
-		int icno[] = { R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
-				R.drawable.ic_launcher, };
-		String name[] = { "收藏", "最近浏览", "客服", "个人资料" };
+	private void functionData() {
+		int icno[] = { R.drawable.person, R.drawable.customer };
+		String name[] = {  "个人资料", "联系客服" };
 
 		functionList = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < icno.length; i++) {
@@ -354,23 +399,31 @@ public class MyActivity extends Activity implements View.OnClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Intent intent;
 			String name = functionList.get(position).get("name").toString();
 			switch (name) {
-			case "收藏":
-				Intent intent1 = new Intent(MyActivity.this, CollectionActivity.class);
-				startActivity(intent1);
-				break;
-			case "最近浏览":
-				Intent intent2 = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
-				startActivity(intent2);
-				break;
-			case "客服":
-				Intent intent3 = new Intent(MyActivity.this, CustomerServiceActivity.class);
-				startActivity(intent3);
+//			case "收藏":
+//				intent = new Intent(MyActivity.this, CollectionActivity.class);
+//				startActivity(intent);
+//				break;
+//			case "最近浏览":
+//				intent = new Intent(MyActivity.this, RecentlyBrowseActivity.class);
+//				startActivity(intent);
+//				break;
+			case "联系客服":
+				String iphone = "13920147107";
+				intent = new Intent(Intent.ACTION_CALL);
+				Uri data = Uri.parse("tel:" + iphone);
+				intent.setData(data);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
+//				intent = new Intent(MyActivity.this, CustomerServiceActivity.class);
+//				startActivity(intent);
 				break;
 			case "个人资料":
-				Intent intent4 = new Intent(MyActivity.this, PersonalDataActivity.class);
-				startActivity(intent4);
+				intent = new Intent(MyActivity.this, PersonalDataActivity.class);
+				intent.putExtra("userid", userid);
+				startActivity(intent);
 				break;
 			default:
 				Log.i("cjq", "function gridview error");

@@ -8,14 +8,15 @@ public class DaoException extends RuntimeException {
 	private static final long serialVersionUID = 7654158635758949352L;
 	private int code;
 
-	/** 表示数据库连接失�?*/
+	/** 表示数据库连接失�? */
 	public static final int CODE_CONNECTION_FAIL = 100;
 
 	public DaoException() {
 		super();
 	}
 
-	public DaoException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public DaoException(String message, Throwable cause,
+			boolean enableSuppression, boolean writableStackTrace) {
 		super();
 	}
 

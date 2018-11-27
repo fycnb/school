@@ -1,6 +1,7 @@
 package com.example.nooneschool.my.utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,11 +19,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SignDate extends LinearLayout {
-	// private Context context;
 	private TextView tv_year;
 	private InnerGridView gv_week;
 	private InnerGridView gv_date;
@@ -30,7 +31,12 @@ public class SignDate extends LinearLayout {
 	private List<Integer> days;
 	private List<Boolean> status;
 	private ExecutorService singleThreadExeutor;
-
+	
+	private String year;
+	private String month;
+	private int y;
+	private int m;
+	
 	public SignDate(Context context) {
 		super(context);
 		init();
@@ -56,10 +62,10 @@ public class SignDate extends LinearLayout {
 		gv_date = (InnerGridView) view.findViewById(R.id.signdate_date_gridview);
 		tv_year.setText(DateUtil.getCurrentYearAndMonth());
 		gv_week.setAdapter(new SignWeekAdapter(getContext()));
-
+		
 	}
 
-	public void getsignindata(final String userid) {
+	public void getsignindata(final String userid){
 		Runnable runnable = new Runnable() {
 			public void run() {
 				final String result = SignInService.SignInByPost(userid);

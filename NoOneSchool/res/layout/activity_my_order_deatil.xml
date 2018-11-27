@@ -39,23 +39,11 @@
             android:layout_height="5dp"
             android:background="#0044BB" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/detail_state_textview"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="订单"
-                android:textSize="25sp" />
-
-            <TextView
-                android:id="@+id/detail_state_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:textSize="25sp" />
-        </LinearLayout>
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/detail_restaurant_textview"
@@ -73,11 +61,12 @@
             <ListView
                 android:id="@+id/detail_listview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="fill_parent" >
             </ListView>
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/detail_iphone_relativelayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp" >
@@ -93,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_toEndOf="@+id/iphone_image"
-                android:text="联系电话"
+                android:text="骑手电话"
                 android:textSize="14sp" />
 
             <TextView
@@ -110,6 +99,44 @@
             android:layout_marginTop="10dp"
             android:text="订单信息"
             android:textSize="22sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单编号"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/detail_orderid_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="配送地址"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/deatil_address_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textSize="14sp" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -168,5 +195,7 @@
                 android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>
+    
+    
 
 </ScrollView>

@@ -16,11 +16,10 @@ public class AdActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ad);
-		
+
 		Intent intent = getIntent();
 		String id = intent.getStringExtra("id");
 		Toast.makeText(this, id, 0).show();
-		
-		
+
 	}
 }

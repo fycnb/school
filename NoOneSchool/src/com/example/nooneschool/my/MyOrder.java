@@ -1,6 +1,5 @@
 package com.example.nooneschool.my;
 
-
 public class MyOrder {
 	private String name;
 	private String total;
@@ -10,10 +9,12 @@ public class MyOrder {
 	private String orderid;
 	private String memo;
 	private String iphone;
+	private String address;
 
 
+	
 	public MyOrder(String name, String total, String time, String state, String image, String orderid, String memo,
-			String iphone) {
+			String iphone, String address) {
 		super();
 		this.name = name;
 		this.total = total;
@@ -23,29 +24,48 @@ public class MyOrder {
 		this.orderid = orderid;
 		this.memo = memo;
 		this.iphone = iphone;
+		this.address = address;
 	}
-	
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
 	public String getIphone() {
 		return iphone;
 	}
+
 	public void setIphone(String iphone) {
 		this.iphone = iphone;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getTotal() {
 		return total;
 	}
+
 	public void setTotal(String total) {
 		this.total = total;
 	}
+
 	public String getTime() {
 		return time;
 	}
+
 	public void setTime(String time) {
 		this.time = time;
 	}
@@ -57,9 +77,11 @@ public class MyOrder {
 	public void setState(String state) {
 		this.state = state;
 	}
+
 	public String getImage() {
 		return image;
 	}
+
 	public void setImage(String image) {
 		this.image = image;
 	}
@@ -71,13 +93,13 @@ public class MyOrder {
 	public void setOrderid(String orderid) {
 		this.orderid = orderid;
 	}
+
 	public String getMemo() {
 		return memo;
 	}
+
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-	
-	
-	
+
 }
