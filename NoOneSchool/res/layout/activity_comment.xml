@@ -1,27 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <ListView
-        android:id="@+id/comment_list_litview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:scrollbars="none"
-        android:background="#fff"
-        android:layout_marginRight="10dp"
-        android:layout_weight="1" >
-    </ListView>
-
     <TextView
-        android:id="@+id/comment_empty_textview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="暂无评论"
-        android:textSize="30sp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world" />
 
-</LinearLayout>
+</RelativeLayout>

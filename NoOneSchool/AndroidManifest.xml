@@ -105,11 +105,11 @@
             android:label="@string/title_activity_comment" >
         </activity>
         <activity
-            android:name=".home.MerchantActivity"
+            android:name="com.example.nooneschool.home.MerchantActivity"
             android:label="@string/title_activity_merchant" >
         </activity>
         <activity
-            android:name=".my.MyOrderDeatilActivity"
+            android:name="com.example.nooneschool.my.MyOrderDeatilActivity"
             android:label="@string/title_activity_my_order_deatil" >
         </activity>
         <activity

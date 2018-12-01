@@ -1,13 +1,6 @@
 package com.example.nooneschool.home;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.example.nooneschool.HomeActivity;
 import com.example.nooneschool.R;
@@ -18,25 +11,17 @@ import com.example.nooneschool.home.adapter.AdapterMeal;
 import com.example.nooneschool.home.list.ListAd;
 import com.example.nooneschool.home.list.ListFood;
 import com.example.nooneschool.home.list.ListMeal;
-import com.example.nooneschool.util.ColorUtil;
 import com.example.nooneschool.util.DataUtil;
 import com.example.nooneschool.util.DensityUtil;
-import com.example.nooneschool.util.SQLite;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class OtherFoodActivity extends Activity{
@@ -65,8 +50,6 @@ public class OtherFoodActivity extends Activity{
 		foodBanner = new BannerView(OtherFoodActivity.this);
 		foodBanner.fillView(adList, smoothListView);
 		foodBanner.getAdapt().setFlag(false);
-		
-		
 		foodList = DataUtil.getNoDataFood(DensityUtil.getWindowHeight(this) - DensityUtil.dip2px(this, 300));
 		foodAdapter = new AdapterFood(this, foodList);
 		smoothListView.setAdapter(foodAdapter);

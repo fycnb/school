@@ -1,7 +1,6 @@
 package com.example.nooneschool.home;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -12,39 +11,23 @@ import org.json.JSONObject;
 
 import com.example.nooneschool.R;
 import com.example.nooneschool.home.adapter.AdapterLeftMenu;
-import com.example.nooneschool.home.adapter.AdapterOrder;
 import com.example.nooneschool.home.adapter.AdapterRightMenu;
 import com.example.nooneschool.home.list.ListMenu;
-import com.example.nooneschool.home.list.ListOrder;
 import com.example.nooneschool.util.DataUtil;
-import com.example.nooneschool.util.DensityUtil;
 import com.example.nooneschool.util.ListItemClickHelp;
-import com.example.nooneschool.util.ViewSizeChangeAnimation;
 
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MenuActivity extends Activity implements ListItemClickHelp {
+public class MenuActivity extends Activity implements ListItemClickHelp{
 
 	private TextView empty;
 	private ListView menuLeftList;

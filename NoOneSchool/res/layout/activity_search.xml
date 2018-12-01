@@ -1,80 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#2c2cdf"
-        android:gravity="center_vertical" >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world" />
 
-        <ImageView
-            android:id="@+id/search_back_imageview"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/back" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/corner_shape2"
-            android:gravity="center_vertical"
-            android:padding="1dp" >
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" >
-
-                <EditText
-                    android:id="@+id/search_edit_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/corner_shape5"
-                    android:gravity="center_vertical"
-                    android:hint="搜索"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="40dp"
-                    android:paddingTop="2dp"
-                    android:singleLine="true"
-                    android:textColor="#2c2cdf"
-                    android:textCursorDrawable="@null"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/search_clean_imageview"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/close"
-                    android:visibility="invisible" />
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/search_search_imageview"
-                android:layout_width="26dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/search" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#ccc" />
-
-</LinearLayout>
+</RelativeLayout>

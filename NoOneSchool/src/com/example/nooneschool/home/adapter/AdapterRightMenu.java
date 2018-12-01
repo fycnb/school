@@ -70,7 +70,7 @@ public class AdapterRightMenu extends BaseAdapter {
 
 		holder.name.setText(list.get(i).getName());
 		holder.img.setImageResource(R.drawable.empty);
-		holder.money.setText(list.get(i).getMoney()+"");
+		holder.money.setText(list.get(i).getMoney());
 
 		DownImage downImage = new DownImage(list.get(i).getImgurl(), holder.img.getWidth(), holder.img.getHeight());
 		downImage.loadImage(new ImageCallBack() {

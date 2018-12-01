@@ -17,7 +17,6 @@ import com.example.nooneschool.home.HomeService;
 import com.example.nooneschool.home.MealActivity;
 import com.example.nooneschool.home.OtherFoodActivity;
 import com.example.nooneschool.home.SearchActivity;
-import com.example.nooneschool.home.SendActivity;
 import com.example.nooneschool.home.WeatherActivity;
 import com.example.nooneschool.home.adapter.AdapterClass;
 import com.example.nooneschool.home.adapter.AdapterMeal;
