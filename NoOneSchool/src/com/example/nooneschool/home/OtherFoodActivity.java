@@ -24,7 +24,11 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+<<<<<<< HEAD
 public class OtherFoodActivity extends Activity{
+=======
+public class OtherFoodActivity extends Activity {
+>>>>>>> parent of fc37607... 18.10.9
 
 	private SmoothListView smoothListView;
 	private BannerView foodBanner;
@@ -50,6 +54,11 @@ public class OtherFoodActivity extends Activity{
 		foodBanner = new BannerView(OtherFoodActivity.this);
 		foodBanner.fillView(adList, smoothListView);
 		foodBanner.getAdapt().setFlag(false);
+<<<<<<< HEAD
+=======
+		
+		
+>>>>>>> parent of fc37607... 18.10.9
 		foodList = DataUtil.getNoDataFood(DensityUtil.getWindowHeight(this) - DensityUtil.dip2px(this, 300));
 		foodAdapter = new AdapterFood(this, foodList);
 		smoothListView.setAdapter(foodAdapter);

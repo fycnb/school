@@ -112,6 +112,7 @@
             android:name="com.example.nooneschool.my.MyOrderDeatilActivity"
             android:label="@string/title_activity_my_order_deatil" >
         </activity>
+<<<<<<< HEAD
         <activity
             android:name=".home.SendActivity"
             android:label="@string/title_activity_send" >
@@ -160,6 +161,8 @@
             android:name="com.example.nooneschool.lesson.CourseDetailActivity"
             android:label="@string/title_activity_source_detail" >
         </activity>
+=======
+>>>>>>> parent of fc37607... 18.10.9
     </application>
 
 </manifest>
