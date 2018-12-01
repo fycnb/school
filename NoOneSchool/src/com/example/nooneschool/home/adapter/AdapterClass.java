@@ -51,6 +51,7 @@ public class AdapterClass extends BaseAdapter {
 			view = inflater.inflate(R.layout.gridview_food, null);
 			holder = new ViewHolder();
 			holder.id = (TextView) view.findViewById(R.id.food_type_textview);
+			holder.img = (ImageView) view.findViewById(R.id.food_type_imageview);
 
 			view.setTag(holder);
 		} else {
@@ -63,6 +64,7 @@ public class AdapterClass extends BaseAdapter {
 
 	public class ViewHolder {
 		TextView id;
+		ImageView img;
 	}
 
 }

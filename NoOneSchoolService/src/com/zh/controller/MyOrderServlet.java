@@ -74,19 +74,19 @@ public class MyOrderServlet extends HttpServlet {
 			String state = "";
 			switch (st) {
 			case 0:
-				state = "´ý½Óµ¥";
+				state = "ï¿½ï¿½Óµï¿½";
 				break;
 			case 1:
-				state = "ÒÑ½Óµ¥";
+				state = "ï¿½Ñ½Óµï¿½";
 				break;
 			case 4:
-				state = "´ýÆÀ¼Û";
+				state = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 				break;
 			case 5:
-				state = "ÒÑÍê³É";
+				state = "ï¿½ï¿½ï¿½ï¿½ï¿½";
 				break;
 			case -1:
-				state = "ÒÑÈ¡Ïû";
+				state = "ï¿½ï¿½È¡ï¿½ï¿½";
 				break;
 			
 			default:

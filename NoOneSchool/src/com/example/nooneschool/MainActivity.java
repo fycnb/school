@@ -24,9 +24,9 @@ public class MainActivity extends TabActivity {
 		Intent one = new Intent(MainActivity.this, HomeActivity.class);
 		tabhost.addTab(tabhost.newTabSpec("one").setIndicator(createTabIcon(R.color.home, "首页")).setContent(one));
 
-		Intent two = new Intent(MainActivity.this, DatingActivity.class);
-		tabhost.addTab(tabhost.newTabSpec("two").setIndicator(createTabIcon(R.color.dating, "社交"))
-				.setContent(two.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+//		Intent two = new Intent(MainActivity.this, DatingActivity.class);
+//		tabhost.addTab(tabhost.newTabSpec("two").setIndicator(createTabIcon(R.color.dating, "社交"))
+//				.setContent(two.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
 		Intent three = new Intent(MainActivity.this, LessonActivity.class);
 		tabhost.addTab(tabhost.newTabSpec("three").setIndicator(createTabIcon(R.color.lesson, "课表"))
