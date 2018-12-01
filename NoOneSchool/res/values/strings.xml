@@ -29,6 +29,7 @@
     <string name="title_activity_my_order_deatil">MyOrderDeatilActivity</string>
     <string name="title_activity_send">SendActivity</string>
     <string name="title_activity_send_detail">SendDetailActivity</string>
+<<<<<<< HEAD
     <string name="title_activity_temp_info">TempInfoActivity</string>
     <string name="title_activity_room">RoomActivity</string>
     <string name="title_activity_flock">FlockActivity</string>
@@ -39,5 +40,7 @@
     <string name="title_activity_change_password">ChangePasswordActivity</string>
     <string name="title_activity_add_course">AddCourseActivity</string>
     <string name="title_activity_source_detail">SourceDetailActivity</string>
+=======
+>>>>>>> parent of 1b9237b... 28-10-20
 
 </resources>

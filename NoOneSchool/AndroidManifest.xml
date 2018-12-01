@@ -117,7 +117,7 @@
             android:label="@string/title_activity_send" >
         </activity>
         <activity
-            android:name=".home.SendDetailActivity"
+            android:name="com.example.nooneschool.home.SendDetailActivity"
             android:label="@string/title_activity_send_detail" >
         </activity>
         <activity

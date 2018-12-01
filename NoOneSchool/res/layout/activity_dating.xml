@@ -1,99 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <RelativeLayout
-        android:id="@+id/home_title_rl"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world" />
 
-        <ImageView
-            android:id="@+id/dating_address_imageview"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/tongxun" />
-
-        <ImageView
-            android:id="@+id/dating_add_imageview"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/addfriend" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#ccc" />
-
-    <LinearLayout
-        android:id="@+id/dating_search_ll"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/corner_shape2"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
-
-        <ImageView
-            android:layout_width="26dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/search" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center_vertical"
-            android:paddingBottom="2dp"
-            android:paddingLeft="2dp"
-            android:paddingRight="5dp"
-            android:paddingTop="2dp"
-            android:text="搜索"
-            android:textColor="#ccc"
-            android:textCursorDrawable="@null"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <TabHost
-        android:id="@android:id/tabhost"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-            </TabWidget>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#CCC" />
-
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
-
-</LinearLayout>
+</RelativeLayout>
