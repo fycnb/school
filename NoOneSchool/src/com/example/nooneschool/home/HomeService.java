@@ -18,7 +18,7 @@ public class HomeService {
 			json.put("number", number);
 			String content = String.valueOf(json);
 
-			String path = "http://169.254.164.100:8080/" + homepath;
+			String path = "http://192.168.0.107:8080/" + homepath;
 
 			URL url = new URL(path);
 
