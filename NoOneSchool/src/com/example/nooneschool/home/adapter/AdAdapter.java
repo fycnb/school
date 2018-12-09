@@ -1,29 +1,26 @@
 package com.example.nooneschool.home.adapter;
 
+import java.util.List;
+
+import com.example.nooneschool.home.AdActivity;
+import com.example.nooneschool.home.list.AdList;
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import java.util.List;
-
-import com.example.nooneschool.home.AdActivity;
-import com.example.nooneschool.home.list.ListAd;
-import com.example.nooneschool.util.ListItemClickHelp;
-
-public class AdapterBanner extends PagerAdapter {
+ 
+public class AdAdapter extends PagerAdapter {
 
 	private List<ImageView> ivList;
 	private int count;
 	private Context content;
-	private List<ListAd> list;
-	static private Boolean flag = true;
+	private List<AdList> list;
 
-	public AdapterBanner(List<ImageView> ivList, List<ListAd> list, Context content) {
+	public AdAdapter(List<ImageView> ivList, List<AdList> list, Context content) {
 		super();
 		this.ivList = ivList;
 		this.list = list;
@@ -31,10 +28,6 @@ public class AdapterBanner extends PagerAdapter {
 		if (ivList != null) {
 			count = ivList.size();
 		}
-	}
-
-	public void setFlag(Boolean flag) {
-		this.flag = flag;
 	}
 
 	@Override
@@ -60,11 +53,9 @@ public class AdapterBanner extends PagerAdapter {
 
 			@Override
 			public void onClick(View v) {
-				if (flag) {
-					Intent intent = new Intent(content, AdActivity.class);
-					intent.putExtra("url", list.get(newPosition).getImgurl());
-					content.startActivity(intent);
-				}
+				Intent intent = new Intent(content, AdActivity.class);
+				intent.putExtra("url", list.get(newPosition).getUrl());
+				content.startActivity(intent);
 			}
 		});
 

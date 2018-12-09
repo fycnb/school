@@ -4,29 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.nooneschool.R;
-import com.example.nooneschool.home.list.ListClass;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AdapterClass extends BaseAdapter {
+public class AddressAdapter extends BaseAdapter {
 
-	private List<ListClass> list = new ArrayList<ListClass>();
+	private List<String> list = new ArrayList<String>();
 	private LayoutInflater inflater;
+	private int select = -1;
 
-	public AdapterClass(Context context, List<ListClass> list) {
+	public AddressAdapter(Context context, List<String> list) {
 		this.inflater = LayoutInflater.from(context);
 		this.list = list;
 	}
+
+	
+	public int getSelect() {
+		return select;
+	}
+
+
+	public void setSelect(int select) {
+		this.select = select;
+	}
+
 
 	@Override
 	public int getCount() {
@@ -44,25 +50,27 @@ public class AdapterClass extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int i, View view, ViewGroup viewGroup) {
-		ViewHolder holder = null;
+	public View getView(final int i, View view, final ViewGroup viewGroup) {
+		final ViewHolder holder;
 
 		if (view == null) {
-			view = inflater.inflate(R.layout.gridview_food, null);
+			view = inflater.inflate(R.layout.listview_address, null);
 			holder = new ViewHolder();
-			holder.id = (TextView) view.findViewById(R.id.food_type_textview);
+
+			holder.address = (TextView) view.findViewById(R.id.address_address_tv);
 
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		holder.id.setText(list.get(i).getName());
+
+		holder.address.setText(list.get(i));
 
 		return view;
 	}
 
 	public class ViewHolder {
-		TextView id;
+		TextView address;
 	}
 
 }

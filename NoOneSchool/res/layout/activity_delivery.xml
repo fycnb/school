@@ -1,0 +1,266 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#1212df" >
+
+        <ImageView
+            android:id="@+id/delivery_back_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="跑腿"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="跑腿类型"
+                    android:textSize="20sp" />
+
+                <RadioGroup
+                    android:id="@+id/delivery_type_rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/delivery_take_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="取东西" />
+
+                    <RadioButton
+                        android:id="@+id/delivery_buy_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="买东西" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="订单详情"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/delivery_detail_et"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#fdfdfd"
+                android:gravity="start"
+                android:hint="请输入具体内容，如：\n	去超市买个18元雕牌洗衣粉；\n	去拿个快递，编号1-1-4076；\n	去1504教室拿U盘等。"
+                android:maxLength="100"
+                android:padding="5dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="跑腿费:"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/delivery_fee_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:gravity="center_horizontal"
+                    android:hint="最低2元"
+                    android:inputType="number|numberDecimal"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/delivery_buy_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="抵押金:"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/delivery_buy_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:gravity="center_horizontal"
+                    android:hint="不低于买东西的80% 多退少补"
+                    android:inputType="number|numberDecimal"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="收货地址:"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/delivery_address_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:hint="请确保能在这收到"
+                    android:singleLine="true" />
+
+                <Button
+                    android:id="@+id/delivery_address_btn"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:text="选择" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="收货时间:"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/delivery_starth_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/delivery_startm_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="到"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/delivery_endh_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/delivery_endm_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="注意:\n	1、用户请遵照提示所写，为保证双方都没有损失，抵押金不低于80%，多退少补。\n	2、请确认地址与时间，根据实际情况填写，保证能有人收货，否则责任全部由用户负责。（时间均为当天）\n	3、如发现用户有恶意行为，将取消本次订单，没收总金额一半用于补偿给骑手。" />
+
+            <CheckBox
+                android:id="@+id/delivery_verify_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="同意以上注意事项" />
+
+            <Button
+                android:id="@+id/delivery_submit_btn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="15dp"
+                android:enabled="false"
+                android:text="提交" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

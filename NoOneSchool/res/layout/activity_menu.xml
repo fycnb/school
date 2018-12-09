@@ -1,41 +1,125 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
 
     <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="match_parent"
-        android:background="#fdfdfd" >
-        <ListView 
-            android:id="@+id/menu_left_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#fdfdfd"></ListView>
-    </LinearLayout>
-    
-    <LinearLayout 
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:orientation="vertical">
-        
-        <ListView 
-            android:id="@+id/menu_right_listview"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:divider="@null"
-            android:layout_weight="1"></ListView>
-        
-        <TextView 
-            android:id="@+id/menu_empty_tv"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="#fdfdfd" >
+
+            <ListView
+                android:id="@+id/menu_left_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fdfdfd" >
+            </ListView>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:text="暂无商品"/>
-        
+            android:background="#fff"
+            android:orientation="vertical" >
+
+            <ListView
+                android:id="@+id/menu_right_listview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:divider="@null"
+                android:scrollbars="none" >
+            </ListView>
+
+            <TextView
+                android:id="@+id/menu_empty_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="暂无商品"
+                android:textSize="20sp" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/menu_shopping_rl"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/corner_shape4"
+        android:padding="10dp" >
+
+        <RelativeLayout
+            android:id="@+id/menu_car_rl"
+            android:layout_width="50dp"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/spcar" />
+
+            <TextView
+                android:id="@+id/menu_number_tv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/corner_shape3"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#fff"
+                android:textSize="8sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/menu_pay_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/corner_shape3"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:singleLine="true"
+            android:text="支付"
+            android:enabled="false"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/menu_button_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/menu_pay_tv"
+            android:layout_toRightOf="@id/menu_car_rl"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/menu_detail_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="共0元,点击查看详情"
+                android:textSize="25sp" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/left_arrow" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

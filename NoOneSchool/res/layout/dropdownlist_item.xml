@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/corner_shape2"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/ddlist_show_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/ddlist_name_tv"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:text="XXXX"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/ddlist_jian_iv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/jian" />
+
+        <TextView
+            android:id="@+id/ddlist_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="0"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/ddlist_jia_iv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/jia" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -4,32 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.nooneschool.R;
-import com.example.nooneschool.home.list.ListMeal;
-import com.example.nooneschool.home.list.ListMenu;
+import com.example.nooneschool.home.list.MenuList;
 import com.example.nooneschool.util.DownImage;
 import com.example.nooneschool.util.DownImage.ImageCallBack;
 import com.example.nooneschool.util.ListItemClickHelp;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class AdapterRightMenu extends BaseAdapter {
+public class MenuAdapter extends BaseAdapter {
 
-	private List<ListMenu> list = new ArrayList<ListMenu>();
+	private List<MenuList> list = new ArrayList<MenuList>();
 	private LayoutInflater inflater;
 	private ListItemClickHelp callback;
 
-	public AdapterRightMenu(Context context, List<ListMenu> list, ListItemClickHelp callback) {
+	public MenuAdapter(Context context, List<MenuList> list, ListItemClickHelp callback) {
 		this.inflater = LayoutInflater.from(context);
 		this.list = list;
 		this.callback = callback;
@@ -69,8 +64,7 @@ public class AdapterRightMenu extends BaseAdapter {
 		}
 
 		holder.name.setText(list.get(i).getName());
-		holder.img.setImageResource(R.drawable.empty);
-		holder.money.setText(list.get(i).getMoney());
+		holder.money.setText(list.get(i).getMoney()+"");
 
 		DownImage downImage = new DownImage(list.get(i).getImgurl(), holder.img.getWidth(), holder.img.getHeight());
 		downImage.loadImage(new ImageCallBack() {

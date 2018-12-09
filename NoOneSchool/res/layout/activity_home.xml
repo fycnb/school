@@ -1,79 +1,201 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
-
-    <com.example.nooneschool.SmoothListView.SmoothListView
-        android:id="@+id/home_function_sv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:fadingEdge="none"
-        android:overScrollMode="never"
-        android:scrollbars="none" />
 
     <RelativeLayout
         android:id="@+id/home_title_rl"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="#4000" >
+        android:background="#1212df" >
 
         <LinearLayout
+            android:id="@+id/home_search_ll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/corner_shape1"
+            android:gravity="center_vertical" >
 
-            <View
-                android:layout_width="0dp"
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search" />
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <LinearLayout
-                android:id="@+id/home_search_ll"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="3"
-                android:background="@drawable/corner_shape2"
-                android:gravity="center_vertical" >
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/search" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="2dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="2dp"
-                    android:text="搜索"
-                    android:textColor="#ccc"
-                    android:textCursorDrawable="@null"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:paddingBottom="2dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="5dp"
+                android:paddingTop="2dp"
+                android:text="搜索"
+                android:textColor="#1212df"
+                android:textCursorDrawable="@null"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/home_weather_imageview"
+            android:id="@+id/home_weather_iv"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
             android:src="@drawable/cloud" />
+
+        <ImageView
+            android:id="@+id/home_deliveryman_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/delivery" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/home_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/home_ad_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp" >
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/home_ad_vp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#ccc" />
+
+                    <LinearLayout
+                        android:id="@+id/home_ad_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:id="@+id/home_rice_ll"
+                        android:layout_width="0dp"
+                        android:layout_height="85dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/rice" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="盖饭"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/home_noodle_ll"
+                        android:layout_width="0dp"
+                        android:layout_height="85dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/noodle" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="面食"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/home_snack_ll"
+                        android:layout_width="0dp"
+                        android:layout_height="85dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/snack" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="小吃"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/home_more_ll"
+                        android:layout_width="0dp"
+                        android:layout_height="85dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/more" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="其他"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="推荐商铺"
+                    android:textSize="20sp" />
+
+                <ListView
+                    android:id="@+id/home_shop_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+                </ListView>
+            </LinearLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

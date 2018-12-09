@@ -1,9 +1,8 @@
 package com.example.nooneschool;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -11,376 +10,170 @@ import java.util.concurrent.TimeUnit;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.example.nooneschool.SmoothListView.SmoothListView;
-import com.example.nooneschool.home.BannerView;
+import com.example.nooneschool.home.DeliveryActivity;
+import com.example.nooneschool.home.FoodsActivity;
 import com.example.nooneschool.home.HomeService;
-import com.example.nooneschool.home.MealActivity;
-import com.example.nooneschool.home.OtherFoodActivity;
 import com.example.nooneschool.home.SearchActivity;
-import com.example.nooneschool.home.WeatherActivity;
-import com.example.nooneschool.home.adapter.AdapterClass;
-import com.example.nooneschool.home.adapter.AdapterMeal;
-import com.example.nooneschool.home.list.ListAd;
-import com.example.nooneschool.home.list.ListClass;
-import com.example.nooneschool.home.list.ListMeal;
-import com.example.nooneschool.util.ColorUtil;
-import com.example.nooneschool.util.DataUtil;
+import com.example.nooneschool.home.ShopActivity;
+import com.example.nooneschool.home.adapter.AdAdapter;
+import com.example.nooneschool.home.adapter.ShopAdapter;
+import com.example.nooneschool.home.list.AdList;
+import com.example.nooneschool.home.list.ShopList;
 import com.example.nooneschool.util.DensityUtil;
-import com.example.nooneschool.util.SQLite;
+import com.example.nooneschool.util.DownImage;
+import com.example.nooneschool.util.DownImage.ImageCallBack;
+import com.example.nooneschool.util.FixedSpeedScroller;
+import com.example.nooneschool.util.Utility;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
+import android.os.Message;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.AdapterView.OnItemClickListener;
 
-public class HomeActivity extends Activity implements SmoothListView.ISmoothListViewListener {
+public class HomeActivity extends Activity {
 
-	private static SQLite helper;
-
-	private RelativeLayout rl_title;
-	private SmoothListView smoothListView;
-	private BannerView headerBannerView;
-	private GridView gvFood;
-	private ImageView weather;
+	private SwipeRefreshLayout swipeRefreshLayout;
 	private LinearLayout search;
-	private View itemHeaderBannerView;
+	private ImageView weather;
+	private ImageView delivery;
+	private LinearLayout rice;
+	private LinearLayout noodle;
+	private LinearLayout snack;
+	private LinearLayout more;
+	private ListView shop;
+	private List<ShopList> shoplist;
+	private ShopAdapter shopadapter;
 
-	private AdapterMeal mealadapter;
+	private ViewPager vpBanner;
+	private LinearLayout llIndexContainer;
+	private RelativeLayout rlBanner;
 
-	private List<ListAd> bannerList;
-	private List<ListClass> foodList;
-	private List<ListMeal> mealList;
-
-	private int titleViewHeight = 65;
-	private int bannerViewTopMargin;
-	private int bannerViewHeight = 180;
-	private boolean isScrollIdle = true;
-
+	private static final int BANNER_TYPE = 0;
+	private static final int BANNER_TIME = 5000;
+	private List<ImageView> ivList;
+	private List<AdList> list;
+	private int bannerHeight;
+	private int bannerCount;
+	private AdAdapter adapter;
 	private ThreadPoolExecutor cachedThreadPool = new ThreadPoolExecutor(3, 5, 1, TimeUnit.SECONDS,
 			new LinkedBlockingDeque<Runnable>(128));
-	private Runnable getMealDataRunnable;
 	private Runnable getAdDataRunnable;
-	private Runnable refreshMealDataRunnable;
-	private Boolean flag = true;
+	private Runnable getShopDataRunnable;
+	private String id;
+
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (msg.what == BANNER_TYPE) {
+				vpBanner.setCurrentItem(vpBanner.getCurrentItem() + 1);
+				enqueueBannerLoopMessage();
+			}
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		smoothListView = (SmoothListView) findViewById(R.id.home_function_sv);
-		rl_title = (RelativeLayout) findViewById(R.id.home_title_rl);
-		weather = (ImageView) findViewById(R.id.home_weather_imageview);
+		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.home_refresh_layout);
 		search = (LinearLayout) findViewById(R.id.home_search_ll);
-		helper = new SQLite(this);
+		weather = (ImageView) findViewById(R.id.home_weather_iv);
+		delivery = (ImageView) findViewById(R.id.home_deliveryman_iv);
+		rice = (LinearLayout) findViewById(R.id.home_rice_ll);
+		noodle = (LinearLayout) findViewById(R.id.home_noodle_ll);
+		snack = (LinearLayout) findViewById(R.id.home_snack_ll);
+		more = (LinearLayout) findViewById(R.id.home_more_ll);
+		shop = (ListView) findViewById(R.id.home_shop_lv);
 
-		weather.setOnClickListener(new OnClickListener() {
+		vpBanner = (ViewPager) findViewById(R.id.home_ad_vp);
+		llIndexContainer = (LinearLayout) findViewById(R.id.home_ad_ll);
+		rlBanner = (RelativeLayout) findViewById(R.id.home_ad_rl);
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if (flag) {
-					Intent intent = new Intent(HomeActivity.this, WeatherActivity.class);
-					startActivityForResult(intent, 1);
-				}
-			}
-		});
+		swipeRefreshLayout.setOnRefreshListener(new onRefresh());
+		search.setOnClickListener(new onHomeClick());
+		weather.setOnClickListener(new onHomeClick());
+		delivery.setOnClickListener(new onHomeClick());
+		rice.setOnClickListener(new onHomeClick());
+		noodle.setOnClickListener(new onHomeClick());
+		snack.setOnClickListener(new onHomeClick());
+		more.setOnClickListener(new onHomeClick());
 
-		search.setOnClickListener(new OnClickListener() {
+		bannerHeight = DensityUtil.getWindowWidth(this) * 6 / 16;
+		LayoutParams layoutParams = (LayoutParams) rlBanner.getLayoutParams();
+		layoutParams.height = bannerHeight;
+		rlBanner.setLayoutParams(layoutParams);
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if (flag) {
-					Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
-					startActivityForResult(intent, 1);
-				}
-
-			}
-		});
-
-		// 广告初始化
-		bannerList = DataUtil.getBannerData(this);
-		headerBannerView = new BannerView(HomeActivity.this);
-		headerBannerView.fillView(bannerList, smoothListView);
-
-		// 食品标签初始化
-		foodList = DataUtil.getFoodData();
-		View view = LayoutInflater.from(HomeActivity.this).inflate(R.layout.header_food_layout, smoothListView, false);
-		gvFood = (GridView) view.findViewById(R.id.food_type_gridview);
-
-		AdapterClass adapter = new AdapterClass(this, foodList);
-		gvFood.setAdapter(adapter);
-
-		gvFood.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				// TODO Auto-generated method stub
-
-				if (flag) {
-					switch (position) {
-					case 3:
-						Intent intent1 = new Intent(HomeActivity.this, OtherFoodActivity.class);
-						startActivity(intent1);
-						break;
-
-					default:
-						Intent intent2 = new Intent(HomeActivity.this, OtherFoodActivity.class);
-						startActivity(intent2);
-						break;
-					}
-				}
-			}
-		});
-
-		smoothListView.addHeaderView(view);
-
-		// 餐厅初始化
-		mealList = DataUtil.getNoDataMeal(DensityUtil.getWindowHeight(this) - DensityUtil.dip2px(this, 400));
-		mealadapter = new AdapterMeal(this, mealList);
-		smoothListView.setAdapter(mealadapter);
-
-		smoothListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				// TODO Auto-generated method stub
-				if (!((ListMeal) parent.getAdapter().getItem(position)).getIsNoData() && flag) {
-
-					String mealid = ((ListMeal) parent.getAdapter().getItem(position)).getId();
-					String imgurl = ((ListMeal) parent.getAdapter().getItem(position)).getImgurl();
-					String name = ((ListMeal) parent.getAdapter().getItem(position)).getName();
-					Intent intent = new Intent(HomeActivity.this, MealActivity.class);
-					intent.putExtra("id", mealid);
-					intent.putExtra("imgurl", imgurl);
-					intent.putExtra("name", name);
-					startActivity(intent);
-				}
-
-			}
-		});
-		smoothListView.setRefreshEnable(true);
-		smoothListView.setLoadMoreEnable(false);
-		smoothListView.setSmoothListViewListener(this);
-
-		smoothListView.setOnScrollListener(new SmoothListView.OnSmoothScrollListener() {
-			@Override
-			public void onSmoothScrolling(View view) {
-			}
-
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				isScrollIdle = (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE);
-			}
-
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				if (isScrollIdle && bannerViewTopMargin < 0)
-					return;
-
-				// 获取广告头部View、自身的高度、距离顶部的高度
-				if (itemHeaderBannerView == null) {
-					itemHeaderBannerView = smoothListView.getChildAt(1);
-				}
-				if (itemHeaderBannerView != null) {
-					bannerViewTopMargin = DensityUtil.px2dip(HomeActivity.this, itemHeaderBannerView.getTop());
-					bannerViewHeight = DensityUtil.px2dip(HomeActivity.this, itemHeaderBannerView.getHeight());
-				}
-				// 处理标题栏颜色渐变
-				handleTitleBarColorEvaluate();
-			}
-		});
-
-		onRefresh();
-	}
-
-	private void handleTitleBarColorEvaluate() {
-		float fraction;
-		if (bannerViewTopMargin > 0) {
-			fraction = 1f - bannerViewTopMargin * 1f / 60;
-			if (fraction < 0f)
-				fraction = 0f;
-			rl_title.setAlpha(fraction);
-			return;
-		}
-
-		float space = Math.abs(bannerViewTopMargin) * 1f;
-		fraction = space / (bannerViewHeight - titleViewHeight);
-		if (fraction < 0f)
-			fraction = 0f;
-		if (fraction > 1f)
-			fraction = 1f;
-		rl_title.setAlpha(1f);
-
-		if (fraction >= 1f) {
-			rl_title.setBackgroundColor(this.getResources().getColor(R.color.blue));
-		} else {
-			rl_title.setBackgroundColor(
-					ColorUtil.getNewColorByStartEndColor(this, fraction, R.color.title, R.color.blue));
-		}
-	}
-
-	@Override
-	public void onRefresh() {
-		// TODO Auto-generated method stub
-		flag = false;
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				smoothListView.stopRefresh();
-				smoothListView.setRefreshTime("刚刚");
-				smoothListView.setRefreshUsable(true);
-				flag = true;
-				headerBannerView.getAdapt().setFlag(true);
-			}
-		}, 2000);
-
-		// new MyTask().execute("");
-		headerBannerView.getAdapt().setFlag(false);
-		refreshMealData();
+		shopadapter = new ShopAdapter(HomeActivity.this);
+		shop.setAdapter(shopadapter);
+		
+		list = new ArrayList<>();
+		list.add(new AdList("1", "1","1"));
+		list.add(new AdList("2", "2","1"));
+		list.add(new AdList("3", "3","1"));
+		
+		dealWithTheView(list);
 		getAdData();
-
-	}
-
-	@Override
-	public void onLoadMore() {
-		// TODO Auto-generated method stub
-		flag = false;
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				flag = true;
-				headerBannerView.getAdapt().setFlag(true);
-			}
-		}, 2000);
-		headerBannerView.getAdapt().setFlag(false);
 		getMealData();
-	}
+		
+		shop.setOnItemClickListener(new OnItemClickListener() {
 
-	// class MyTask extends AsyncTask<String, Void, String> {
-	//
-	// @Override
-	// protected void onPreExecute() {
-	// super.onPreExecute();
-	// }
-	// @Override
-	// protected String doInBackground(String... params) {
-	// return HomeService.HomeServiceByPost(0, "all",
-	// "NoOneService/GetRestaurantServlet?");
-	// }
-	// @Override
-	// protected void onPostExecute(String result) {
-	// super.onPostExecute(result);
-	// if (result != null && !result.equals("[]")) {
-	// try {
-	// mealList.clear();
-	// JSONArray ja = new JSONArray(result);
-	// for (int i = 0; i < ja.length(); i++) {
-	// JSONObject j = (JSONObject) ja.get(i);
-	//
-	// String id = j.getString("id");
-	// String name = j.getString("name");
-	// String address = j.getString("address");
-	// String send = j.getString("send");
-	// String delivery = j.getString("delivery");
-	// String sale = j.getString("sale");
-	// String imgurl = j.getString("imgurl");
-	//
-	// mealList.add(new ListMeal(id, name, address, send, delivery, sale,
-	// imgurl));
-	// }
-	// mealadapter = new AdapterMeal(HomeActivity.this, mealList);
-	// smoothListView.setAdapter(mealadapter);
-	// mealadapter.notifyDataSetChanged();
-	//
-	// smoothListView.stopRefresh();
-	// smoothListView.setRefreshTime("刚刚");
-	//
-	// smoothListView.setLoadMoreEnable(true);
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// } else if (result == null) {
-	// Toast.makeText(HomeActivity.this, "请求数据失败...",
-	// Toast.LENGTH_LONG).show();
-	// }
-	// }
-	// }
-	//
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long lid) {
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		headerBannerView.enqueueBannerLoopMessage();
-	}
+					String mealid = ((ShopList) parent.getAdapter().getItem(position)).getId();
+					Intent intent = new Intent(HomeActivity.this, ShopActivity.class);
+					intent.putExtra("shopid", mealid).putExtra("id", id);
+					startActivity(intent);
 
-	@Override
-	protected void onStop() {
-		super.onStop();
-		headerBannerView.removeBannerLoopMessage();
+			}
+		});
 	}
 
 	public void getAdData() {
 
 		getAdDataRunnable = new Runnable() {
-
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-				final String result = HomeService.HomeServiceByPost(0, null, "NoOneService/GetAdServlet?");
+				final String result = HomeService.AdServiceByPost(0);
 
 				runOnUiThread(new Runnable() {
 					public void run() {
 						if (result != null && !result.equals("[]")) {
 							try {
-								List<ListAd> temp = new ArrayList<>();
-								temp.addAll(bannerList);
-								bannerList.clear();
+								list = new ArrayList<>();
 								JSONArray ja = new JSONArray(result);
 								for (int i = 0; i < ja.length(); i++) {
 									JSONObject j = (JSONObject) ja.get(i);
 
 									String id = j.getString("id");
 									String imgurl = j.getString("imgurl");
-									bannerList.add(new ListAd(id, imgurl));
-								}
+									String url = j.getString("url");
 
-								headerBannerView.notifyChange(bannerList);
-								SQLiteDatabase db = helper.getWritableDatabase();
-								for (int i = 0; i < bannerList.size(); i++) {
-									if (temp.get(i).getId() == null) {
-										ContentValues values = new ContentValues();
-										values.put("imgid", bannerList.get(i).getId());
-										values.put("imgurl", bannerList.get(i).getImgurl());
-										db.insert("image", null, values);
-									} else if (!temp.get(i).getImgurl().equals(bannerList.get(i).getImgurl())) {
-										ContentValues values = new ContentValues();
-										values.put("imgurl", bannerList.get(i).getImgurl());
-										db.update("image", values, "imgid=?", new String[] { temp.get(i).getId() });
-									}
+									list.add(new AdList(id, imgurl,url));
 								}
-								db.close();
-
+								dealWithTheView(list);
 							} catch (Exception e) {
-								headerBannerView.getAdapt().setFlag(true);
 								e.printStackTrace();
 							}
-						} else {
-							headerBannerView.getAdapt().setFlag(true);
 						}
 					}
 				});
@@ -389,80 +182,18 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 		cachedThreadPool.execute(getAdDataRunnable);
 	}
 
-	public void refreshMealData() {
-
-		smoothListView.setRefreshUsable(false);
-		;
-		refreshMealDataRunnable = new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				final String result = HomeService.HomeServiceByPost(0, "all", "NoOneService/GetRestaurantServlet?");
-
-				runOnUiThread(new Runnable() {
-					public void run() {
-
-						if (result != null && !result.equals("[]")) {
-							try {
-								mealList.clear();
-								JSONArray ja = new JSONArray(result);
-								for (int i = 0; i < ja.length(); i++) {
-									JSONObject j = (JSONObject) ja.get(i);
-
-									String id = j.getString("id");
-									String name = j.getString("name");
-									String address = j.getString("address");
-									String send = j.getString("send");
-									String delivery = j.getString("delivery");
-									String sale = j.getString("sale");
-									String imgurl = j.getString("imgurl");
-
-									mealList.add(new ListMeal(id, name, address, send, delivery, sale, imgurl));
-								}
-								mealadapter.setData(mealList);
-								mealadapter.notifyDataSetChanged();
-
-								smoothListView.setLoadMoreEnable(true);
-
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						} else
-							smoothListView.setLoadMoreEnable(false);
-
-					}
-				});
-			}
-		};
-		cachedThreadPool.execute(refreshMealDataRunnable);
-	}
-
 	public void getMealData() {
 
-		getMealDataRunnable = new Runnable() {
-
+		getShopDataRunnable = new Runnable() {
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-				if (mealList.get(0).getIsNoData()) {
-					mealList = new ArrayList<ListMeal>();
-				} else {
-					List<ListMeal> temp = new ArrayList<>();
-					temp.addAll(mealList);
-					for (int i = temp.size(); temp.get(i - 1).getIsNoData() && i > 0; --i) {
-						mealList.remove(i - 1);
-					}
-				}
-				final String result = HomeService.HomeServiceByPost(mealList.size(), "all",
-						"NoOneService/GetRestaurantServlet?");
-
+				final String result = HomeService.ShopServiceByPost();
 				runOnUiThread(new Runnable() {
 					public void run() {
-
 						if (result != null && !result.equals("[]")) {
 							try {
 
+								shoplist = new ArrayList<>();
 								JSONArray ja = new JSONArray(result);
 								for (int i = 0; i < ja.length(); i++) {
 									JSONObject j = (JSONObject) ja.get(i);
@@ -475,24 +206,178 @@ public class HomeActivity extends Activity implements SmoothListView.ISmoothList
 									String sale = j.getString("sale");
 									String imgurl = j.getString("imgurl");
 
-									mealList.add(new ListMeal(id, name, address, send, delivery, sale, imgurl));
-									mealList.get(0).setIsNoData(false);
+									shoplist.add(new ShopList(id, name, address, send, delivery, sale, imgurl));
 								}
-								mealadapter.setData(mealList);
+								shopadapter.setData(shoplist);
 
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
+						} else if (result != null) {
+							shoplist = new ArrayList<>();
+							shopadapter.setData(shoplist);
 						} else {
-							smoothListView.setLoadMoreEnable(false);
+							shoplist = new ArrayList<>();
+							shopadapter.setData(shoplist);
 						}
-						smoothListView.stopLoadMore();
+						Utility.setListViewHeight(shop);
 					}
 				});
 			}
 		};
 
-		cachedThreadPool.execute(getMealDataRunnable);
+		cachedThreadPool.execute(getShopDataRunnable);
 	}
 
+	public class onRefresh implements OnRefreshListener {
+
+		@Override
+		public void onRefresh() {
+			new Handler().postDelayed(new Runnable() {// 模拟耗时操作
+				@Override
+				public void run() {
+					swipeRefreshLayout.setRefreshing(false);// 取消刷新
+					swipeRefreshLayout.setEnabled(true);
+				}
+			}, 4000);
+			swipeRefreshLayout.setEnabled(false);
+			getMealData();
+		}
+
+	}
+
+	public class onHomeClick implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.home_search_ll:
+				startActivity(new Intent(HomeActivity.this, SearchActivity.class).putExtra("id", id));
+				break;
+			case R.id.home_weather_iv:
+
+				break;
+			case R.id.home_deliveryman_iv:
+				startActivity(new Intent(HomeActivity.this, DeliveryActivity.class).putExtra("id", id));
+				break;
+			case R.id.home_rice_ll:
+				startActivity(new Intent(HomeActivity.this, FoodsActivity.class).putExtra("type", 1).putExtra("id", id));
+				break;
+			case R.id.home_noodle_ll:
+				startActivity(new Intent(HomeActivity.this, FoodsActivity.class).putExtra("type", 2).putExtra("id", id));
+				break;
+			case R.id.home_snack_ll:
+				startActivity(new Intent(HomeActivity.this, FoodsActivity.class).putExtra("type", 3).putExtra("id", id));
+				break;
+			case R.id.home_more_ll:
+				startActivity(new Intent(HomeActivity.this, FoodsActivity.class).putExtra("type", 4).putExtra("id", id));
+				break;
+			}
+		}
+
+	}
+
+	private void dealWithTheView(List<AdList> list) {
+		ivList = new ArrayList<ImageView>();
+		bannerCount = list.size();
+		if (bannerCount == 2) {
+			list.addAll(list);
+		}
+
+		createImageViews(list);
+
+		adapter = new AdAdapter(ivList, list, HomeActivity.this);
+		vpBanner.setAdapter(adapter);
+
+		addIndicatorImageViews();
+		setViewPagerChangeListener();
+		controlViewPagerSpeed(vpBanner, 500);
+
+	}
+
+	// 创建要显示的ImageView
+	private void createImageViews(List<AdList> list) {
+		for (int i = 0; i < list.size(); i++) {
+			final ImageView imageView = new ImageView(this);
+			AbsListView.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+					ViewGroup.LayoutParams.MATCH_PARENT);
+			imageView.setLayoutParams(params);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+			DownImage downImage = new DownImage(list.get(i).getImgurl(), bannerHeight * 16 / 9, bannerHeight);
+			downImage.loadImage(new ImageCallBack() {
+
+				@Override
+				public void getDrawable(Drawable drawable) {
+					imageView.setImageDrawable(drawable);
+				}
+			});
+			ivList.add(imageView);
+		}
+	}
+
+	// 添加指示图标
+	private void addIndicatorImageViews() {
+		llIndexContainer.removeAllViews();
+		if (bannerCount < 2)
+			return;
+		for (int i = 0; i < bannerCount; i++) {
+			ImageView iv = new ImageView(this);
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(DensityUtil.dip2px(this, 5),
+					DensityUtil.dip2px(this, 5));
+			lp.leftMargin = DensityUtil.dip2px(this, (i == 0) ? 0 : 7);
+			iv.setLayoutParams(lp);
+			iv.setBackgroundResource(R.drawable.xml_round_orange_grey_sel);
+			iv.setEnabled(i == 0);
+			llIndexContainer.addView(iv);
+		}
+	}
+
+	// 为ViewPager设置监听器
+	private void setViewPagerChangeListener() {
+		vpBanner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+			@Override
+			public void onPageSelected(int position) {
+				if (ivList == null || ivList.size() == 0)
+					return;
+				int newPosition = position % bannerCount;
+				for (int i = 0; i < bannerCount; i++) {
+					llIndexContainer.getChildAt(i).setEnabled(i == newPosition);
+				}
+			}
+
+			@Override
+			public void onPageScrolled(int position, float arg1, int arg2) {
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
+	}
+
+	// 添加Banner循环消息到队列
+	public void enqueueBannerLoopMessage() {
+		if (ivList == null || ivList.size() <= 1)
+			return;
+		mHandler.sendEmptyMessageDelayed(BANNER_TYPE, BANNER_TIME);
+	}
+
+	// 移除Banner循环的消息
+	public void removeBannerLoopMessage() {
+		if (mHandler.hasMessages(BANNER_TYPE)) {
+			mHandler.removeMessages(BANNER_TYPE);
+		}
+	}
+
+	// 反射设置ViewPager的轮播速度
+	private void controlViewPagerSpeed(ViewPager viewPager, int speedTimeMillis) {
+		try {
+			Field field = ViewPager.class.getDeclaredField("mScroller");
+			field.setAccessible(true);
+			FixedSpeedScroller scroller = new FixedSpeedScroller(this, new AccelerateDecelerateInterpolator());
+			scroller.setDuration(speedTimeMillis);
+			field.set(viewPager, scroller);
+		} catch (Exception e) {
+		}
+	}
 }

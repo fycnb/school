@@ -1,0 +1,146 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#1212df" >
+
+        <ImageView
+            android:id="@+id/pay_back_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="提交订单"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="20dp"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1212df"
+                android:padding="10dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请选择地址:"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/pay_add_iv"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/jia" />
+
+                <ListView
+                    android:id="@+id/pay_address_lv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pay_add_iv" >
+                </ListView>
+
+                <TextView
+                    android:id="@+id/pay_empty_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center"
+                    android:text="暂无地址，请添加!"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="订单详情"
+                android:textSize="18sp" />
+
+            <ListView
+                android:id="@+id/pay_order_lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </ListView>
+            
+            <TextView 
+                android:id="@+id/pay_money_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="end"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="备注"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/pay_memo_et"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#fdfdfd"
+                android:gravity="start"
+                android:hint="25字以内"
+                android:maxLength="25"
+                android:padding="5dp"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/pay_cancel_tv"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:background="@drawable/corner_shape5"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="取消"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/pay_pay_tv"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/corner_shape6"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="支付"
+                    android:textSize="25sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

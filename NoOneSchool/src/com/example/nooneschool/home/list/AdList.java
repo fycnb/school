@@ -1,8 +1,9 @@
 package com.example.nooneschool.home.list;
 
-public class ListAd {
+public class AdList {
 	private String id;
 	private String imgurl;
+	private String url;
 
 	public String getId() {
 		return id;
@@ -20,10 +21,19 @@ public class ListAd {
 		this.imgurl = imgurl;
 	}
 
-	public ListAd(String id, String imgurl) {
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public AdList(String id, String imgurl, String url) {
 		super();
 		this.id = id;
 		this.imgurl = imgurl;
+		this.url = url;
 	}
 
 }

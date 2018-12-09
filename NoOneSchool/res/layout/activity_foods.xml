@@ -1,0 +1,100 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <RelativeLayout
+        android:id="@+id/home_title_rl"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#1212df" >
+
+        <ImageView
+            android:id="@+id/foods_back_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="食品列表"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/foods_search_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/search"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/foods_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <RelativeLayout
+                        android:id="@+id/foods_ad_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp" >
+
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/foods_ad_vp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#ccc" />
+
+                        <LinearLayout
+                            android:id="@+id/foods_ad_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp" />
+                    </RelativeLayout>
+
+                    <ListView
+                        android:id="@+id/foods_shop_lv"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" >
+                    </ListView>
+                </LinearLayout>
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/foods_refresh_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="点击刷新页面"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+</LinearLayout>
