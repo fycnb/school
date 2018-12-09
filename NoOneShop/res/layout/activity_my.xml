@@ -1,0 +1,173 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BDBDBD"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#cd1212" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="商家信息"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/my_set_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/set" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="#cd1212" >
+
+        <ImageView
+            android:id="@+id/my_img_iv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:background="#fff" />
+
+        <TextView
+            android:id="@+id/my_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/my_img_iv"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="55dp"
+            android:layout_toRightOf="@id/my_img_iv"
+            android:singleLine="true"
+            android:text="XXXXXXX"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/my_state_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_name_tv"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/my_img_iv"
+            android:singleLine="true"
+            android:text="商铺状态:"
+            android:textSize="20sp" />
+
+        <Switch
+            android:id="@+id/my_state_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_name_tv"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/my_state_tv"
+            android:textOff="闭店"
+            android:textOn="营业" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/my_allorder_ll"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_marginTop="2dp"
+        android:background="#fff"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="全部订单"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/arrows_right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/my_goodsmanage_ll"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_marginTop="2dp"
+        android:background="#fff"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="商品管理"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/arrows_right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/my_activitysetting_ll"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_marginTop="2dp"
+        android:background="#fff"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="活动设置"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/arrows_right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/my_shopdetail_ll"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_marginTop="2dp"
+        android:background="#fff"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="商铺详情"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/arrows_right" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NoOneShop</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_my">MyActivity</string>
+    <string name="title_activity_goods">GoodsActivity</string>
+    <string name="title_activity_order">OrderActivity</string>
+    <string name="title_activity_activity_setting">ActivitySettingActivity</string>
+    <string name="title_activity_goods_manage">GoodsManageActivity</string>
+    <string name="title_activity_all_order">AllOrderActivity</string>
+    <string name="title_activity_shop_detail">ShopDetailActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_add_goods">AddGoodsActivity</string>
+    <string name="title_activity_order_detail">OrderDetailActivity</string>
+    <string name="title_activity_add_activity">AddActivityActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="filter_vcode">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+
+</resources>

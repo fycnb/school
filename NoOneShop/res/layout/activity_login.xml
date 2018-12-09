@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="80dp"
+        android:background="#fdd" />
+
+    <EditText
+        android:id="@+id/login_account_et"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:drawableLeft="@android:drawable/ic_menu_myplaces"
+        android:gravity="center_vertical"
+        android:hint="手机号"
+        android:inputType="number"
+        android:maxLength="11"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/login_password_et"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:digits="@string/filter_vcode"
+        android:drawableLeft="@android:drawable/ic_lock_idle_lock"
+        android:gravity="center_vertical"
+        android:hint="密碼"
+        android:inputType="number"
+        android:maxLength="15"
+        android:password="true"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/login_login_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="5dp"
+        android:background="#44d"
+        android:gravity="center"
+        android:text="登录"
+        android:textColor="#fdd"
+        android:textSize="25sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp" >
+
+        <TextView
+            android:id="@+id/login_register_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="新用户" />
+    </RelativeLayout>
+
+</LinearLayout>

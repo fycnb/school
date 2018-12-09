@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout 
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:orientation="vertical">
+        <!-- 
+    <TextView  
+        android:id="@+id/pop_set_tv"  
+        android:layout_width="match_parent"  
+        android:layout_height="45dp"  
+        android:gravity="center"  
+        android:padding="12dp"  
+        android:text="设置"  
+        android:textSize="16sp" />  
+  
+    <View  
+        android:layout_width="match_parent"  
+        android:layout_height="1dp"  
+        android:background="#BDBDBD" />  
+   -->
+   
+   <TextView  
+        android:id="@+id/pop_refresh_tv"  
+        android:layout_width="match_parent"  
+        android:layout_height="45dp"  
+        android:gravity="center"  
+        android:padding="12dp"  
+        android:text="刷新"  
+        android:textSize="16sp" />  
+  
+    <View  
+        android:layout_width="match_parent"  
+        android:layout_height="1dp"  
+        android:background="#BDBDBD" />
+    <TextView  
+        android:id="@+id/pop_about_tv"  
+        android:layout_width="match_parent"  
+        android:layout_height="45dp"  
+        android:gravity="center"  
+        android:padding="12dp"  
+        android:text="关于"  
+        android:textSize="16sp" />  
+  
+    <View  
+        android:layout_width="match_parent"  
+        android:layout_height="1dp"  
+        android:background="#BDBDBD" />  
+  
+    <TextView  
+        android:id="@+id/pop_logout_tv"  
+        android:layout_width="match_parent"  
+        android:layout_height="45dp"  
+        android:gravity="center"  
+        android:padding="12dp"  
+        android:text="退出"  
+        android:textSize="16sp" /> 
+        
+        
+    </LinearLayout>
+
+</LinearLayout>
