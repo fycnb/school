@@ -39,7 +39,7 @@ public class MyOrderTakerServlet extends HttpServlet {
 		StringBuffer sb = JsonUtil.getjson(req);
 		JSONObject obj = JSONObject.parseObject(sb.toString());
 		String orderid = obj.getString("orderid");
-		System.out.println("orderid"+orderid);
+	
 		OrderDao orderDao = (OrderDao) DaoFactory.getInstance("orderDao");
 		Indent indent = orderDao.findOne(Long.parseLong(orderid));
 		Long takerid = (long) indent.getTakerid();
@@ -48,7 +48,7 @@ public class MyOrderTakerServlet extends HttpServlet {
 		Taker taker = takerDao.findOne(takerid);
 		String name = taker.getName();
 		String iphone = taker.getIphone();
-		System.out.println("iphone"+iphone);
+	
 		resp.setContentType("text/html");
 		
 		JSONObject json = new JSONObject();
